@@ -1,4 +1,7 @@
-export const preset = 'ts-jest';
-export const testEnvironment = 'node';
-export const testRegex = '(/tests/.*|(\\.|/)(spec))\\.(jsx?|tsx?)$';
-export const coverageReporters = ['text'];
+// eslint-disable-next-line no-undef
+module.exports = {
+    preset: 'ts-jest',
+    testEnvironment: 'node',
+    testRegex: '(/test/.*|(\\.|/)(spec))\\.(jsx?|tsx?)$',
+    coverageReporters: ['text'],
+};
