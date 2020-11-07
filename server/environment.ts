@@ -3,8 +3,9 @@ import * as Dotenv from 'dotenv';
 /**
  * A list of all environment variables.
  */
-interface EnvironmentVariables extends NodeJS.ProcessEnv {
-    TEST: string;
+interface EnvironmentVariables {
+    COOKIE_SECRET: string;
+    PRODUCTION: 'true' | 'false';
 }
 
 // get the environment variables
@@ -14,7 +15,7 @@ Dotenv.config({
 /**
  * Parsed environment variables.
  */
-export const Environment: EnvironmentVariables = process.env as EnvironmentVariables;
+export const Environment: EnvironmentVariables = (process.env as unknown) as EnvironmentVariables;
 
 /**
  * The path to the `server` directory.
