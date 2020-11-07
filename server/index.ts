@@ -1,3 +1,7 @@
 import { Environment } from './environment';
 
-console.log(Environment.TEST);
+export const main = () => {
+    console.log('this is a test', Environment.TEST);
+}
+
+main();
