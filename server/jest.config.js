@@ -1,6 +1,4 @@
-module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  testRegex: '(/tests/.*|(\\.|/)(spec))\\.(jsx?|tsx?)$',
-  coverageReporters: ['text']
-};
+export const preset = 'ts-jest';
+export const testEnvironment = 'node';
+export const testRegex = '(/tests/.*|(\\.|/)(spec))\\.(jsx?|tsx?)$';
+export const coverageReporters = ['text'];
