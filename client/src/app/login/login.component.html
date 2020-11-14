@@ -1,14 +1,30 @@
 <div class="rectangle">
-    <h1>Sign in</h1>
-    <form (ngSubmit)="onSubmit(signInForm)" #signInForm="ngForm">
+    <!-- register -->
+    <form (ngSubmit)="onSubmitRegister(signInForm)" #signInForm="ngForm">
         <mat-form-field appearance="outline">
             <mat-label>E-mail address</mat-label>
-            <input matInput type="email" id="inputEmail" placeholder="E-mail" name="email" required autofocus ngModel />
+            <input matInput type="email" id="reg_inputEmail" placeholder="E-mail" name="email" required autofocus ngModel />
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
-            <input matInput type="password" id="inputPassword" placeholder="Password" name="password" required ngModel />
+            <input matInput type="password" id="reg_inputPassword_1" placeholder="Password" name="password" required ngModel />
         </mat-form-field>
-        <button mat-raised-button color="link" type="submit">Sign in</button>
+        <mat-form-field appearance="outline">
+            <mat-label>Repeat Password</mat-label>
+            <input matInput type="password" id="reg_inputPassword_2" placeholder="Password" name="password_repeated" required ngModel />
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" routerLink="/map">Register</button>
+    </form>
+    <!-- login -->
+    <form (ngSubmit)="onSubmitLogin(signInForm)" #signInForm="ngForm">
+        <mat-form-field appearance="outline">
+            <mat-label>E-mail address</mat-label>
+            <input matInput type="email" id="log_inputEmail" placeholder="E-mail" name="email" required autofocus ngModel />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" id="log_inputPassword" placeholder="Password" name="password" required ngModel />
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" routerLink="/map">Login</button>
     </form>
 </div>
