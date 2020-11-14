@@ -3,7 +3,7 @@ export enum Errors {
 }
 
 /**
- * Preferred way of throwing errors.
+ * Preferred way of throwing errors in Promise-based environments like `server`.
  * (Wrapper function that converts `enum` values into actual strings.)
  */
 export const Err = (errorCode: Errors) => new Error(errorCode.toString());
