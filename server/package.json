@@ -11,8 +11,8 @@
         "build": "npx tsc && cp ./.env ./dist/",
         "prestart": "npm run build",
         "start": "node .",
-        "dev": "nodemon --watch ./src/**/* -e ts,json --exec ts-node ./src/index",
-        "dev-vanilla": "nodemon --watch ./src/**/* -e ts,json --exec npm run start"
+        "dev": "nodemon --watch ./src/**/* -e ts,json --exec \"ts-node ./src/index\"",
+        "dev-vanilla": "nodemon --watch ./src/**/* -e ts,json --exec \"npm run start\""
     },
     "author": "",
     "license": "ISC",
