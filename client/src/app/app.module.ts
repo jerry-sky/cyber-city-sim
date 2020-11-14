@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -17,6 +18,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MapViewComponent } from './map-view/map-view.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { GlobalChatComponent } from './global-chat/global-chat.component';
+import { MapComponent } from './map/map.component';
 
 
 @NgModule({
@@ -26,6 +28,7 @@ import { GlobalChatComponent } from './global-chat/global-chat.component';
     HeaderComponent,
     FooterComponent,
     MapViewComponent,
+    MapComponent,
     PageNotFoundComponent,
     GlobalChatComponent
   ],
@@ -38,7 +41,8 @@ import { GlobalChatComponent } from './global-chat/global-chat.component';
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    JwtModule
+    JwtModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

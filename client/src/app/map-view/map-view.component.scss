@@ -13,6 +13,8 @@
         margin-bottom: 25px;
     }
     .map {
-        background: #eee;
+        border: 1px solid #000;
+        overflow: hidden;
+        position: relative;
     }
 }

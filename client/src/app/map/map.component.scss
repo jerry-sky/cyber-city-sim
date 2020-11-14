@@ -1,0 +1,23 @@
+.allgrid {
+    width: 150vh;
+    height: 150vh;
+    display: grid;
+    position: absolute;
+    top: 0;
+    left: 0;
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+
+    .color-0 {
+        background: #eee;
+    }
+    .color-1 {
+        background: #ddd;
+    }
+    .color-2 {
+        background: #ccc
+    }
+    .color-3 {
+        background: #cde;
+    }
+}
