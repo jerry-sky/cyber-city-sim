@@ -13,7 +13,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(signInForm: NgForm){
-    console.log(signInForm.value);
+  onSubmitLogin(signInForm: NgForm){
+    console.log("login", signInForm.value);
+  }
+
+  onSubmitRegister(signInForm: NgForm){
+    console.log("register", signInForm.value);
   }
 }
