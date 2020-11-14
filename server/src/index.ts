@@ -96,6 +96,7 @@ app.use('/public/', Express.static(DirectoryPath + '/public/'));
 
 app.use('/user', UserRoutes.getNativeRouter());
 
+// error handler
 app.use(
     (
         error: Error,
@@ -103,8 +104,15 @@ app.use(
         response: Response,
         next: NextFunction
     ) => {
+        /**
+         * Get the error code.
+         */
         const err = error.message as Errors;
 
+        /**
+         * The HTTP status code.
+         * (default is 400)
+         */
         let status = 400;
 
         switch (err) {
@@ -113,12 +121,12 @@ app.use(
                 break;
         }
 
+        // compose a response object
         const res: ErrorResponse = {
             errorCode: err,
         };
 
         response.status(status).json(res);
-
         next();
     }
 );
