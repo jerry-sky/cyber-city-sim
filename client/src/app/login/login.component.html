@@ -3,12 +3,11 @@
     <form (ngSubmit)="onSubmit(signInForm)" #signInForm="ngForm">
         <mat-form-field appearance="outline">
             <mat-label>E-mail address</mat-label>
-            <input matInput type="email" id="inputEmail" placeholder="E-mail" name="email" required autofocus
-                ngModel />
+            <input matInput type="email" id="inputEmail" placeholder="E-mail" name="email" required autofocus ngModel />
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
-            <input type="password" id="inputPassword" placeholder="Password" name="password" required ngModel />
+            <input matInput type="password" id="inputPassword" placeholder="Password" name="password" required ngModel />
         </mat-form-field>
         <button mat-raised-button color="link" type="submit">Sign in</button>
     </form>
