@@ -1,0 +1,28 @@
+.footer {
+    width: 100vw;
+    height: 10vh;
+    position: relative;
+    bottom: 0;
+    background: #2b7df8;
+
+    .authors {
+        padding: 10px 20px;
+    }
+
+    .authors > p {
+        margin: 0;
+        padding: 0;
+        font-size: 0.8em;
+        color: #fff;
+    }
+
+    .tech {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5em;
+        color: #fff;
+        font-weight: bold;
+    }
+}
