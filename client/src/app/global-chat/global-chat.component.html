@@ -1,0 +1,11 @@
+<div class="main">
+    <p>Message</p>
+    <p>Message</p>
+    <p>Message</p>
+    <form (submit)="sendGloablMessage(signInForm)" #signInForm="ngForm">
+        <mat-form-field><input matInput name="mess" required ngModel></mat-form-field>
+        <button mat-raised-button color="primary" type="submit" routerLink="/map">
+            <span class="material-icons">send</span>
+        </button>
+    </form>
+</div>

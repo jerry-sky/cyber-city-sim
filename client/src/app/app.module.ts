@@ -16,6 +16,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MapViewComponent } from './map-view/map-view.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { GlobalChatComponent } from './global-chat/global-chat.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     HeaderComponent,
     FooterComponent,
     MapViewComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    GlobalChatComponent
   ],
   imports: [
     BrowserModule,
