@@ -90,9 +90,9 @@ app.options('*', (req, res) => {
 // attach all routes
 app.use('/public/', Express.static(DirectoryPath + '/public/'));
 
-app.get('/nope', () => {
-    throw new Error('error');
-});
+import UserRoutes from './routes/user';
+
+app.use('/user', UserRoutes.getNativeRouter());
 
 app.use(
     (
