@@ -9,7 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -30,7 +32,7 @@ import { MapComponent } from './map/map.component';
     MapViewComponent,
     MapComponent,
     PageNotFoundComponent,
-    GlobalChatComponent
+    GlobalChatComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +42,7 @@ import { MapComponent } from './map/map.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatToolbarModule,
     FormsModule,
     JwtModule,
     DragDropModule
