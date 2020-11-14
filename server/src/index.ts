@@ -20,6 +20,8 @@ const app = Express();
 app.set('trust proxy', 1);
 // cookies
 app.use(CookieParser(Environment.COOKIE_SECRET));
+// json parser
+app.use(Express.json());
 
 // logging
 app.use((req, res, next) => {
@@ -118,6 +120,9 @@ app.use(
         switch (err) {
             case Errors.INVALID_CREDENTIALS:
                 status = 401;
+                break;
+            default:
+                console.error(error);
                 break;
         }
 
