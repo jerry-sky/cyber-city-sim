@@ -1,3 +1,4 @@
+import { Errors, Err } from '../../../model/errors';
 import { User } from '../../../model/user';
 
 const testUser: User = {
@@ -15,7 +16,7 @@ export class AuthenticationService {
         if (username === testUser.username && password === testUser.password) {
             return testUser;
         } else {
-            throw new Error();
+            throw Err(Errors.INVALID_CREDENTIALS);
         }
     }
 }

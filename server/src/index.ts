@@ -3,8 +3,12 @@ import ExpressSession from 'express-session';
 import SFS from 'session-file-store';
 const ExpressSessionFileStore = SFS(ExpressSession);
 import CookieParser from 'cookie-parser';
+import { Errors } from '../../model/errors';
+import { ErrorResponse } from '../../model/server-responses';
 
 import { DirectoryPath, Environment } from '../environment';
+
+import UserRoutes from './routes/user';
 
 /**
  * The port which the app will listen to.
@@ -90,8 +94,6 @@ app.options('*', (req, res) => {
 // attach all routes
 app.use('/public/', Express.static(DirectoryPath + '/public/'));
 
-import UserRoutes from './routes/user';
-
 app.use('/user', UserRoutes.getNativeRouter());
 
 app.use(
@@ -101,9 +103,22 @@ app.use(
         response: Response,
         next: NextFunction
     ) => {
-        console.error(error.message, error.name);
-        response.status(400);
-        response.send('sorry');
+        const err = error.message as Errors;
+
+        let status = 400;
+
+        switch (err) {
+            case Errors.INVALID_CREDENTIALS:
+                status = 401;
+                break;
+        }
+
+        const res: ErrorResponse = {
+            errorCode: err,
+        };
+
+        response.status(status).json(res);
+
         next();
     }
 );
