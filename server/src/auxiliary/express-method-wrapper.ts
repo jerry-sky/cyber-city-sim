@@ -53,6 +53,10 @@ export class RouterWrapper {
         this.router = Router();
     }
 
+    public getNativeRouter(): Router {
+        return this.router;
+    }
+
     /**
      * GET method request handler.
      * @param path API path
