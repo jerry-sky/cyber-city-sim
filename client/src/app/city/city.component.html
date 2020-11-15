@@ -1,0 +1,5 @@
+<div class="city-app">
+    <div class="city-grid">
+        <div *ngFor="let building of buildings" class="building color-{{building.exists}}" (click)="chooseBuilding($event)">
+    </div>
+</div>

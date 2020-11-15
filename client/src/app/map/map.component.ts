@@ -58,6 +58,7 @@ export class MapComponent implements OnInit {
     let user_id = event.target.id.replace('user-', '')
     // city clicked of user_id
     if(user_id){
+      console.log("hi")
       alert(`Clicked city of user ${user_id}`);
     }
   }

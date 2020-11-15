@@ -21,6 +21,8 @@ import { MapViewComponent } from './map-view/map-view.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { GlobalChatComponent } from './global-chat/global-chat.component';
 import { MapComponent } from './map/map.component';
+import { CityViewComponent } from './city-view/city-view.component';
+import { CityComponent } from './city/city.component';
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import { MapComponent } from './map/map.component';
     MapComponent,
     PageNotFoundComponent,
     GlobalChatComponent,
+    CityViewComponent,
+    CityComponent,
   ],
   imports: [
     BrowserModule,

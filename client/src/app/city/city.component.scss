@@ -1,0 +1,29 @@
+.city-app {
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
+    text-align: center;
+    .city-grid{
+        margin: 0 auto;
+        width: 50%;
+        height: 50%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        .building{
+            border: 1px solid #fff;
+        }
+        .color-0 {
+            background: #eee;
+            
+        }
+        .color-1 {
+            background: #ddd;
+        }
+    }
+    .city-grid:hover{
+        .color-1{
+            cursor: pointer;
+        }
+    }
+}

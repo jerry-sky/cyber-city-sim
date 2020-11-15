@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./map-view.component.scss']
 })
 export class MapViewComponent implements OnInit {
+  
+  // primitive mock
+  username: string = "benek"
 
   constructor() { }
 
