@@ -18,5 +18,8 @@
       "DOM.Iterable",
       "ES6"
     ]
-  }
+  },
+  "include": [
+    "../model"
+  ]
 }

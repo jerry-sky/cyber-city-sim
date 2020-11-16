@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  // TODO: change in production
+  API: 'http://localhost:3000',
 };
