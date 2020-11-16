@@ -1,0 +1,18 @@
+<div class="main">
+    <div>
+        <button mat-raised-button color="primary" routerLink="/login">Log Out</button>
+        <button mat-raised-button color="primary" [routerLink]="['/city', username]">My city</button>
+        <app-global-chat></app-global-chat>
+    </div>
+    <div class="chat">
+        <div *ngFor="let message of messages" class="message {{message | slice:0:1}}">{{message | slice:1}}</div>
+        <!--future: <div *ngFor="let message of messages" class="message {message.mine}">{{message.content}}</div>-->
+        <form class="new_message" (submit)="sendPrivateMessage(privateMessageForm)" #privateMessageForm="ngForm">
+            <mat-form-field><input matInput name="mess" required ngModel></mat-form-field>
+            <button mat-raised-button color="primary" type="submit" [routerLink]="['/chat', username]">
+                <span class="material-icons">send</span>
+            </button>
+        </form>
+    </div>
+    
+</div>

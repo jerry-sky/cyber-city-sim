@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { CityViewComponent } from './city-view/city-view.component';
 import { MessageboxComponent } from './messagebox/messagebox.component';
+import { PrivateChatComponent } from './private-chat/private-chat.component';
 
 
 import { LoginComponent } from './login/login.component'
@@ -14,6 +15,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'map', component: MapViewComponent, /*canActivate: [AuthGuardService]*/ },
     { path: 'city/:username', component: CityViewComponent },
+    { path: 'chat/:username', component: PrivateChatComponent },
     { path: 'messagebox', component: MessageboxComponent },
     { path: '',   redirectTo: '/login', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent },
