@@ -1,0 +1,27 @@
+{
+    "users": [
+  {
+    "id": 1,
+    "username": "test1",
+    "password": "'password",
+    "email": "test1@test.com",
+    "activated": true,
+    "dateJoined": "2020-11-16T12:26:17.253Z"
+  },
+  {
+    "id": 2,
+    "username": "test2",
+    "password": "'password",
+    "email": "test2@test.com",
+    "activated": true,
+    "dateJoined": "2020-11-16T12:26:17.253Z"
+  },
+  {
+    "id": 3,
+    "username": "test3",
+    "password": "'password",
+    "email": "test3@test.com",
+    "activated": true,
+    "dateJoined": "2020-11-16T12:26:17.253Z"
+  }
+]}

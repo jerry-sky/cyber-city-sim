@@ -7,6 +7,7 @@ import { Errors } from '../../model/errors';
 import { ErrorResponse } from '../../model/server-responses';
 
 import { DirectoryPath, Environment } from '../environment';
+import { User } from '../../model/user'
 
 import UserRoutes from './routes/user';
 
@@ -47,6 +48,7 @@ app.use((req, res, next) => {
         originsWithAccess.push('http://localhost:4200');
         originsWithAccess.push('http://localhost:4201');
         originsWithAccess.push('http://localhost:4202');
+        originsWithAccess.push('https://web.postman.co/');
     }
     // check if origin is on the list
     if (originsWithAccess.indexOf(origin) > -1) {
@@ -98,7 +100,26 @@ app.use('/public/', Express.static(DirectoryPath + '/public/'));
 
 app.use('/user', UserRoutes.getNativeRouter());
 
+<<<<<<< HEAD
 // error handler
+=======
+// temporary for login purposes
+app.get('/users', (req, res) => {
+    let users : User[]
+    const fs = require('fs');
+    fs.readFile('../temp_db/users.json', (err:any, data:any) => {
+        if (err) throw err;
+        users = JSON.parse(data).users;
+    });
+    res.status(200);
+    res.json(users);
+});
+app.post('/users', (req, res) => {
+    console.log(req.body)
+    res.sendStatus(200);
+});
+
+>>>>>>> [server] added temp login
 app.use(
     (
         error: Error,
