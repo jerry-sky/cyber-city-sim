@@ -1,0 +1,10 @@
+<div class="main">
+    <div>
+        <button mat-raised-button color="primary" routerLink="/login">Log Out</button>
+        <button mat-raised-button color="primary" [routerLink]="['/city', username]">My city</button>
+        <app-global-chat></app-global-chat>
+    </div>
+    <div class="players_chats">
+        <div *ngFor="let player of players" class="player_chat" [routerLink]="['/chat', player]">{{player}}</div>
+    </div>
+</div>

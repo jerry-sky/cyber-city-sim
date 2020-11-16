@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { CityViewComponent } from './city-view/city-view.component';
+import { MessageboxComponent } from './messagebox/messagebox.component';
+
 
 import { LoginComponent } from './login/login.component'
 import { MapViewComponent } from './map-view/map-view.component'
@@ -12,6 +14,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'map', component: MapViewComponent, /*canActivate: [AuthGuardService]*/ },
     { path: 'city/:username', component: CityViewComponent },
+    { path: 'messagebox', component: MessageboxComponent },
     { path: '',   redirectTo: '/login', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent },
 ];
