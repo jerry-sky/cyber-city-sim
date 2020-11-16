@@ -6,17 +6,19 @@
     align-items: center;
 
     .big {
-        font-size: 5em;
+        font-size: 10vw;
+        line-height: 10vw;
         text-align: center;
     }
     .small {
-        font-size: 2em;
+        font-size: 2vw;
+        line-height: 2vw;
         text-align: center;
     }
     button {
         width: 30vw;
-        margin: 20px;
-        padding: 10px;
-        font-size: 1.5em;
+        margin: 2vw;
+        padding: 1vw;
+        font-size: 2vw;
     }
 }

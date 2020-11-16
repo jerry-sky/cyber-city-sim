@@ -1,32 +1,27 @@
-/*.header {
-    width: 100vw;
+.mat-toolbar {
     height: 7vh;
-    background: #2b7df8;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    * {
-        padding: 10px;
-    }
-
-    .logo {
-        font-size: 2em;
-        font-weight: bold;
-    }
-    .time {
-        font-size: 1.5em;
-    }
-}*/
-span{
+}
+span {
     letter-spacing: 1px;
 }
-.logo{
-    padding-left: 10px;
+.logo {
+    padding-left: 0.8vw;
     letter-spacing: 2px;
-    font-size: 1.5em;
+    font-size: 1.5vw;
     font-weight: 500;
+}
+.time {
+    font-size: 0.9vw;
 }
 .spacer {
     flex: 1 1 auto;
-  }
+}
+
+@media only screen and (max-width: 800px) {
+    .logo {
+        font-size: 3vw;
+    }
+    .time {
+        font-size: 2vw;
+    }
+}
