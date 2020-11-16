@@ -1,16 +1,25 @@
 .main{
-    padding: 20px;
+    padding: 1.5vw;
     border: 1px solid black;
-    margin: 30px 0;
+    margin: 2vw 0;
 }
 .main-title{
     font-weight: 500;
-    font-size: 25px;
+    font-size: 1.4vw;
+    line-height: 1.5vw;
+    margin: 0.5vw 0;
     text-align: center;
 }
 .title{
+    display: block;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 1.25vw;
+    line-height: 1.4vw;
+    margin: 1vw 0 0.5vw 0;
+}
+.mat-dialog-content > div {
+    font-size: 0.9vw;
+    line-height: 1vw;
 }
 .btns {
     width: 100%;
@@ -19,5 +28,63 @@
     > * {
         flex: 1;
         margin: 1vw 0.1vw;
+        font-size: 1vw;
+        line-height: 1vw;
+        padding: 0.5vw;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .main-title{
+        font-weight: 500;
+        font-size: 1.4vw;
+        line-height: 2vw;
+        text-align: center;
+    }
+    .title{
+        display: block;
+        font-weight: 500;
+        font-size: 1.25vw;
+        margin: 1vw 0 0.5vw 0;
+    }
+    .mat-dialog-content > div {
+        font-size: 0.9vw;
+        line-height: 1.2vw;
+    }
+    .btns {
+        display: flex;
+        flex-direction: column;
+    }
+    .btns > * {
+        font-size: 2vw;
+        line-height: 2vw;
+        padding: 1vw;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .main-title{
+        font-weight: 500;
+        font-size: 3.25vw;
+        text-align: center;
+    }
+    .title{
+        display: block;
+        font-weight: 500;
+        font-size: 3vw;
+        margin: 1vw 0 0.5vw 0;
+        text-align: center;
+    }
+    .mat-dialog-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .mat-dialog-content > div {
+        font-size: 2vw;
+        text-align: center;
+    }
+    .btns > * {
+        font-size: 3vw;
+        line-height: 4vw;
+        padding: 1.5vw;
     }
 }
