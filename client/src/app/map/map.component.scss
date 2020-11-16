@@ -1,6 +1,6 @@
 .allgrid {
-    width: 150vh;
-    height: 150vh;
+    width: 200vh;
+    height: 200vh;
     display: grid;
     position: absolute;
     top: 0;
@@ -15,9 +15,12 @@
         background: #ddd;
     }
     .color-2 {
-        background: #ccc
+        background: #ccc;
     }
-    .color-3 {
-        background: #cde;
+    .city-other {
+        background: #000;
+    }
+    .city-mine {
+        background: #f00;
     }
 }

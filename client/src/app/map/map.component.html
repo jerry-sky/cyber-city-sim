@@ -1,4 +1,14 @@
 <div class="allgrid" (wheel)="onScroll($event)" cdkDrag>
-    <div *ngFor="let cell of terrain" class="color-{{cell.terrain}} user-{{cell.user_id}}" (click)="chosenCity($event)">
+    <div
+    *ngFor="let cell of terrain"
+    [ngClass]="{
+        'color-0': (cell.owner == -1 && cell.terrain == 0),
+        'color-1': (cell.owner == -1 && cell.terrain == 1),
+        'color-2': (cell.owner == -1 && cell.terrain == 2),
+        'city-other': (cell.owner != -1 && cell.owner != curr_user),
+        'city-mine': (cell.owner == curr_user)
+    }"
+    id="user-{{cell.owner}}"
+    (click)="chosenCity($event)">
     </div>
 </div>
