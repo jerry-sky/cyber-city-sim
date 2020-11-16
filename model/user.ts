@@ -2,7 +2,7 @@
 /**
  * All data of a one user.
  */
-export class User {
+export declare interface User {
     /**
      * Unique identifier.
      */
