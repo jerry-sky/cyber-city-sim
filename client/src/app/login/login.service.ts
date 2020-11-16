@@ -2,16 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CatchError } from ''
-
-import { User } from '../../../../model/user';
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-    // Authorization: 'my-auth-token'
-  })
-};
+import { LoginRequest, RegisterRequest } from '../../../../model/server-requests';
 
 
 @Injectable({
@@ -19,17 +10,25 @@ const httpOptions = {
 })
 export class LoginService {
 
-  usersUrl = 'http://localhost:3000/users'
+  usersUrl = 'http://localhost:3000/user'
 
   constructor(private http: HttpClient) { }
 
   
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl);
+  login(name, pass): Observable<Object> {
+    let user = {
+      username: name, 
+      password: pass
+    } as LoginRequest
+    return this.http.post(this.usersUrl + '/login', user);
   }
   
-  addUser(user: User): Observable<User> {
-    console.log('posted2');
-    return this.http.post<User>(this.usersUrl, user, httpOptions);
+  register(name, email, pass): Observable<Object> {
+    let user = {
+      username: name,
+      email: email, 
+      password: pass
+    } as RegisterRequest
+    return this.http.post(this.usersUrl + '/register', user);
   }
 }
