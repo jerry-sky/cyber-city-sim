@@ -42,13 +42,27 @@
     }
 }
 @media only screen and (max-width: 1100px) {
-    .main form {
-        grid-template-columns: 1fr;
-        grid-template-rows: 3fr 2fr;
+    .main {
+        form {
+            grid-template-columns: 1fr;
+            grid-template-rows: 3fr 2fr;
+            .material-icons {
+                font-size: 2.5vw;
+            }
+        }
+        .mess {
+            font-size: 2.3vw;
+            line-height: 2.5vw;
+        }
     }
 }
 @media only screen and (max-width: 600px) {
     .main {
         height: 20vh;
+
+        .mess {
+            font-size: 4vw;
+            line-height: 4.5vw;
+        }
     }
 }
