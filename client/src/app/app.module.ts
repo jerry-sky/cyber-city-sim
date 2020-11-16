@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -23,6 +23,8 @@ import { GlobalChatComponent } from './global-chat/global-chat.component';
 import { MapComponent } from './map/map.component';
 import { CityViewComponent } from './city-view/city-view.component';
 import { CityComponent } from './city/city.component';
+import { CityDetailComponent } from './city-detail/city-detail.component';
+import { MatRippleModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import { CityComponent } from './city/city.component';
     GlobalChatComponent,
     CityViewComponent,
     CityComponent,
+    CityDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,9 @@ import { CityComponent } from './city/city.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatRippleModule,
     MatToolbarModule,
+    MatDialogModule,
     FormsModule,
     JwtModule,
     DragDropModule

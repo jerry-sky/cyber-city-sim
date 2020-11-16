@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./city-view.component.scss']
 })
 export class CityViewComponent implements OnInit {
-  user_id: string;
+  username: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -16,12 +16,16 @@ export class CityViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsername();
+    this.route.queryParams.subscribe(params => {
+      this.username = params['username'];
+    });
   }
 
   getUsername(): void {
-    const user_id = this.route.snapshot.paramMap.get('user_id');
+    const username = this.route.snapshot.paramMap.get('username');
     // primitive mock
-    this.user_id = user_id
+    
+    this.username = username
     /* in the future:
     this.someService.getUser(username)
       .subscribe(username => this.username = username);

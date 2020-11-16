@@ -8,11 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class MapViewComponent implements OnInit {
   
   // primitive mock
-  username: string = "benek"
-
+  public username: string
+  
   constructor() { }
 
   ngOnInit(): void {
+    this.username = "benek"
   }
 
 }

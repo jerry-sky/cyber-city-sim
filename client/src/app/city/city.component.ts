@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-city',
@@ -10,7 +11,7 @@ export class CityComponent implements OnInit {
   // primitive mock 
   buildings: object[]
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.buildings = this.getBuildings();
@@ -30,7 +31,15 @@ export class CityComponent implements OnInit {
   chooseBuilding(event): void {
     // city clicked of user_id
     //TODO: <app-city-detail> component in dialog
-    alert(`Current production: `);
+    //alert(`Current production: `);
+    this.dialog.open(CityDetailDialog);
   }
 
 }
+
+@Component({
+  selector: 'app-city-detail',
+  templateUrl: '../city-detail/city-detail.component.html',
+  styleUrls: ['../city-detail/city-detail.component.scss'],
+})
+export class CityDetailDialog {}

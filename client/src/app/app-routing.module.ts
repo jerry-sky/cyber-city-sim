@@ -11,7 +11,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'map', component: MapViewComponent, /*canActivate: [AuthGuardService]*/ },
-    { path: 'city/:user_id', component: CityViewComponent },
+    { path: 'city/:username', component: CityViewComponent },
     { path: '',   redirectTo: '/login', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent },
 ];
