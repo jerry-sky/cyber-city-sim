@@ -13,12 +13,12 @@ export class AuthService {
   /**
    * Data of the user (if logged in).
    */
-  public UserData: BehaviorSubject<User> = new BehaviorSubject(undefined);
+  public UserData: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
   constructor(private backend: BackendService) {}
 
   IsAuthenticated(): boolean {
-    return this.UserData.getValue() !== undefined;
+    return this.UserData.getValue() !== null;
   }
 
   /**
