@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { JwtModule } from "@auth0/angular-jwt";
 
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -55,7 +54,6 @@ import { MessageboxComponent } from './messagebox/messagebox.component';
     MatToolbarModule,
     MatDialogModule,
     FormsModule,
-    JwtModule,
     DragDropModule
   ],
   providers: [],
