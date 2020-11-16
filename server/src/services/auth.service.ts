@@ -24,7 +24,6 @@ export class AuthenticationService {
      * Attempt loggining in to the given user’s account.
      */
     public Login(username: string, password: string): User {
-        console.log(testUsers);
         // TODO: implement password hashing (the `secure-password` package)
         let found: User;
         testUsers.forEach((u) => {
