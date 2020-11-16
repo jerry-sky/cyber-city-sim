@@ -100,26 +100,7 @@ app.use('/public/', Express.static(DirectoryPath + '/public/'));
 
 app.use('/user', UserRoutes.getNativeRouter());
 
-<<<<<<< HEAD
 // error handler
-=======
-// temporary for login purposes
-app.get('/users', (req, res) => {
-    let users : User[]
-    const fs = require('fs');
-    fs.readFile('../temp_db/users.json', (err:any, data:any) => {
-        if (err) throw err;
-        users = JSON.parse(data).users;
-    });
-    res.status(200);
-    res.json(users);
-});
-app.post('/users', (req, res) => {
-    console.log(req.body)
-    res.sendStatus(200);
-});
-
->>>>>>> [server] added temp login
 app.use(
     (
         error: Error,
