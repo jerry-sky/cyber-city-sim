@@ -26,6 +26,7 @@ import { CityDetailComponent } from './city-detail/city-detail.component';
 import { MatRippleModule } from '@angular/material/core';
 import { MessageboxComponent } from './messagebox/messagebox.component';
 import { PrivateChatComponent } from './private-chat/private-chat.component';
+import { TradehouseComponent } from './tradehouse/tradehouse.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { PrivateChatComponent } from './private-chat/private-chat.component';
     CityDetailComponent,
     MessageboxComponent,
     PrivateChatComponent,
+    TradehouseComponent,
   ],
   imports: [
     BrowserModule,
