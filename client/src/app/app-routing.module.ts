@@ -4,6 +4,7 @@ import { AuthGuardService } from './guards/auth-guard.service';
 import { CityViewComponent } from './city-view/city-view.component';
 import { MessageboxComponent } from './messagebox/messagebox.component';
 import { PrivateChatComponent } from './private-chat/private-chat.component';
+import { TradehouseComponent } from './tradehouse/tradehouse.component';
 
 
 import { LoginComponent } from './login/login.component'
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: 'city/:username', component: CityViewComponent },
     { path: 'chat/:username', component: PrivateChatComponent },
     { path: 'messagebox', component: MessageboxComponent },
+    { path: 'tradehouse', component: TradehouseComponent },
     { path: '',   redirectTo: '/login', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent },
 ];
