@@ -1,8 +1,8 @@
 <div class="main">
     <p *ngFor="let mess of messages" class="mess">{{mess}}</p>
-    <form (submit)="sendGloablMessage(signInForm)" #signInForm="ngForm">
+    <form (submit)="sendGlobalMessage(messageForm)" #messageForm="ngForm">
         <mat-form-field><input matInput name="mess" required ngModel></mat-form-field>
-        <button mat-raised-button color="primary" routerLink="/map">
+        <button mat-raised-button color="primary">
             <span class="material-icons">send</span>
         </button>
     </form>

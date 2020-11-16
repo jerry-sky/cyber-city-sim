@@ -15,8 +15,9 @@ export class GlobalChatComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  sendGloablMessage(message: NgForm){
+  sendGlobalMessage(message: NgForm){
     console.log("sending message to global chat: ", message.value);
+    this.messages.push(message.value.mess)
   }
 
 }
