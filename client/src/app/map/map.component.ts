@@ -52,6 +52,8 @@ export class MapComponent implements OnInit {
     let newSize = (event.wheelDelta < 0 ? `${s-10}px` : `${s+10}px`)
     grid.style.width = newSize
     grid.style.height = newSize
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   chosenCity(event): void {
