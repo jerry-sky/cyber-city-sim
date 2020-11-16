@@ -1,4 +1,3 @@
-import { response } from 'express';
 import { LoginRequest, RegisterRequest } from '../../../model/server-requests';
 import { LoginResponse } from '../../../model/server-responses';
 import { RouterWrapper } from '../auxiliary/express-method-wrapper';

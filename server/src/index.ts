@@ -7,7 +7,6 @@ import { Errors } from '../../model/errors';
 import { ErrorResponse } from '../../model/server-responses';
 
 import { DirectoryPath, Environment } from '../environment';
-import { User } from '../../model/user'
 
 import UserRoutes from './routes/user';
 import MapRoutes from './routes/map';

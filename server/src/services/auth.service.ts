@@ -2,7 +2,7 @@ import { Errors, Err } from '../../../model/errors';
 import { User } from '../../../model/user';
 
 /**
- * Temporary measure — a simple test user.
+ * Temporary measure — a list of test users.
  */
 const testUsers: User[] = [
     {
@@ -49,14 +49,14 @@ export class AuthenticationService {
      */
     public Register(username: string, email: string, password: string): User {
         // TODO implement password hashing, check if user already exists, check if email ic correct etc
-        const newUser = {
+        const newUser: User = {
             id: 0,
             username: username,
             email: email,
             password: password,
             activated: true,
             dateJoined: new Date(),
-        } as User;
+        };
         testUsers.push(newUser);
         return newUser;
     }
