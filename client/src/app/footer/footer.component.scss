@@ -27,3 +27,14 @@
         letter-spacing: 1px;
     }
 }
+@media only screen and (max-width: 600px) {
+    .footer {
+        .authors > p {
+            font-size: 1.7vw;
+            line-height: 3vw;
+        }
+        .tech {
+            font-size: 2vw;
+        }
+    }
+}

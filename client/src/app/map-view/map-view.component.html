@@ -1,8 +1,8 @@
 <div class="main">
-    <div>
+    <div class="btns">
         <button mat-raised-button color="primary" routerLink="/login">Log Out</button>
         <button mat-raised-button color="primary" [routerLink]="['/city', username]">My city</button>
-        <app-global-chat></app-global-chat>
+        <app-global-chat class="chat"></app-global-chat>
     </div>
     <div class="map">
         <app-map></app-map>

@@ -8,6 +8,8 @@ import { NgForm } from '@angular/forms'
 })
 export class GlobalChatComponent implements OnInit {
 
+  messages : string[] = ["message1", "message2", "message3"]
+
   constructor() { }
 
   ngOnInit(): void {
