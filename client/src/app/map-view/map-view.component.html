@@ -1,10 +1,10 @@
-<div class="main">
-    <div class="btns">
+<div class="main-container">
+    <div class="left-panel">
         <button mat-raised-button color="primary" routerLink="/login">Log Out</button>
         <button mat-raised-button color="primary" [routerLink]="['/city', username]">My city</button>
-        <app-global-chat class="chat"></app-global-chat>
+        <app-global-chat></app-global-chat>
     </div>
-    <div class="map">
+    <div class="right-panel">
         <app-map></app-map>
     </div>
 </div>

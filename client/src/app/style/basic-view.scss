@@ -1,0 +1,53 @@
+@import 'vars.scss';
+
+.main-container {
+    width: 100%;
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 25% 75%;
+
+    > * {
+        margin: 0.8vw;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 0.2vw;
+        margin-bottom: 0.2vw;
+        font-size: $medium-font-size;
+        line-height: $medium-font-size;
+        padding: 0.5vw;
+    }
+    .right-panel {
+        border: 1px solid #000;
+        overflow: hidden;
+        position: relative;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .main-container {
+        button {
+            font-size: $medium-font-size-800px;
+            line-height: $medium-font-size-800px;
+            padding: 1vw;
+        }
+    }
+}
+@media only screen and (max-width: 500px) {
+    .main-container {
+        display: flex;
+        flex-direction: column-reverse;
+        button {
+            font-size: $medium-font-size-500px;
+            line-height: $medium-font-size-500px;
+            padding: 2vw;
+        }
+        .right-panel {
+            flex: 5;
+        }
+        .left-panel {
+            flex: 1;
+        }
+    }
+}

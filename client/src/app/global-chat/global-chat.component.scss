@@ -1,43 +1,49 @@
+@import '../style/vars.scss';
+
 .main {
     position: relative;
     border: 1px solid #000;
-    padding: 1vw;
     height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .messages {
+        padding: 1vw;
+        overflow-y: scroll;
+    }
 
     .mess {
         margin: 0;
         padding: 0;
-        font-size: 0.8vw;
-        line-height: 1.5vw;
+        font-size: $small-font-size;
+        line-height: $small-font-size;
     }
 
     form {
-        position: absolute;
-        bottom: 0;
-        left: 0;
         display: grid;
         grid-template-columns: 4fr 1fr;
-        // height: 10%;
         width: 100%;
         border-top: 1px solid #000;
         overflow: hidden;
+        background: #fff;
 
         mat-form-field {
             padding: 0 0.5vw;
         }
         input {
-            font-size: 0.8vw;
+            font-size: $medium-font-size;
             padding: 0;
             margin: 0;
         }
         button {
             padding: 0;
-            font-size: 0.8vw;
+            font-size: $small-font-size;
             line-height: 1vw;
             margin: 0;
         }
         .material-icons {
-            font-size: 1.5vw;
+            font-size: $big-font-size;
         }
     }
 }
@@ -46,23 +52,52 @@
         form {
             grid-template-columns: 1fr;
             grid-template-rows: 3fr 2fr;
-            .material-icons {
-                font-size: 2.5vw;
-            }
-        }
-        .mess {
-            font-size: 2.3vw;
-            line-height: 2.5vw;
         }
     }
 }
-@media only screen and (max-width: 600px) {
+
+@media only screen and (max-width: 800px) {
     .main {
         height: 20vh;
 
         .mess {
-            font-size: 4vw;
-            line-height: 4.5vw;
+            font-size: $small-font-size-800px;
+            line-height: $small-font-size-800px;
+        }
+        form {
+            input {
+                font-size: $medium-font-size-800px;
+            }
+            button {
+                font-size: $small-font-size-800px;
+                line-height: $small-font-size-800px;
+            }
+            .material-icons {
+                font-size: $big-font-size-800px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .main {
+        height: 20vh;
+
+        .mess {
+            font-size: $small-font-size-500px;
+            line-height: $small-font-size-500px;
+        }
+        form {
+            input {
+                font-size: $big-font-size-500px;
+            }
+            button {
+                font-size: $small-font-size-500px;
+                line-height: $small-font-size-500px;
+            }
+            .material-icons {
+                font-size: $big-font-size-500px;
+            }
         }
     }
 }

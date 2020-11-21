@@ -1,5 +1,7 @@
 <div class="main">
-    <p *ngFor="let mess of messages" class="mess">{{mess}}</p>
+    <div class="messages">
+        <p *ngFor="let mess of messages" class="mess">{{mess}}</p>
+    </div>
     <form (submit)="sendGlobalMessage(messageForm)" #messageForm="ngForm">
         <mat-form-field><input matInput name="mess" required ngModel></mat-form-field>
         <button mat-raised-button color="primary">

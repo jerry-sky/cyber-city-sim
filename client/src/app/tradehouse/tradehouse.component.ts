@@ -15,18 +15,27 @@ export class TradehouseComponent implements OnInit {
 
   ngOnInit(): void {
     this.offers = Array(3);
-    this.offers[0] = "Trade 10 Red for 10 Blue";
-    this.offers[1] = "Trade 10 Blue for 10 Red";
-    this.offers[2] = "Trade 10 Red for 10 Green";
+    this.offers[0] = 'Trade 10 Red for 10 Blue';
+    this.offers[1] = 'Trade 10 Blue for 10 Red';
+    this.offers[2] = 'Trade 10 Red for 10 Green';
   }
 
-  sendTradehouseOffer(tradehouseOffer: NgForm){
-    console.log("sending offer: ", tradehouseOffer.value.offer_get, " for ", tradehouseOffer.value.offer_give);
+  sendTradehouseOffer(tradehouseOffer: NgForm): void {
+    const offerGet = tradehouseOffer.value.offer_get.trim();
+    const offerGive = tradehouseOffer.value.offer_give.trim();
+    if (!offerGet || !offerGive){
+      alert('Specify correct offer');
+      return;
+    }
+    const newOffer = `Trade ${offerGet} for ${offerGive}`;
+    this.offers.push(newOffer);
+    console.log(`sending offer: ${newOffer}`);
   }
-  deleteOffer(offer: string){
-    var indexof_offer = this.offers.indexOf(offer)
-    if(indexof_offer > -1){
-      this.offers.splice(indexof_offer, 1);
+
+  acceptOffer(offer: string): void {
+    const indexofOffer = this.offers.indexOf(offer);
+    if (indexofOffer > -1){
+      this.offers.splice(indexofOffer, 1);
     }
   }
 
