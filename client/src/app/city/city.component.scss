@@ -1,29 +1,32 @@
-.city-app {
-    height: 100%;
-    width: auto;
-    margin: 0 auto;
-    text-align: center;
-    .city-grid{
-        margin: 0 auto;
-        width: 50%;
-        height: 50%;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        .building{
-            border: 1px solid #fff;
-        }
-        .color-0 {
-            background: #eee;
-            
-        }
-        .color-1 {
-            background: #ddd;
-        }
+.allgrid {
+    width: 60vh;
+    height: 60vh;
+    display: grid;
+    position: absolute;
+    top: 0;
+    left: 0;
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+
+    .background {
+        background: transparent;
     }
-    .city-grid:hover{
-        .color-1{
-            cursor: pointer;
-        }
+    .color-0 {
+        background: #eee;
+    }
+    .color-1 {
+        background: #ddd;
+    }
+    .color-2 {
+        background: #ccc;
+    }
+    .building-0 {
+        background: #f00;
+    }
+    .building-1 {
+        background: #0f0;
+    }
+    .building-2 {
+        background: #00f;
     }
 }

@@ -19,6 +19,9 @@
     line-height: $medium-font-size;
     margin: 1vw 0 0.5vw 0;
 }
+.mat-dialog-content {
+    overflow: hidden;
+}
 .mat-dialog-content > div {
     font-size: $small-font-size;
     line-height: $small-font-size;

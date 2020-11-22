@@ -1,5 +1,16 @@
-<div class="city-app">
-    <div class="city-grid">
-        <div *ngFor="let building of buildings" class="building color-{{building.exists}}" (click)="chooseBuilding($event)">
+<div class="allgrid" (wheel)="onScroll($event)" cdkDrag>
+    <div
+    *ngFor="let cell of terrain"
+    [ngClass]="{
+        'background': (cell.owned == false),
+        'color-0': (cell.owned && cell.buildingType == -1 && cell.terrain == 0),
+        'color-1': (cell.owned && cell.buildingType == -1 && cell.terrain == 1),
+        'color-2': (cell.owned && cell.buildingType == -1 && cell.terrain == 2),
+        'building-0': (cell.owned && cell.buildingType == 0),
+        'building-1': (cell.owned && cell.buildingType == 1),
+        'building-2': (cell.owned && cell.buildingType == 2)
+    }"
+    id="cell-{{terrain.indexOf(cell)}}"
+    (click)="chosenCell($event)">
     </div>
 </div>

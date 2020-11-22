@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoginRequest, RegisterRequest } from '../../../../model/server-requests';
-import { LoginResponse, MapResponse } from '../../../../model/server-responses';
+import { LoginRequest, RegisterRequest, GetCityRequest } from '../../../../model/server-requests';
+import { LoginResponse, MapResponse, GetCityResponse } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -12,6 +12,7 @@ export class BackendService {
 
   private usersUrl = environment.API + '/user';
   private mapUrl = environment.API + '/map';
+  private cityUrl = environment.API + '/city';
 
   constructor(private http: HttpClient) { }
 
@@ -25,6 +26,10 @@ export class BackendService {
 
   public getMap(): Observable<MapResponse> {
     return this.http.get(this.mapUrl) as Observable<MapResponse>;
+  }
+
+  public getCity(payload: GetCityRequest): Observable<GetCityResponse> {
+    return this.http.post(this.cityUrl, payload) as Observable<GetCityResponse>;
   }
 
 }

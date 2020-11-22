@@ -25,18 +25,17 @@ export class MapComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.terrain = this.getTerrain();
+    this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
     grid.style.top  = `-${Math.floor(window.innerHeight * 0.25)}px`;
     grid.style.left = `-${Math.floor(window.innerHeight * 0.10)}px`;
   }
 
-  getTerrain(): Cell[] {
+  getTerrain(): void {
     this.auth.GetMap().subscribe(
       res => this.terrain = res.cells,
       err => console.error('Error retriving map from server')
     );
-    return [];
   }
 
   onScroll(event): void {

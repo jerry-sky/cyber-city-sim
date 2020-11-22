@@ -10,6 +10,7 @@ import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
   styleUrls: ['./city-view.component.scss']
 })
 export class CityViewComponent implements OnInit {
+
   username: string;
 
   constructor(
@@ -19,19 +20,12 @@ export class CityViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsername();
-    this.route.queryParams.subscribe(params => {
-      this.username = params['username'];
-    });
   }
 
   getUsername(): void {
-    const username = this.route.snapshot.paramMap.get('username');
-    // primitive mock
-    this.username = username;
-    /* in the future:
-    this.someService.getUser(username)
-      .subscribe(username => this.username = username);
-    */
+    this.route.params.subscribe(params => {
+      this.username = params.username;
+    });
   }
 
   logout(): void {

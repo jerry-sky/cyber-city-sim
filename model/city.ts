@@ -23,7 +23,7 @@ export declare interface CityCell {
      */
     buildingType: number;
     /**
-     * Id of building
+     * Level of building
      */
-    buildingId: number;
+    buildingLvl: number;
 }
