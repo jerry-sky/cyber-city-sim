@@ -157,7 +157,6 @@ export class CityComponent implements OnInit {
       alert(`Bought building ${id + 1}`);
       cell.owned = true;
       cell.buildingType = id;
-      cell.buildingId = Math.floor(Math.random() * 1000);
       this.terrain[index] = cell;
     });
   }
