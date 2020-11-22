@@ -9,3 +9,7 @@ export interface RegisterRequest {
     email: string;
     password: string;
 }
+
+export interface GetCityRequest {
+    username: string;
+}
