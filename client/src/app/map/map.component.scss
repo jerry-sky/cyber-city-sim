@@ -9,13 +9,16 @@
     grid-template-rows: repeat(20, 1fr);
 
     .color-0 {
-        background: #eee;
+        background: url('background-red.png');
+        background-size: cover;
     }
     .color-1 {
-        background: #ddd;
+        background: url('background-green.png');
+        background-size: cover;
     }
     .color-2 {
-        background: #ccc;
+        background: url('background-blue.png');
+        background-size: cover;
     }
     .city-other {
         background: #000;
