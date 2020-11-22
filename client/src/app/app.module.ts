@@ -27,6 +27,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MessageboxComponent } from './messagebox/messagebox.component';
 import { PrivateChatComponent } from './private-chat/private-chat.component';
 import { TradehouseComponent } from './tradehouse/tradehouse.component';
+import { LogoutPopupComponent } from './logout-popup/logout-popup.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { TradehouseComponent } from './tradehouse/tradehouse.component';
     MessageboxComponent,
     PrivateChatComponent,
     TradehouseComponent,
+    LogoutPopupComponent,
   ],
   imports: [
     BrowserModule,

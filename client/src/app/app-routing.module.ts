@@ -7,9 +7,9 @@ import { PrivateChatComponent } from './private-chat/private-chat.component';
 import { TradehouseComponent } from './tradehouse/tradehouse.component';
 
 
-import { LoginComponent } from './login/login.component'
-import { MapViewComponent } from './map-view/map-view.component'
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
+import { LoginComponent } from './login/login.component';
+import { MapViewComponent } from './map-view/map-view.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 const routes: Routes = [

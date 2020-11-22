@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
 
 
 @Component({
@@ -12,6 +14,7 @@ export class CityViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +33,10 @@ export class CityViewComponent implements OnInit {
     this.someService.getUser(username)
       .subscribe(username => this.username = username);
     */
+  }
+
+  logout(): void {
+    this.dialog.open(LogoutPopupComponent, {width: '400px'});
   }
 
 }

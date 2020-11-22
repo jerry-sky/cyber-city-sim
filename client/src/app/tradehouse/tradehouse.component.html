@@ -1,6 +1,6 @@
 <div class="main-container">
     <div class="left-panel">
-        <button class="main_menu_button" mat-raised-button color="primary" routerLink="/login">Log Out</button>
+        <button class="main_menu_button" mat-raised-button color="primary" (click)="logout()">Log Out</button>
         <button class="main_menu_button"mat-raised-button color="primary" [routerLink]="['/city', username]">My city</button>
         <app-city-detail></app-city-detail>
     </div>

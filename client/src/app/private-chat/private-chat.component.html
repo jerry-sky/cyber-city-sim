@@ -1,6 +1,6 @@
 <div class="main-container">
     <div class="left-panel">
-        <button mat-raised-button color="primary" routerLink="/login">Log Out</button>
+        <button mat-raised-button color="primary" (click)="logout()">Log Out</button>
         <button mat-raised-button color="primary" routerLink="/messagebox">Messagebox</button>
         <app-global-chat></app-global-chat>
     </div>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms'
+import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
+
 
 @Component({
   selector: 'app-tradehouse',
@@ -11,7 +14,9 @@ export class TradehouseComponent implements OnInit {
   public username: string;
   public offers: string[];
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.offers = Array(3);
@@ -37,6 +42,10 @@ export class TradehouseComponent implements OnInit {
     if (indexofOffer > -1){
       this.offers.splice(indexofOffer, 1);
     }
+  }
+
+  logout(): void {
+    this.dialog.open(LogoutPopupComponent, {width: '400px'});
   }
 
 }

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms'
+import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
+
 
 @Component({
   selector: 'app-private-chat',
@@ -11,7 +14,10 @@ export class PrivateChatComponent implements OnInit {
   public username: string;
   // future: public messages: Message[]
   public messages: string[];
-  constructor() { }
+  
+  constructor(
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.messages = new Array(10);
@@ -25,5 +31,9 @@ export class PrivateChatComponent implements OnInit {
     console.log("sending message to private chat: ", message.value);
     this.messages.push("m" + message.value.mess)
     
+  }
+
+  logout(): void {
+    this.dialog.open(LogoutPopupComponent, {width: '400px'});
   }
 }
