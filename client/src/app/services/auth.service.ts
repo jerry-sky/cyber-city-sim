@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginRequest, RegisterRequest } from '../../../../model/server-requests';
 import { User } from '../../../../model/user';
+import { Map } from '../../../../model/map';
 import { BackendService } from '../services/backend.service';
 import {map} from 'rxjs/operators';
+import { MapResponse } from '../../../../model/server-responses';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +50,18 @@ export class AuthService {
       password
     };
     return this.backend.userRegister(payload);
+  }
+
+  /**
+   * Get map configuration.
+   */
+  GetMap(): Observable<Map> {
+    // if everything went okay, then the response contains map's data
+    return this.backend.getMap().pipe(
+      map((response) => {
+        return response.map;
+      })
+    );
   }
 
 }

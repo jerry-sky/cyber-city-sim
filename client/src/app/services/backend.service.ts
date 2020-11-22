@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginRequest, RegisterRequest } from '../../../../model/server-requests';
-import { LoginResponse } from '../../../../model/server-responses';
+import { LoginResponse, MapResponse } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -11,6 +11,7 @@ import { environment } from '../../environments/environment';
 export class BackendService {
 
   private usersUrl = environment.API + '/user';
+  private mapUrl = environment.API + '/map';
 
   constructor(private http: HttpClient) { }
 
@@ -20,6 +21,10 @@ export class BackendService {
 
   public userRegister(payload: RegisterRequest): Observable<never> {
     return this.http.post(this.usersUrl + '/register', payload) as Observable<never>;
+  }
+
+  public getMap(): Observable<MapResponse> {
+    return this.http.get(this.mapUrl) as Observable<MapResponse>;
   }
 
 }

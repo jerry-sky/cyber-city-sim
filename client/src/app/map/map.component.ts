@@ -1,16 +1,14 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { Cell } from '../../../../model/map';
-import { MapResponse } from '../../../../model/server-responses';
-import { MapService } from './map.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfilePopupComponent } from '../profile-popup/profile-popup.component';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  providers: [MapService],
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
@@ -21,7 +19,7 @@ export class MapComponent implements OnInit {
   scale = 1;
 
   constructor(
-    private MapService: MapService,
+    private auth: AuthService,
     private router: Router,
     public dialog: MatDialog
   ) { }
@@ -34,11 +32,8 @@ export class MapComponent implements OnInit {
   }
 
   getTerrain(): Cell[] {
-    this.MapService.getTerrain().subscribe(
-      res => {
-        const m = res as MapResponse;
-        this.terrain = m.map.cells;
-      },
+    this.auth.GetMap().subscribe(
+      res => this.terrain = res.cells,
       err => console.error('Error retriving map from server')
     );
     return [];
