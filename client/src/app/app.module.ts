@@ -29,6 +29,8 @@ import { PrivateChatComponent } from './private-chat/private-chat.component';
 import { TradehouseComponent } from './tradehouse/tradehouse.component';
 import { LogoutPopupComponent } from './logout-popup/logout-popup.component';
 import { ProfilePopupComponent } from './profile-popup/profile-popup.component';
+import { BuildingInfoPopupComponent } from './building-info-popup/building-info-popup.component';
+import { NewBuildingPopupComponent } from './new-building-popup/new-building-popup.component';
 
 
 @NgModule({
@@ -49,6 +51,8 @@ import { ProfilePopupComponent } from './profile-popup/profile-popup.component';
     TradehouseComponent,
     LogoutPopupComponent,
     ProfilePopupComponent,
+    BuildingInfoPopupComponent,
+    NewBuildingPopupComponent,
   ],
   imports: [
     BrowserModule,
