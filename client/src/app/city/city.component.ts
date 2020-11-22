@@ -24,18 +24,19 @@ export class CityComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTerrain();
-    const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
-    grid.style.top  = `0px`;
-    grid.style.left = `0px`;
   }
 
   getTerrain(): void {
     this.terrain = []
     this.auth.GetCity(this.username).subscribe(
-      res => this.terrain = res.cells,
+      res => {
+        this.terrain = res.cells;
+        this.focusCity();
+      },
       err => {
         console.error('Error retriving city from server');
         this.mockTerrain();     // TODO usunąć jak zostanie zrobione pobieranie z backendu
+        this.focusCity();
       }
     );
   }
@@ -67,6 +68,21 @@ export class CityComponent implements OnInit {
     this.terrain = cells;
   }
 
+  focusCity(): void {
+    const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
+    let firstCellIndex = 0;
+    for (const c of this.terrain){
+      if (c.owned){
+        firstCellIndex = this.terrain.indexOf(c);
+        break;
+      }
+    }
+    const firstCellX = (firstCellIndex % 20) / 20;            // city to map ratio on X axis
+    const firstCellY = Math.floor(firstCellIndex / 20) / 20;  // city to map ratio on Y axis
+    grid.style.top  = `${Math.floor(- window.innerHeight * 1.5 * firstCellY + 0.25 * window.innerHeight)}px`;
+    grid.style.left = `${Math.floor(- window.innerHeight * 1.5 * firstCellX + 0.5 * window.innerHeight)}px`;
+  }
+
   onScroll(event): void {
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
     const step = 15;
@@ -91,13 +107,15 @@ export class CityComponent implements OnInit {
   chosenCell(event): void {
     const index = parseInt(event.target.id.replace('cell-', ''), 10);
     const cell = this.terrain[index];
-    // building exists
-    if (cell.buildingType !== -1){
-      this.showBuildingInfo(cell, index);
-    }
-    // empty slot
-    else {
-      this.showNewBuilding(cell, index);
+    if (cell.owned){
+      // building exists
+      if (cell.buildingType !== -1){
+        this.showBuildingInfo(cell, index);
+      }
+      // empty slot
+      else {
+        this.showNewBuilding(cell, index);
+      }
     }
   }
 

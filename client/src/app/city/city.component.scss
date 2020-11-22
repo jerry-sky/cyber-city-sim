@@ -1,6 +1,6 @@
 .allgrid {
-    width: 60vh;
-    height: 60vh;
+    width: 150vh;
+    height: 150vh;
     display: grid;
     position: absolute;
     top: 0;
@@ -11,22 +11,36 @@
     .background {
         background: transparent;
     }
+    // cells bought, but still empty
     .color-0 {
-        background: #eee;
+        background: url('../../assets/images/map-background-red.png');
+        background-size: cover;
     }
     .color-1 {
-        background: #ddd;
+        background: url('../../assets/images/map-background-green.png');
+        background-size: cover;
     }
     .color-2 {
-        background: #ccc;
+        background: url('../../assets/images/map-background-blue.png');
+        background-size: cover;
     }
-    .building-0 {
-        background: #f00;
+    // cells with buildings
+    .building-0-lvl-0,
+    .building-0-lvl-1,
+    .building-0-lvl-2 {
+        background: url('../../assets/images/city-building-1.png');
+        background-size: cover;
     }
-    .building-1 {
-        background: #0f0;
+    .building-1-lvl-0,
+    .building-1-lvl-1,
+    .building-1-lvl-2 {
+        background: url('../../assets/images/city-building-2.png');
+        background-size: cover;
     }
-    .building-2 {
-        background: #00f;
+    .building-2-lvl-0,
+    .building-2-lvl-1,
+    .building-2-lvl-2 {
+        background: url('../../assets/images/city-building-3.png');
+        background-size: cover;
     }
 }
