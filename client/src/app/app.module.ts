@@ -28,6 +28,7 @@ import { MessageboxComponent } from './messagebox/messagebox.component';
 import { PrivateChatComponent } from './private-chat/private-chat.component';
 import { TradehouseComponent } from './tradehouse/tradehouse.component';
 import { LogoutPopupComponent } from './logout-popup/logout-popup.component';
+import { ProfilePopupComponent } from './profile-popup/profile-popup.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { LogoutPopupComponent } from './logout-popup/logout-popup.component';
     PrivateChatComponent,
     TradehouseComponent,
     LogoutPopupComponent,
+    ProfilePopupComponent,
   ],
   imports: [
     BrowserModule,

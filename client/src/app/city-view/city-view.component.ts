@@ -27,8 +27,7 @@ export class CityViewComponent implements OnInit {
   getUsername(): void {
     const username = this.route.snapshot.paramMap.get('username');
     // primitive mock
-    
-    this.username = username
+    this.username = username;
     /* in the future:
     this.someService.getUser(username)
       .subscribe(username => this.username = username);

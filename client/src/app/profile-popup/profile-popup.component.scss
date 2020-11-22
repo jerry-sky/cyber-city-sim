@@ -1,0 +1,67 @@
+@import '../style/vars.scss';
+
+.popup-main {
+    padding: 1.5vw;
+    margin: 2vw 0;
+}
+.main-title {
+    font-weight: 500;
+    font-size: $big-font-size;
+    line-height: $big-font-size;
+    margin: 0.5vw 0;
+    text-align: center;
+}
+.title {
+    display: block;
+    font-weight: 500;
+    font-size: $medium-font-size;
+    line-height: $medium-font-size;
+    margin: 1vw 0 0.5vw 0;
+}
+.mat-dialog-content > div {
+    font-size: $small-font-size;
+    line-height: $small-font-size;
+}
+.popup-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 2vw;
+
+    * {
+        text-align: center;
+    }
+}
+.btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    button {
+        margin: 0.5vw;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .main-title{
+        font-size: $big-font-size-500px;
+        line-height: $big-font-size-500px;
+    }
+    .title{
+        font-size: $medium-font-size-500px;
+        line-height: $medium-font-size-500px;
+    }
+    .mat-dialog-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .mat-dialog-content > div {
+        font-size: $small-font-size-500px;
+        line-height: $small-font-size-500px;
+        text-align: center;
+    }
+    .popup-content {
+        grid-template-columns: 1fr;
+    }
+    .btns {
+        grid-template-columns: 1fr;
+    }
+}
