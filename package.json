@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "*A game-type project developed as an academic endevour during our studies on WUST (PL).*",
   "main": "index.js",
-  "scripts": {
-    "lint-model": "eslint './model/**/*'"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jerry-sky/cyber-city-sim.git"
