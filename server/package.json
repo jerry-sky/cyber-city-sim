@@ -9,7 +9,7 @@
     "lint": "npx eslint './src/**/*' --ext js,jsx,ts,tsx",
     "lintfix": "npx eslint './src/**/*' --ext js,jsx,ts,tsx --fix",
     "prebuild": "npm run lint",
-    "build": "npx tsc && cp ./.env ./dist/",
+    "build": "npx tsc && cp ./.env ./dist/server/",
     "prestart": "npm run build",
     "start": "node .",
     "dev": "nodemon --watch \"./src/**/*\" -e ts,json --exec \"ts-node ./src/index\"",
