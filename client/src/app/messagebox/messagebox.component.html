@@ -1,10 +1,24 @@
 <div class="main-container">
-    <div class="left-panel">
-        <button mat-raised-button color="primary" (click)="logout()">Log Out</button>
-        <button mat-raised-button color="primary" [routerLink]="['/city', username]">My city</button>
-        <app-global-chat></app-global-chat>
+  <div class="left-panel">
+    <button mat-raised-button color="primary" (click)="logout()">
+      Log Out
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/city', username]"
+    >
+      My city
+    </button>
+    <app-global-chat></app-global-chat>
+  </div>
+  <div class="right-panel">
+    <div
+      *ngFor="let player of players"
+      class="player_chat"
+      [routerLink]="['/chat', player]"
+    >
+      {{ player }}
     </div>
-    <div class="right-panel">
-        <div *ngFor="let player of players" class="player_chat" [routerLink]="['/chat', player]">{{player}}</div>
-    </div>
+  </div>
 </div>

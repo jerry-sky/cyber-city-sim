@@ -8,27 +8,27 @@ const Router = new RouterWrapper();
 const Auth = new AuthenticationService();
 
 Router.post<LoginRequest, LoginResponse, never>(
-    '/login',
-    (request, response, next) => {
-        const t = request.body;
-        const user = Auth.Login(t.username, t.password);
+  '/login',
+  (request, response, next) => {
+    const t = request.body;
+    const user = Auth.Login(t.username, t.password);
 
-        response.json({ user });
+    response.json({ user });
 
-        next();
-    }
+    next();
+  }
 );
 
 Router.post<RegisterRequest, LoginResponse, never>(
-    '/register',
-    (request, response, next) => {
-        const t = request.body;
-        const user = Auth.Register(t.username, t.email, t.password);
+  '/register',
+  (request, response, next) => {
+    const t = request.body;
+    const user = Auth.Register(t.username, t.email, t.password);
 
-        response.json({ user });
+    response.json({ user });
 
-        next();
-    }
+    next();
+  }
 );
 
 export default Router;

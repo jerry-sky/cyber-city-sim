@@ -1,0 +1,25 @@
+{
+  "name": "cyber-city-sim",
+  "version": "1.0.0",
+  "description": "*A game-type project developed as an academic endevour during our studies on WUST (PL).*",
+  "main": "index.js",
+  "scripts": {
+    "lint-model": "eslint './model/**/*'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerry-sky/cyber-city-sim.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jerry-sky/cyber-city-sim/issues"
+  },
+  "homepage": "https://github.com/jerry-sky/cyber-city-sim#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "eslint": "^7.13.0",
+    "eslint-plugin-prettier": "^3.1.4"
+  }
+}

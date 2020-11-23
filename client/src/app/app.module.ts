@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
@@ -31,7 +31,6 @@ import { LogoutPopupComponent } from './logout-popup/logout-popup.component';
 import { ProfilePopupComponent } from './profile-popup/profile-popup.component';
 import { BuildingInfoPopupComponent } from './building-info-popup/building-info-popup.component';
 import { NewBuildingPopupComponent } from './new-building-popup/new-building-popup.component';
-
 
 @NgModule({
   declarations: [
@@ -66,9 +65,9 @@ import { NewBuildingPopupComponent } from './new-building-popup/new-building-pop
     MatToolbarModule,
     MatDialogModule,
     FormsModule,
-    DragDropModule
+    DragDropModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

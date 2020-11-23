@@ -1,22 +1,31 @@
 <div class="allgrid" (wheel)="onScroll($event)" cdkDrag>
-    <div
+  <div
     *ngFor="let cell of terrain"
     [ngClass]="{
-        'background': (cell.owned == false),
-        'color-0': (cell.owned && cell.buildingType == -1 && cell.terrain == 0),
-        'color-1': (cell.owned && cell.buildingType == -1 && cell.terrain == 1),
-        'color-2': (cell.owned && cell.buildingType == -1 && cell.terrain == 2),
-        'building-0-lvl-0': (cell.owned && cell.buildingType == 0 && cell.buildingLvl == 0),
-        'building-0-lvl-1': (cell.owned && cell.buildingType == 0 && cell.buildingLvl == 1),
-        'building-0-lvl-2': (cell.owned && cell.buildingType == 0 && cell.buildingLvl == 2),
-        'building-1-lvl-0': (cell.owned && cell.buildingType == 1 && cell.buildingLvl == 0),
-        'building-1-lvl-1': (cell.owned && cell.buildingType == 1 && cell.buildingLvl == 1),
-        'building-1-lvl-2': (cell.owned && cell.buildingType == 1 && cell.buildingLvl == 2),
-        'building-2-lvl-0': (cell.owned && cell.buildingType == 2 && cell.buildingLvl == 0),
-        'building-2-lvl-1': (cell.owned && cell.buildingType == 2 && cell.buildingLvl == 1),
-        'building-2-lvl-2': (cell.owned && cell.buildingType == 2 && cell.buildingLvl == 2)
+      background: cell.owned == false,
+      'color-0': cell.owned && cell.buildingType == -1 && cell.terrain == 0,
+      'color-1': cell.owned && cell.buildingType == -1 && cell.terrain == 1,
+      'color-2': cell.owned && cell.buildingType == -1 && cell.terrain == 2,
+      'building-0-lvl-0':
+        cell.owned && cell.buildingType == 0 && cell.buildingLvl == 0,
+      'building-0-lvl-1':
+        cell.owned && cell.buildingType == 0 && cell.buildingLvl == 1,
+      'building-0-lvl-2':
+        cell.owned && cell.buildingType == 0 && cell.buildingLvl == 2,
+      'building-1-lvl-0':
+        cell.owned && cell.buildingType == 1 && cell.buildingLvl == 0,
+      'building-1-lvl-1':
+        cell.owned && cell.buildingType == 1 && cell.buildingLvl == 1,
+      'building-1-lvl-2':
+        cell.owned && cell.buildingType == 1 && cell.buildingLvl == 2,
+      'building-2-lvl-0':
+        cell.owned && cell.buildingType == 2 && cell.buildingLvl == 0,
+      'building-2-lvl-1':
+        cell.owned && cell.buildingType == 2 && cell.buildingLvl == 1,
+      'building-2-lvl-2':
+        cell.owned && cell.buildingType == 2 && cell.buildingLvl == 2
     }"
-    id="cell-{{terrain.indexOf(cell)}}"
-    (click)="chosenCell($event)">
-    </div>
+    id="cell-{{ terrain.indexOf(cell) }}"
+    (click)="chosenCell($event)"
+  ></div>
 </div>

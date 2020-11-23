@@ -1,12 +1,10 @@
 {
-    "root": true,
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "sourceType": "module" // Allows for the use of imports
     },
     "plugins": [
-        "@typescript-eslint",
-        "prettier"
+        "@typescript-eslint"
     ],
     "rules": {
         "prettier/prettier": [
@@ -15,6 +13,10 @@
                 "singleQuote": true,
                 "parser": "typescript"
             }
+        ],
+        "eol-last": [
+            "error",
+            "always"
         ]
     },
     "extends": [

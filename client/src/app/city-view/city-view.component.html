@@ -1,12 +1,18 @@
 <div class="main-container">
-    <div class="left-panel">
-        <button mat-raised-button color="primary" (click)="logout()">Log Out</button>
-        <button mat-raised-button color="primary" routerLink="/map">Map</button>
-        <button mat-raised-button color="primary" routerLink="/tradehouse">Trade</button>
-        <button mat-raised-button color="primary" routerLink="/messagebox">Messagebox</button>
-        <app-city-detail></app-city-detail>
-    </div>
-    <div class="right-panel">
-        <app-city username={{username}}></app-city>
-    </div>
+  <div class="left-panel">
+    <button mat-raised-button color="primary" (click)="logout()">
+      Log Out
+    </button>
+    <button mat-raised-button color="primary" routerLink="/map">Map</button>
+    <button mat-raised-button color="primary" routerLink="/tradehouse">
+      Trade
+    </button>
+    <button mat-raised-button color="primary" routerLink="/messagebox">
+      Messagebox
+    </button>
+    <app-city-detail></app-city-detail>
+  </div>
+  <div class="right-panel">
+    <app-city username="{{ username }}"></app-city>
+  </div>
 </div>

@@ -1,25 +1,58 @@
 <div class="main-container">
-    <div class="left-panel">
-        <button class="main_menu_button" mat-raised-button color="primary" (click)="logout()">Log Out</button>
-        <button class="main_menu_button"mat-raised-button color="primary" [routerLink]="['/city', username]">My city</button>
-        <app-city-detail></app-city-detail>
+  <div class="left-panel">
+    <button
+      class="main_menu_button"
+      mat-raised-button
+      color="primary"
+      (click)="logout()"
+    >
+      Log Out
+    </button>
+    <button
+      class="main_menu_button"
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/city', username]"
+    >
+      My city
+    </button>
+    <app-city-detail></app-city-detail>
+  </div>
+  <div class="right-panel">
+    <div class="offer" *ngFor="let offer of offers">
+      <p>{{ offer }}</p>
+      <button
+        class="accept_offer_button"
+        mat-raised-button
+        color="primary"
+        (click)="acceptOffer(offer)"
+      >
+        Accept
+      </button>
     </div>
-    <div class="right-panel">
-        <div class="offer" *ngFor="let offer of offers">
-            <p>{{offer}}</p>
-            <button class="accept_offer_button" mat-raised-button color="primary" (click)="acceptOffer(offer)">Accept</button>
-        </div>
-        <!--future: <div *ngFor="let message of messages" class="message {message.mine}">{{message.content}}</div>-->
-        <form class="new_offer" (submit)="sendTradehouseOffer(tradehouseOfferForm)" #tradehouseOfferForm="ngForm">
-            <p>Trade</p> 
-            <mat-form-field><input matInput name="offer_get" required ngModel></mat-form-field>
-            <p>for</p>
-            <mat-form-field><input matInput name="offer_give" required ngModel></mat-form-field>
-            <div></div>
-            <button mat-raised-button class="submit_offer" color="primary" type="submit">
-                <span class="material-icons">send</span>
-            </button>
-        </form>
-    </div>
-    
+    <!--future: <div *ngFor="let message of messages" class="message {message.mine}">{{message.content}}</div>-->
+    <form
+      class="new_offer"
+      (submit)="sendTradehouseOffer(tradehouseOfferForm)"
+      #tradehouseOfferForm="ngForm"
+    >
+      <p>Trade</p>
+      <mat-form-field
+        ><input matInput name="offer_get" required ngModel
+      /></mat-form-field>
+      <p>for</p>
+      <mat-form-field
+        ><input matInput name="offer_give" required ngModel
+      /></mat-form-field>
+      <div></div>
+      <button
+        mat-raised-button
+        class="submit_offer"
+        color="primary"
+        type="submit"
+      >
+        <span class="material-icons">send</span>
+      </button>
+    </form>
+  </div>
 </div>

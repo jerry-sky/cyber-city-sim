@@ -1,23 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms'
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-global-chat',
   templateUrl: './global-chat.component.html',
-  styleUrls: ['./global-chat.component.scss']
+  styleUrls: ['./global-chat.component.scss'],
 })
 export class GlobalChatComponent implements OnInit {
+  messages: string[] = ['message1', 'message2', 'message3'];
 
-  messages : string[] = ["message1", "message2", "message3"]
+  constructor() {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  sendGlobalMessage(message: NgForm) {
+    console.log('sending message to global chat: ', message.value);
+    this.messages.push(message.value.mess);
   }
-
-  sendGlobalMessage(message: NgForm){
-    console.log("sending message to global chat: ", message.value);
-    this.messages.push(message.value.mess)
-  }
-
 }

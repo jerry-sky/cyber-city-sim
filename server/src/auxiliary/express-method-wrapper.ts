@@ -7,8 +7,8 @@ import { SessionWrapper } from './session-wrapper';
 type Dictionary = { [s: string]: string };
 
 interface RequestWrapper<Params, ResBody, ReqBody, ReqQuery>
-    extends Request<Params, ResBody, ReqBody, ReqQuery> {
-    session: SessionWrapper;
+  extends Request<Params, ResBody, ReqBody, ReqQuery> {
+  session: SessionWrapper;
 }
 
 /**
@@ -18,106 +18,106 @@ interface RequestWrapper<Params, ResBody, ReqBody, ReqQuery>
  * Instead GET request can have some query parameters that are string based.
  */
 type HandlerGet<
-    ReqBody extends Dictionary = never,
-    ResBody = never,
-    Params extends Dictionary = never
+  ReqBody extends Dictionary = never,
+  ResBody = never,
+  Params extends Dictionary = never
 > = (
-    request: RequestWrapper<Params, ResBody, never, ReqBody>,
-    response?: Response<ResBody>,
-    next?: NextFunction
+  request: RequestWrapper<Params, ResBody, never, ReqBody>,
+  response?: Response<ResBody>,
+  next?: NextFunction
 ) => unknown;
 
 /**
  * The callback function that executes when the route is visited.
  */
 type Handler<
-    ReqBody = never,
-    ResBody = never,
-    Params extends Dictionary = never
+  ReqBody = never,
+  ResBody = never,
+  Params extends Dictionary = never
 > = (
-    request: RequestWrapper<Params, ResBody, ReqBody, never>,
-    response?: Response<ResBody>,
-    next?: NextFunction
+  request: RequestWrapper<Params, ResBody, ReqBody, never>,
+  response?: Response<ResBody>,
+  next?: NextFunction
 ) => unknown;
 
 /**
  * Wrapper class that implements all four basic CRUD methods used in APIs.
  */
 export class RouterWrapper {
-    /**
-     * The actual Express router.
-     */
-    private router: Router;
+  /**
+   * The actual Express router.
+   */
+  private router: Router;
 
-    constructor() {
-        this.router = Router();
-    }
+  constructor() {
+    this.router = Router();
+  }
 
-    public getNativeRouter(): Router {
-        return this.router;
-    }
+  public getNativeRouter(): Router {
+    return this.router;
+  }
 
-    /**
-     * GET method request handler.
-     * @param path API path
-     * @param handler the callback function to execute every time a request will come
-     * @template ReqBody the request body shape
-     * @template ResBody the response body shape
-     * @template Params the route parameter dictionary shape
-     */
-    public get<
-        ReqBody extends Dictionary = never,
-        ResBody = never,
-        Params extends Dictionary = never
-    >(path: string, handler: HandlerGet<ReqBody, ResBody, Params>): Router {
-        return this.router.get(path, handler);
-    }
+  /**
+   * GET method request handler.
+   * @param path API path
+   * @param handler the callback function to execute every time a request will come
+   * @template ReqBody the request body shape
+   * @template ResBody the response body shape
+   * @template Params the route parameter dictionary shape
+   */
+  public get<
+    ReqBody extends Dictionary = never,
+    ResBody = never,
+    Params extends Dictionary = never
+  >(path: string, handler: HandlerGet<ReqBody, ResBody, Params>): Router {
+    return this.router.get(path, handler);
+  }
 
-    /**
-     * POST method request handler.
-     * @param path API path
-     * @param handler the callback function to execute every time a request will come
-     * @template ReqBody the request body shape
-     * @template ResBody the response body shape
-     * @template Params the route parameter dictionary shape
-     */
-    public post<
-        ReqBody = never,
-        ResBody = never,
-        Params extends Dictionary = never
-    >(path: string, handler: Handler<ReqBody, ResBody, Params>): Router {
-        return this.router.post(path, handler);
-    }
+  /**
+   * POST method request handler.
+   * @param path API path
+   * @param handler the callback function to execute every time a request will come
+   * @template ReqBody the request body shape
+   * @template ResBody the response body shape
+   * @template Params the route parameter dictionary shape
+   */
+  public post<
+    ReqBody = never,
+    ResBody = never,
+    Params extends Dictionary = never
+  >(path: string, handler: Handler<ReqBody, ResBody, Params>): Router {
+    return this.router.post(path, handler);
+  }
 
-    /**
-     * PUT method request handler.
-     * @param path API path
-     * @param handler the callback function to execute every time a request will come
-     * @template ReqBody the request body shape
-     * @template ResBody the response body shape
-     * @template Params the route parameter dictionary shape
-     */
-    public put<
-        ReqBody = never,
-        ResBody = never,
-        Params extends Dictionary = never
-    >(path: string, handler: Handler<ReqBody, ResBody, Params>): Router {
-        return this.router.put(path, handler);
-    }
+  /**
+   * PUT method request handler.
+   * @param path API path
+   * @param handler the callback function to execute every time a request will come
+   * @template ReqBody the request body shape
+   * @template ResBody the response body shape
+   * @template Params the route parameter dictionary shape
+   */
+  public put<
+    ReqBody = never,
+    ResBody = never,
+    Params extends Dictionary = never
+  >(path: string, handler: Handler<ReqBody, ResBody, Params>): Router {
+    return this.router.put(path, handler);
+  }
 
-    /**
-     * GET method request handler.
-     * @param path API path
-     * @param handler the callback function to execute every time a request will come
-     * @template ReqBody the request body shape
-     * @template ResBody the response body shape
-     * @template Params the route parameter dictionary shape
-     */
-    public delete<
-        ReqBody = never,
-        ResBody = never,
-        Params extends Dictionary = never
-    >(path: string, handler: Handler<ReqBody, ResBody, Params>): Router {
-        return this.router.delete(path, handler);
-    }
+  /**
+   * GET method request handler.
+   * @param path API path
+   * @param handler the callback function to execute every time a request will come
+   * @template ReqBody the request body shape
+   * @template ResBody the response body shape
+   * @template Params the route parameter dictionary shape
+   */
+  public delete<
+    ReqBody = never,
+    ResBody = never,
+    Params extends Dictionary = never
+  >(path: string, handler: Handler<ReqBody, ResBody, Params>): Router {
+    return this.router.delete(path, handler);
+  }
 }

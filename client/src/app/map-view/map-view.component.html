@@ -1,10 +1,18 @@
 <div class="main-container">
-    <div class="left-panel">
-        <button mat-raised-button color="primary" (click)="logout()">Log Out</button>
-        <button mat-raised-button color="primary" [routerLink]="['/city', username]">My city</button>
-        <app-global-chat></app-global-chat>
-    </div>
-    <div class="right-panel">
-        <app-map></app-map>
-    </div>
+  <div class="left-panel">
+    <button mat-raised-button color="primary" (click)="logout()">
+      Log Out
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/city', username]"
+    >
+      My city
+    </button>
+    <app-global-chat></app-global-chat>
+  </div>
+  <div class="right-panel">
+    <app-map></app-map>
+  </div>
 </div>

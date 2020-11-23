@@ -1,15 +1,14 @@
-
 export interface LoginRequest {
-    username: string;
-    password: string;
+  username: string;
+  password: string;
 }
 
 export interface RegisterRequest {
-    username: string;
-    email: string;
-    password: string;
+  username: string;
+  email: string;
+  password: string;
 }
 
 export interface GetCityRequest {
-    username: string;
+  username: string;
 }

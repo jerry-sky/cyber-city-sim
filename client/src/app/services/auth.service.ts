@@ -1,22 +1,26 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { LoginRequest, RegisterRequest, GetCityRequest } from '../../../../model/server-requests';
+import {
+  LoginRequest,
+  RegisterRequest,
+  GetCityRequest,
+} from '../../../../model/server-requests';
 import { User } from '../../../../model/user';
 import { Map } from '../../../../model/map';
 import { City } from '../../../../model/city';
 import { BackendService } from '../services/backend.service';
 import { map } from 'rxjs/operators';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   /**
    * Data of the user (if logged in).
    */
-  public UserData: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  public UserData: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
+    null
+  );
 
   constructor(private backend: BackendService) {}
 
@@ -30,7 +34,7 @@ export class AuthService {
   Login(username: string, password: string): Observable<boolean> {
     const payload: LoginRequest = {
       username,
-      password
+      password,
     };
     // if everything went okay, then the response contains user’s data
     return this.backend.userLogin(payload).pipe(
@@ -44,11 +48,15 @@ export class AuthService {
   /**
    * Attempt registering.
    */
-  Register(username: string, email: string, password: string): Observable<never> {
+  Register(
+    username: string,
+    email: string,
+    password: string
+  ): Observable<never> {
     const payload: RegisterRequest = {
       username,
       email,
-      password
+      password,
     };
     return this.backend.userRegister(payload);
   }
@@ -58,11 +66,7 @@ export class AuthService {
    */
   GetMap(): Observable<Map> {
     // if everything went okay, then the response contains map's data
-    return this.backend.getMap().pipe(
-      map((response) => {
-        return response.map;
-      })
-    );
+    return this.backend.getMap().pipe(map((response) => response.map));
   }
 
   /**
@@ -70,14 +74,9 @@ export class AuthService {
    */
   GetCity(username: string): Observable<City> {
     const payload: GetCityRequest = {
-      username
+      username,
     };
     // if everything went okay, then the response contains map's data
-    return this.backend.getCity(payload).pipe(
-      map((response) => {
-        return response.city;
-      })
-    );
+    return this.backend.getCity(payload).pipe(map((response) => response.city));
   }
-
 }

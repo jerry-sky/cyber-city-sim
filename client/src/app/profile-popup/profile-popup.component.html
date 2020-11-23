@@ -1,23 +1,28 @@
 <div class="popup-main">
-    <h1 class="main-title">
-        Player {{data.username}} currently have 237 slots containing 123 buildings.
-    </h1>
-    <div class="popup-content">
-        <div>
-            <span class="title">Current production:</span>
-            <div>Red PCI: {{data.production.red}} p/h</div>
-            <div>Green PCI: {{data.production.green}} p/h</div>
-            <div>Blue PCI: {{data.production.blue}} p/h</div>
-        </div>
-        <div>
-            <span class="title">Current resources:</span>
-            <div>Red PCI: {{data.resources.red}}</div>
-            <div>Green PCI: {{data.resources.green}}</div>
-            <div>Blue PCI: {{data.resources.blue}}</div>
-        </div>
+  <h1 class="main-title">
+    Player {{ data.username }} currently have 237 slots containing 123
+    buildings.
+  </h1>
+  <div class="popup-content">
+    <div>
+      <span class="title">Current production:</span>
+      <div>Red PCI: {{ data.production.red }} p/h</div>
+      <div>Green PCI: {{ data.production.green }} p/h</div>
+      <div>Blue PCI: {{ data.production.blue }} p/h</div>
     </div>
-    <div class="btns">
-        <button mat-raised-button color="primary" (click)="goBack()">Go back</button>
-        <button mat-raised-button color="primary" (click)="chat()">Chat with player</button>
+    <div>
+      <span class="title">Current resources:</span>
+      <div>Red PCI: {{ data.resources.red }}</div>
+      <div>Green PCI: {{ data.resources.green }}</div>
+      <div>Blue PCI: {{ data.resources.blue }}</div>
     </div>
+  </div>
+  <div class="btns">
+    <button mat-raised-button color="primary" (click)="goBack()">
+      Go back
+    </button>
+    <button mat-raised-button color="primary" (click)="chat()">
+      Chat with player
+    </button>
+  </div>
 </div>

@@ -1,23 +1,25 @@
 <div class="popup-main">
-    <h1 class="main-title">
-        Building {{data.buildingName}}
-    </h1>
-    <div class="popup-content">
-        <div>
-            <span class="title">Current production:</span>
-            <div>Red PCI: {{data.before.red}} p/h</div>
-            <div>Green PCI: {{data.before.green}} p/h</div>
-            <div>Blue PCI: {{data.before.blue}} p/h</div>
-        </div>
-        <div>
-            <span class="title">New production:</span>
-            <div>Red PCI: {{data.after.red}}</div>
-            <div>Green PCI: {{data.after.green}}</div>
-            <div>Blue PCI: {{data.after.blue}}</div>
-        </div>
+  <h1 class="main-title">Building {{ data.buildingName }}</h1>
+  <div class="popup-content">
+    <div>
+      <span class="title">Current production:</span>
+      <div>Red PCI: {{ data.before.red }} p/h</div>
+      <div>Green PCI: {{ data.before.green }} p/h</div>
+      <div>Blue PCI: {{ data.before.blue }} p/h</div>
     </div>
-    <div class="btns">
-        <button mat-raised-button color="primary" (click)="goBack()">Go back</button>
-        <button mat-raised-button color="primary" (click)="upgrade()">Upgrade</button>
+    <div>
+      <span class="title">New production:</span>
+      <div>Red PCI: {{ data.after.red }}</div>
+      <div>Green PCI: {{ data.after.green }}</div>
+      <div>Blue PCI: {{ data.after.blue }}</div>
     </div>
+  </div>
+  <div class="btns">
+    <button mat-raised-button color="primary" (click)="goBack()">
+      Go back
+    </button>
+    <button mat-raised-button color="primary" (click)="upgrade()">
+      Upgrade
+    </button>
+  </div>
 </div>

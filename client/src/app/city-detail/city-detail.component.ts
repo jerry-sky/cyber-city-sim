@@ -4,13 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-city-detail',
   templateUrl: './city-detail.component.html',
-  styleUrls: ['./city-detail.component.scss']
+  styleUrls: ['./city-detail.component.scss'],
 })
 export class CityDetailComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

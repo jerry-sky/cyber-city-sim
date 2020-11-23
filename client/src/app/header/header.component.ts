@@ -3,13 +3,12 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-
   public inGameTime: Date;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.inGameTime = new Date('00:00 01/01/2170');
@@ -17,7 +16,6 @@ export class HeaderComponent implements OnInit {
   }
 
   changeTime(): void {
-    this.inGameTime = new Date(this.inGameTime.getTime() + 60 * 1000);  // 1 minute, each second
+    this.inGameTime = new Date(this.inGameTime.getTime() + 60 * 1000); // 1 minute, each second
   }
-
 }

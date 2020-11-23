@@ -1,5 +1,5 @@
 export enum Errors {
-    INVALID_CREDENTIALS = 'Username and/or password were incorrect.',
+  INVALID_CREDENTIALS = 'Username and/or password were incorrect.',
 }
 
 /**

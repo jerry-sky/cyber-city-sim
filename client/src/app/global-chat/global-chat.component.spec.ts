@@ -8,9 +8,8 @@ describe('GlobalChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GlobalChatComponent ]
-    })
-    .compileComponents();
+      declarations: [GlobalChatComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -5,37 +5,32 @@ import { BuildingInfoPopupComponent } from '../building-info-popup/building-info
 import { NewBuildingPopupComponent } from '../new-building-popup/new-building-popup.component';
 import { AuthService } from '../services/auth.service';
 
-
 @Component({
   selector: 'app-city',
   templateUrl: './city.component.html',
-  styleUrls: ['./city.component.scss']
+  styleUrls: ['./city.component.scss'],
 })
 export class CityComponent implements OnInit {
-
   @Input() username: string;
   terrain: CityCell[];
   scale = 1;
 
-  constructor(
-    private auth: AuthService,
-    public dialog: MatDialog
-  ) { }
+  constructor(private auth: AuthService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getTerrain();
   }
 
   getTerrain(): void {
-    this.terrain = []
+    this.terrain = [];
     this.auth.GetCity(this.username).subscribe(
-      res => {
+      (res) => {
         this.terrain = res.cells;
         this.focusCity();
       },
-      err => {
+      (err) => {
         console.error('Error retriving city from server');
-        this.mockTerrain();     // TODO usunąć jak zostanie zrobione pobieranie z backendu
+        this.mockTerrain(); // TODO usunąć jak zostanie zrobione pobieranie z backendu
         this.focusCity();
       }
     );
@@ -44,13 +39,13 @@ export class CityComponent implements OnInit {
   mockTerrain(): void {
     const cells: CityCell[] = [];
     for (let i = 0; i < 400; i++) {
-        const c: CityCell = {
-            owned: false,
-            terrain: Math.floor(Math.random() * Math.floor(3)),
-            buildingType: Math.floor(Math.random() * Math.floor(4)) - 1,
-            buildingLvl: 0,
-        };
-        cells.push(c);
+      const c: CityCell = {
+        owned: false,
+        terrain: Math.floor(Math.random() * Math.floor(3)),
+        buildingType: Math.floor(Math.random() * Math.floor(4)) - 1,
+        buildingLvl: 0,
+      };
+      cells.push(c);
     }
     cells[30].owned = true;
     cells[31].owned = true;
@@ -71,16 +66,20 @@ export class CityComponent implements OnInit {
   focusCity(): void {
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
     let firstCellIndex = 0;
-    for (const c of this.terrain){
-      if (c.owned){
+    for (const c of this.terrain) {
+      if (c.owned) {
         firstCellIndex = this.terrain.indexOf(c);
         break;
       }
     }
-    const firstCellX = (firstCellIndex % 20) / 20;            // city to map ratio on X axis
-    const firstCellY = Math.floor(firstCellIndex / 20) / 20;  // city to map ratio on Y axis
-    grid.style.top  = `${Math.floor(- window.innerHeight * 1.5 * firstCellY + 0.25 * window.innerHeight)}px`;
-    grid.style.left = `${Math.floor(- window.innerHeight * 1.5 * firstCellX + 0.5 * window.innerHeight)}px`;
+    const firstCellX = (firstCellIndex % 20) / 20; // city to map ratio on X axis
+    const firstCellY = Math.floor(firstCellIndex / 20) / 20; // city to map ratio on Y axis
+    grid.style.top = `${Math.floor(
+      -window.innerHeight * 1.5 * firstCellY + 0.25 * window.innerHeight
+    )}px`;
+    grid.style.left = `${Math.floor(
+      -window.innerHeight * 1.5 * firstCellX + 0.5 * window.innerHeight
+    )}px`;
   }
 
   onScroll(event): void {
@@ -89,16 +88,18 @@ export class CityComponent implements OnInit {
     // resize
     const mapSizes = grid.getBoundingClientRect();
     const s = mapSizes.width;
-    const newSize = (event.wheelDelta < 0 ? `${s - step}px` : `${s + step}px`);
+    const newSize = event.wheelDelta < 0 ? `${s - step}px` : `${s + step}px`;
     grid.style.width = newSize;
     grid.style.height = newSize;
     // transform
-    const deltaX = Math.floor((event.clientX - mapSizes.x) / s * step);
-    const deltaY = Math.floor((event.clientY - mapSizes.y) / s * step);
+    const deltaX = Math.floor(((event.clientX - mapSizes.x) / s) * step);
+    const deltaY = Math.floor(((event.clientY - mapSizes.y) / s) * step);
     const prevX = parseInt(grid.style.left.replace('px', ''), 10);
     const prevY = parseInt(grid.style.top.replace('px', ''), 10);
-    grid.style.left = (event.wheelDelta < 0 ? `${(prevX + deltaX)}px` : `${(prevX - deltaX)}px`);
-    grid.style.top = (event.wheelDelta < 0 ? `${(prevY + deltaY)}px` : `${(prevY - deltaY)}px`);
+    grid.style.left =
+      event.wheelDelta < 0 ? `${prevX + deltaX}px` : `${prevX - deltaX}px`;
+    grid.style.top =
+      event.wheelDelta < 0 ? `${prevY + deltaY}px` : `${prevY - deltaY}px`;
     // stop unnecessary next actions
     event.stopPropagation();
     event.preventDefault();
@@ -107,9 +108,9 @@ export class CityComponent implements OnInit {
   chosenCell(event): void {
     const index = parseInt(event.target.id.replace('cell-', ''), 10);
     const cell = this.terrain[index];
-    if (cell.owned){
+    if (cell.owned) {
       // building exists
-      if (cell.buildingType !== -1){
+      if (cell.buildingType !== -1) {
         this.showBuildingInfo(cell, index);
       }
       // empty slot
@@ -121,23 +122,25 @@ export class CityComponent implements OnInit {
 
   showBuildingInfo(cell: CityCell, index: number): void {
     const data = {
-      buildingName: `Building ${cell.buildingType + 1} on level ${cell.buildingLvl + 1}`,
+      buildingName: `Building ${cell.buildingType + 1} on level ${
+        cell.buildingLvl + 1
+      }`,
       before: {
         red: Math.floor(Math.random() * 50),
         green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50)
+        blue: Math.floor(Math.random() * 50),
       },
       after: {
         red: Math.floor(Math.random() * 1000),
         green: Math.floor(Math.random() * 1000),
-        blue: Math.floor(Math.random() * 1000)
-      }
+        blue: Math.floor(Math.random() * 1000),
+      },
     };
     const dialogRef = this.dialog.open(BuildingInfoPopupComponent, {
       width: '800px',
-      data: data
+      data,
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         alert(`Upgraded building`);
       }
@@ -152,31 +155,30 @@ export class CityComponent implements OnInit {
         name: 'Building 1',
         red: Math.floor(Math.random() * 50),
         green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50)
+        blue: Math.floor(Math.random() * 50),
       },
       building2: {
         name: 'Building 2',
         red: Math.floor(Math.random() * 50),
         green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50)
+        blue: Math.floor(Math.random() * 50),
       },
       building3: {
         name: 'Building 3',
         red: Math.floor(Math.random() * 50),
         green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50)
-      }
+        blue: Math.floor(Math.random() * 50),
+      },
     };
     const dialogRef = this.dialog.open(NewBuildingPopupComponent, {
       width: '800px',
-      data: data
+      data,
     });
-    dialogRef.afterClosed().subscribe(id => {
+    dialogRef.afterClosed().subscribe((id) => {
       alert(`Bought building ${id + 1}`);
       cell.owned = true;
       cell.buildingType = id;
       this.terrain[index] = cell;
     });
   }
-
 }
