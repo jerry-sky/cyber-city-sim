@@ -6,6 +6,9 @@ import * as Dotenv from 'dotenv';
 interface EnvironmentVariables {
   COOKIE_SECRET: string;
   PRODUCTION: 'true' | 'false';
+  DATABASE_NAME: string;
+  DB_USERNAME: string;
+  DB_PASSWORD: string;
 }
 
 // get the environment variables
