@@ -23,6 +23,7 @@ export class PrivateChatComponent implements OnInit {
     this.messages[3] = `tIt\'s awesome`;
   }
 
+  //method executed when sending private message to a user when clicking on submit <<new message form>> button on template
   sendPrivateMessage(message: NgForm) {
     console.log('sending message to private chat: ', message.value);
     this.messages.push('m' + message.value.mess);

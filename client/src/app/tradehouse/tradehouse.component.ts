@@ -21,6 +21,7 @@ export class TradehouseComponent implements OnInit {
     this.offers[2] = 'Trade 10 Red for 10 Green';
   }
 
+  //method executed when clicking on the submit <<trade house offer form>> button, verifying and sending the tradehouse offer
   sendTradehouseOffer(tradehouseOffer: NgForm): void {
     const offerGet = tradehouseOffer.value.offer_get.trim();
     const offerGive = tradehouseOffer.value.offer_give.trim();
@@ -33,6 +34,7 @@ export class TradehouseComponent implements OnInit {
     console.log(`sending offer: ${newOffer}`);
   }
 
+  //method verifying that user is able to accept the offer and removing the offer from the tradehouse
   acceptOffer(offer: string): void {
     const indexofOffer = this.offers.indexOf(offer);
     if (indexofOffer > -1) {

@@ -59,6 +59,7 @@ export class MapComponent implements OnInit {
     event.preventDefault();
   }
 
+  //method executed when clicking the city on the map
   chosenCity(event): void {
     const id: number = parseInt(event.target.id.replace('user-', ''), 10);
     // temp data
