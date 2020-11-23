@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "*A game-type project developed as an academic endevour during our studies on WUST (PL).*",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "lint-model": "cd model && npm run lint",
+    "lint-client": "cd client && npm run lint",
+    "lint-server": "cd server && npm run lint",
+    "validate": "npm run lint-model && npm run lint-client && npm run lint-server"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jerry-sky/cyber-city-sim.git"
