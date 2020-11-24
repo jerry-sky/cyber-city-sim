@@ -1,0 +1,14 @@
+{
+  "eslint.workingDirectories": [
+    "./server",
+    "./client"
+  ],
+  "eslint.validate": [
+    "typescript",
+    "html",
+    "javascript",
+  ],
+  "typescript.format.enable": false,
+  "javascript.format.enable": false,
+  "html.format.enable": false,
+}
