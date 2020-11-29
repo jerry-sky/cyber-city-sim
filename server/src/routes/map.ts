@@ -8,8 +8,10 @@ Router.get<never, MapResponse, never>('/', (request, response, next) => {
   const cells: Cell[] = [];
   for (let i = 0; i < 400; i++) {
     const c: Cell = {
-      terrain: Math.floor(Math.random() * Math.floor(3)),
+      terrain: Math.floor(Math.random() * 3),
       owner: -1,
+      buildingType: -1,
+      buildingLvl: 0,
     };
     cells.push(c);
   }
@@ -20,11 +22,17 @@ Router.get<never, MapResponse, never>('/', (request, response, next) => {
   cells[50].owner = 1;
   cells[51].owner = 1;
   cells[52].owner = 1;
+  cells[30].buildingType = Math.floor(Math.random() * 3);
+  cells[31].buildingType = Math.floor(Math.random() * 3);
+  cells[32].buildingType = Math.floor(Math.random() * 3);
+  cells[52].buildingType = Math.floor(Math.random() * 3);
   // city 2
   cells[120].owner = 2;
   cells[121].owner = 2;
   cells[140].owner = 2;
   cells[141].owner = 2;
+  cells[120].buildingType = Math.floor(Math.random() * 3);
+  cells[141].buildingType = Math.floor(Math.random() * 3);
   // city 3
   cells[325].owner = 3;
   cells[326].owner = 3;
@@ -32,6 +40,7 @@ Router.get<never, MapResponse, never>('/', (request, response, next) => {
   cells[346].owner = 3;
   cells[365].owner = 3;
   cells[366].owner = 3;
+  cells[366].buildingType = Math.floor(Math.random() * 3);
 
   const map: Map = {
     cells: cells,

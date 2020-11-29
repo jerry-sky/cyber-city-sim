@@ -17,4 +17,12 @@ export declare interface Cell {
    * Id of user who wons this cell
    */
   owner: number;
+  /**
+   * Type of building, default -1 if empty
+   */
+  buildingType: number;
+  /**
+   * Level of building, default 0
+   */
+  buildingLvl: number;
 }

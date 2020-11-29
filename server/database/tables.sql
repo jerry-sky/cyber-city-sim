@@ -18,6 +18,8 @@ CREATE TABLE map(
   `id` INT NOT NULL AUTO_INCREMENT,
   `terrain` INT NOT NULL,
   `owner` INT,
+  `buildingType` INT,
+  `buildingLvl` INT,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`owner`) REFERENCES users(`id`)
   ON DELETE CASCADE

@@ -4,13 +4,8 @@ import { Observable } from 'rxjs';
 import {
   LoginRequest,
   RegisterRequest,
-  GetCityRequest,
 } from '../../../../model/server-requests';
-import {
-  LoginResponse,
-  MapResponse,
-  GetCityResponse,
-} from '../../../../model/server-responses';
+import { LoginResponse, MapResponse } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -39,9 +34,5 @@ export class BackendService {
 
   public getMap(): Observable<MapResponse> {
     return this.http.get(this.mapUrl) as Observable<MapResponse>;
-  }
-
-  public getCity(payload: GetCityRequest): Observable<GetCityResponse> {
-    return this.http.post(this.cityUrl, payload) as Observable<GetCityResponse>;
   }
 }
