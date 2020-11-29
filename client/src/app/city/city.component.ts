@@ -147,7 +147,7 @@ export class CityComponent implements OnInit {
       data,
     });
     dialogRef.afterClosed().subscribe((id) => {
-      if (id) {
+      if (id + 1) {
         alert(`Bought building ${id + 1}`);
         cell.owner = this.userId;
         cell.buildingType = id;
