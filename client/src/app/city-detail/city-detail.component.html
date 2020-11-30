@@ -1,13 +1,13 @@
 <div class="main">
   <h1 mat-dialog-title class="main-title">
-    You currently have 237 slots containing 123 buildings.
+    You currently have {{ slots }} slots containing {{ buildings }} buildings.
   </h1>
   <div mat-dialog-content>
     <div>
       <span class="title">Current production:</span>
-      <div>Red PCI: 10p/h</div>
-      <div>Green PCI: 10p/h</div>
-      <div>Blue PCI: 10p/h</div>
+      <div>Red PCI: {{ production.red }} p/h</div>
+      <div>Green PCI: {{ production.green }} p/h</div>
+      <div>Blue PCI: {{ production.blue }} p/h</div>
     </div>
     <div>
       <span class="title">Current resources:</span>
