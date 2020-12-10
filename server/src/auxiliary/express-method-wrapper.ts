@@ -25,7 +25,7 @@ type HandlerGet<
   request: RequestWrapper<Params, ResBody, never, ReqBody>,
   response?: Response<ResBody>,
   next?: NextFunction
-) => unknown;
+) => Promise<unknown>;
 
 /**
  * The callback function that executes when the route is visited.
@@ -38,7 +38,7 @@ type Handler<
   request: RequestWrapper<Params, ResBody, ReqBody, never>,
   response?: Response<ResBody>,
   next?: NextFunction
-) => unknown;
+) => Promise<unknown>;
 
 /**
  * Wrapper class that implements all four basic CRUD methods used in APIs.
@@ -70,7 +70,9 @@ export class RouterWrapper {
     ResBody = never,
     Params extends Dictionary = never
   >(path: string, handler: HandlerGet<ReqBody, ResBody, Params>): Router {
-    return this.router.get(path, handler);
+    const h: HandlerGet<ReqBody, ResBody, Params> = (req, res, next) =>
+      handler(req, res, next).catch(next);
+    return this.router.get(path, h);
   }
 
   /**
@@ -86,7 +88,9 @@ export class RouterWrapper {
     ResBody = never,
     Params extends Dictionary = never
   >(path: string, handler: Handler<ReqBody, ResBody, Params>): Router {
-    return this.router.post(path, handler);
+    const h: Handler<ReqBody, ResBody, Params> = (req, res, next) =>
+      handler(req, res, next).catch(next);
+    return this.router.post(path, h);
   }
 
   /**
@@ -102,7 +106,9 @@ export class RouterWrapper {
     ResBody = never,
     Params extends Dictionary = never
   >(path: string, handler: Handler<ReqBody, ResBody, Params>): Router {
-    return this.router.put(path, handler);
+    const h: Handler<ReqBody, ResBody, Params> = (req, res, next) =>
+      handler(req, res, next).catch(next);
+    return this.router.put(path, h);
   }
 
   /**
@@ -118,6 +124,8 @@ export class RouterWrapper {
     ResBody = never,
     Params extends Dictionary = never
   >(path: string, handler: Handler<ReqBody, ResBody, Params>): Router {
-    return this.router.delete(path, handler);
+    const h: Handler<ReqBody, ResBody, Params> = (req, res, next) =>
+      handler(req, res, next).catch(next);
+    return this.router.delete(path, h);
   }
 }

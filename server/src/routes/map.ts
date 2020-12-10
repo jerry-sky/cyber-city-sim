@@ -4,7 +4,7 @@ import { Map, Cell } from '../../../model/map';
 
 const Router = new RouterWrapper();
 
-Router.get<never, MapResponse, never>('/', (request, response, next) => {
+Router.get<never, MapResponse, never>('/', async (request, response, next) => {
   const cells: Cell[] = [];
   for (let i = 0; i < 400; i++) {
     const c: Cell = {
