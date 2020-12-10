@@ -2,16 +2,21 @@ import { LoginRequest, RegisterRequest } from '../../../model/server-requests';
 import { LoginResponse } from '../../../model/server-responses';
 import { RouterWrapper } from '../auxiliary/express-method-wrapper';
 import { AuthenticationService } from '../services/auth.service';
+import { PasswordService } from '../services/password.service';
+import SecurePassword from 'secure-password';
+import { DatabaseService } from '../services/database.service';
 
 const Router = new RouterWrapper();
 
-const Auth = new AuthenticationService();
+const Database = new DatabaseService();
+const Pass = new PasswordService(new SecurePassword());
+const Auth = new AuthenticationService(Database, Pass);
 
 Router.post<LoginRequest, LoginResponse, never>(
   '/login',
-  (request, response, next) => {
+  async (request, response, next) => {
     const t = request.body;
-    const user = Auth.Login(t.username, t.password);
+    const user = await Auth.Login(t.username, t.password);
 
     response.json({ user });
 
@@ -21,9 +26,9 @@ Router.post<LoginRequest, LoginResponse, never>(
 
 Router.post<RegisterRequest, LoginResponse, never>(
   '/register',
-  (request, response, next) => {
+  async (request, response, next) => {
     const t = request.body;
-    const user = Auth.Register(t.username, t.email, t.password);
+    const user = await Auth.Register(t.username, t.email, t.password);
 
     response.json({ user });
 

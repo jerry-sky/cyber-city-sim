@@ -5,9 +5,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS users;
 CREATE TABLE users(
   `id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(64) NOT NULL,
-  `password` VARCHAR(32) NOT NULL,
-  `email` VARCHAR(64) NOT NULL,
+  `username` TEXT NOT NULL,
+  `password` TEXT NOT NULL,
+  `email` TEXT NOT NULL,
   `activated` BOOLEAN NOT NULL,
   `dateJoined` DATE,
   PRIMARY KEY (id)

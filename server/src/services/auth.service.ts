@@ -1,63 +1,69 @@
+import { DatabaseTables } from '../../../model/database-tables';
 import { Errors, Err } from '../../../model/errors';
 import { User } from '../../../model/user';
-
-/**
- * Temporary measure — a list of test users.
- */
-const testUsers: User[] = [
-  {
-    id: 0,
-    username: 'test',
-    email: 'test@example.com',
-    // TODO: implement password hashing
-    password: 'test',
-    activated: true,
-    dateJoined: new Date(),
-  },
-];
+import { DatabaseService } from './database.service';
+import { PasswordService } from './password.service';
 
 /**
  * Handles authentication for users of this application program.
  */
 export class AuthenticationService {
+  constructor(private DB: DatabaseService, private PASS: PasswordService) {}
   /**
    * Attempt loggining in to the given user’s account.
    */
-  public Login(username: string, password: string): User {
-    // TODO: implement password hashing (the `secure-password` package)
-    let found: User;
-    testUsers.forEach((u) => {
-      if (
-        (username === u.username || username === u.email) &&
-        password === u.password
-      ) {
-        found = u;
-        return;
+  public async Login(username: string, password: string): Promise<User> {
+    let user: User;
+    await this.DB.ExecuteInsideDatabaseHarness(async (connection) => {
+      const results: User[] = await connection.query(
+        'SELECT * FROM ' +
+          DatabaseTables.USERS +
+          ' WHERE `username` = ? OR `email` = ?;',
+        [username, username]
+      );
+      if (results.length === 0) {
+        // invalid username or email
+        throw Err(Errors.INVALID_CREDENTIALS);
       }
+      // user found, proceed
+      user = results[0];
     });
-    if (found) {
-      // return the data of user
-      return found;
-    } else {
-      // throw an error
+
+    // verify the password
+    const passwordDatabase = user.password;
+    if (!(await this.PASS.VerifyPassword(password, passwordDatabase))) {
+      // invalid password
       throw Err(Errors.INVALID_CREDENTIALS);
     }
+
+    return { ...user, password: '' };
   }
 
   /**
    * Attempt registering new account.
    */
-  public Register(username: string, email: string, password: string): User {
-    // TODO implement password hashing, check if user already exists, check if email ic correct etc
+  public async Register(
+    username: string,
+    email: string,
+    password: string
+  ): Promise<User> {
     const newUser: User = {
-      id: 0,
-      username: username,
-      email: email,
-      password: password,
+      id: undefined,
+      username,
+      email,
+      password: await this.PASS.PasswordHash(password),
       activated: true,
       dateJoined: new Date(),
     };
-    testUsers.push(newUser);
-    return newUser;
+
+    await this.DB.ExecuteInsideDatabaseHarness(async (connection) => {
+      await connection.query(
+        'INSERT INTO ' + DatabaseTables.USERS + ' SET ?',
+        newUser
+      );
+    });
+
+    // return user data without the password hash
+    return { ...newUser, password: '' };
   }
 }
