@@ -1,5 +1,8 @@
 import { LoginRequest, RegisterRequest } from '../../../model/server-requests';
-import { LoginResponse } from '../../../model/server-responses';
+import {
+  LoginResponse,
+  RegisterResponse,
+} from '../../../model/server-responses';
 import { RouterWrapper } from '../auxiliary/express-method-wrapper';
 import { AuthenticationService } from '../services/auth.service';
 import { PasswordService } from '../services/password.service';
@@ -24,7 +27,7 @@ Router.post<LoginRequest, LoginResponse, never>(
   }
 );
 
-Router.post<RegisterRequest, LoginResponse, never>(
+Router.post<RegisterRequest, RegisterResponse, never>(
   '/register',
   async (request, response, next) => {
     const t = request.body;
