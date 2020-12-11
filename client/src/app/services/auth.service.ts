@@ -69,7 +69,11 @@ export class AuthService {
   }
 
   /**
-   * Edit cell data (e.g. owner, new building, level up).
+   * Edit cell data (owner, new building, level up, etc)
+   * Possible categories:
+   *    owner         (when buing/trading cells)
+   *    buildingType  (when buing building)
+   *    buildingLvl   (when upgrading building)
    */
   EditCell(
     cellId: number,
