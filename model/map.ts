@@ -1,28 +1,33 @@
+import { BuildingType } from './building-type';
+import { Resource } from './terrain-type';
+
 /**
- * All data of global map
+ * All data of the global map.
  */
-export declare interface Map {
+export interface Map {
   /**
-   * Array of all cells (20 x 20 = 400)
+   * Array of all cells.
    */
   cells: Array<Cell>;
 }
 
-export declare interface Cell {
+export interface Cell {
   /**
-   * type of terrain (0,1,2) - each terrain rich is some sources
+   * Terrain type — each terrain cell is rich in some resources.
    */
-  terrain: number;
+  terrain: Resource;
   /**
-   * Id of user who wons this cell
+   * ID of the user who owns this cell.
    */
   owner: number;
   /**
-   * Type of building, default -1 if empty
+   * Type of the building built on this cell.
+   * Default value: `EMPTY`.
    */
-  buildingType: number;
+  buildingType: BuildingType;
   /**
-   * Level of building, default 0
+   * Level of the building built on this cell.
+   * Default value: 0
    */
   buildingLvl: number;
 }
