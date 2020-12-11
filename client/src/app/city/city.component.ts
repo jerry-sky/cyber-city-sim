@@ -4,8 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { BuildingInfoPopupComponent } from '../building-info-popup/building-info-popup.component';
 import { NewBuildingPopupComponent } from '../new-building-popup/new-building-popup.component';
 import { AuthService } from '../services/auth.service';
-import * as BuildingsCosts from '../../../../model/upgrade-costs.json';
-import * as BuildingsValues from '../../../../model/hourly-production-values.json';
+import { UpgradeCosts as BuildingsCosts } from '../../../../model/resource-production/upgrade-costs';
+import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
 
 @Component({
   selector: 'app-city',
@@ -96,7 +96,7 @@ export class CityComponent implements OnInit {
 
   showBuildingInfo(cell: Cell, index: number): void {
     const costs =
-      BuildingsCosts.default[
+      BuildingsCosts[
         `upgrade-building-${cell.buildingType + 1}-to-lvl-${
           cell.buildingLvl + 1
         }`
@@ -114,7 +114,7 @@ export class CityComponent implements OnInit {
           `building-${cell.buildingType}-lvl-${cell.buildingLvl + 1}`
         ],
       cost:
-        BuildingsCosts.default[
+        BuildingsCosts[
           `upgrade-building-${cell.buildingType}-to-lvl-${cell.buildingLvl + 1}`
         ],
     };
@@ -141,17 +141,17 @@ export class CityComponent implements OnInit {
       building1: {
         name: 'Building 1',
         production: BuildingsValues.default[`building-0-lvl-0`],
-        cost: BuildingsCosts.default[`buy-building-0`],
+        cost: BuildingsCosts[`buy-building-0`],
       },
       building2: {
         name: 'Building 2',
         production: BuildingsValues.default[`building-1-lvl-0`],
-        cost: BuildingsCosts.default[`buy-building-1`],
+        cost: BuildingsCosts[`buy-building-1`],
       },
       building3: {
         name: 'Building 3',
         production: BuildingsValues.default[`building-2-lvl-0`],
-        cost: BuildingsCosts.default[`buy-building-2`],
+        cost: BuildingsCosts[`buy-building-2`],
       },
     };
     const dialogRef = this.dialog.open(NewBuildingPopupComponent, {
