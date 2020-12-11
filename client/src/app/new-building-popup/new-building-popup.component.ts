@@ -4,21 +4,42 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export interface NewBuildingDialogData {
   building1: {
     name: string;
-    red: number;
-    green: number;
-    blue: number;
+    production: {
+      red: number;
+      green: number;
+      blue: number;
+    };
+    cost: {
+      red: number;
+      green: number;
+      blue: number;
+    };
   };
   building2: {
     name: string;
-    red: number;
-    green: number;
-    blue: number;
+    production: {
+      red: number;
+      green: number;
+      blue: number;
+    };
+    cost: {
+      red: number;
+      green: number;
+      blue: number;
+    };
   };
   building3: {
     name: string;
-    red: number;
-    green: number;
-    blue: number;
+    production: {
+      red: number;
+      green: number;
+      blue: number;
+    };
+    cost: {
+      red: number;
+      green: number;
+      blue: number;
+    };
   };
 }
 

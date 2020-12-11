@@ -47,7 +47,7 @@ export class CityDetailComponent implements OnInit {
           this.buildings++;
           // count production
           const name = `building-${c.buildingType}-lvl-${c.buildingLvl}`;
-          const values = BuildingsValues["default"][name];
+          const values = BuildingsValues.default[name];
           this.production.red += c.terrain === 0 ? 2 * values.red : values.red;
           this.production.green +=
             c.terrain === 1 ? 2 * values.green : values.green;

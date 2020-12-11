@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {
   LoginRequest,
   RegisterRequest,
+  EditCellRequest,
 } from '../../../../model/server-requests';
 import { LoginResponse, MapResponse } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
@@ -34,5 +35,9 @@ export class BackendService {
 
   public getMap(): Observable<MapResponse> {
     return this.http.get(this.mapUrl) as Observable<MapResponse>;
+  }
+
+  public editCell(payload: EditCellRequest): Observable<never> {
+    return this.http.post(this.mapUrl + '/cell', payload) as Observable<never>;
   }
 }

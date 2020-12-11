@@ -13,6 +13,11 @@ export interface BuildingInfoDialogData {
     green: number;
     blue: number;
   };
+  cost: {
+    red: number;
+    green: number;
+    blue: number;
+  };
 }
 
 @Component({

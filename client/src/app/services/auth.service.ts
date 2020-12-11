@@ -3,9 +3,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {
   LoginRequest,
   RegisterRequest,
+  EditCellRequest,
 } from '../../../../model/server-requests';
 import { User } from '../../../../model/user';
-import { Map } from '../../../../model/map';
+import { Map, Cell } from '../../../../model/map';
 import { BackendService } from '../services/backend.service';
 import { map } from 'rxjs/operators';
 
@@ -65,5 +66,21 @@ export class AuthService {
   GetMap(): Observable<Map> {
     // if everything went okay, then the response contains map's data
     return this.backend.getMap().pipe(map((response) => response.map));
+  }
+
+  /**
+   * Edit cell data (e.g. owner, new building, level up).
+   */
+  EditCell(
+    cellId: number,
+    changedCategory: string,
+    changedValue: number
+  ): Observable<never> {
+    const payload: EditCellRequest = {
+      cellId,
+      changedCategory,
+      changedValue,
+    };
+    return this.backend.editCell(payload);
   }
 }

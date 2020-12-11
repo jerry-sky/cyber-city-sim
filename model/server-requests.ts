@@ -8,3 +8,9 @@ export interface RegisterRequest {
   email: string;
   password: string;
 }
+
+export interface EditCellRequest {
+  cellId: number;
+  changedCategory: string;
+  changedValue: number;
+}

@@ -1,23 +1,38 @@
 <div class="popup-main">
   <div class="option" (click)="newBuilding(0)">
     <span class="title">{{ data.building1.name }}</span>
-    <div>Red PCI: {{ data.building1.red }} p/h</div>
-    <div>Green PCI: {{ data.building1.green }} p/h</div>
-    <div>Blue PCI: {{ data.building1.blue }} p/h</div>
+    <span class="title">Production</span>
+    <div>Red PCI: {{ data.building1.production.red }} p/h</div>
+    <div>Green PCI: {{ data.building1.production.green }} p/h</div>
+    <div>Blue PCI: {{ data.building1.production.blue }} p/h</div>
+    <span class="title">Cost</span>
+    <div>Red PCI: {{ data.building1.cost.red }} p</div>
+    <div>Green PCI: {{ data.building1.cost.green }} p</div>
+    <div>Blue PCI: {{ data.building1.cost.blue }} p</div>
     <button mat-raised-button color="primary">Buy</button>
   </div>
   <div class="option" (click)="newBuilding(1)">
     <span class="title">{{ data.building2.name }}</span>
-    <div>Red PCI: {{ data.building2.red }} p/h</div>
-    <div>Green PCI: {{ data.building2.green }} p/h</div>
-    <div>Blue PCI: {{ data.building2.blue }} p/h</div>
+    <span class="title">Production</span>
+    <div>Red PCI: {{ data.building2.production.red }} p/h</div>
+    <div>Green PCI: {{ data.building2.production.green }} p/h</div>
+    <div>Blue PCI: {{ data.building2.production.blue }} p/h</div>
+    <span class="title">Cost</span>
+    <div>Red PCI: {{ data.building2.cost.red }} p</div>
+    <div>Green PCI: {{ data.building2.cost.green }} p</div>
+    <div>Blue PCI: {{ data.building2.cost.blue }} p</div>
     <button mat-raised-button color="primary">Buy</button>
   </div>
   <div class="option" (click)="newBuilding(2)">
     <span class="title">{{ data.building3.name }}</span>
-    <div>Red PCI: {{ data.building3.red }} p/h</div>
-    <div>Green PCI: {{ data.building3.green }} p/h</div>
-    <div>Blue PCI: {{ data.building3.blue }} p/h</div>
+    <span class="title">Production</span>
+    <div>Red PCI: {{ data.building3.production.red }} p/h</div>
+    <div>Green PCI: {{ data.building3.production.green }} p/h</div>
+    <div>Blue PCI: {{ data.building3.production.blue }} p/h</div>
+    <span class="title">Cost</span>
+    <div>Red PCI: {{ data.building3.cost.red }} p</div>
+    <div>Green PCI: {{ data.building3.cost.green }} p</div>
+    <div>Blue PCI: {{ data.building3.cost.blue }} p</div>
     <button mat-raised-button color="primary">Buy</button>
   </div>
 </div>

@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { BuildingInfoPopupComponent } from '../building-info-popup/building-info-popup.component';
 import { NewBuildingPopupComponent } from '../new-building-popup/new-building-popup.component';
 import { AuthService } from '../services/auth.service';
+import * as BuildingsCosts from '../../../../model/upgrade-costs.json';
+import * as BuildingsValues from '../../../../model/hourly-production-values.json';
 
 @Component({
   selector: 'app-city',
@@ -93,53 +95,63 @@ export class CityComponent implements OnInit {
   }
 
   showBuildingInfo(cell: Cell, index: number): void {
+    const costs =
+      BuildingsCosts.default[
+        `upgrade-building-${cell.buildingType + 1}-to-lvl-${
+          cell.buildingLvl + 1
+        }`
+      ];
     const data = {
       buildingName: `Building ${cell.buildingType + 1} on level ${
         cell.buildingLvl + 1
       }`,
-      before: {
-        red: Math.floor(Math.random() * 50),
-        green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50),
-      },
-      after: {
-        red: Math.floor(Math.random() * 1000),
-        green: Math.floor(Math.random() * 1000),
-        blue: Math.floor(Math.random() * 1000),
-      },
+      before:
+        BuildingsValues.default[
+          `building-${cell.buildingType}-lvl-${cell.buildingLvl}`
+        ],
+      after:
+        BuildingsValues.default[
+          `building-${cell.buildingType}-lvl-${cell.buildingLvl + 1}`
+        ],
+      cost:
+        BuildingsCosts.default[
+          `upgrade-building-${cell.buildingType}-to-lvl-${cell.buildingLvl + 1}`
+        ],
     };
-    const dialogRef = this.dialog.open(BuildingInfoPopupComponent, {
-      width: '800px',
-      data,
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        alert(`Upgraded building`);
-      }
-      cell.buildingLvl++;
-      this.terrain[index] = cell;
-    });
+    if (cell.buildingLvl < 2) {
+      const dialogRef = this.dialog.open(BuildingInfoPopupComponent, {
+        width: '800px',
+        data,
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          alert(`Upgraded building`);
+        }
+        cell.buildingLvl++;
+        this.terrain[index] = cell;
+        this.auth.EditCell(index, 'buildingLvl', cell.buildingLvl);
+      });
+    } else {
+      alert('Cant upgrade, Building is already maxed out.');
+    }
   }
 
   showNewBuilding(cell: Cell, index: number): void {
     const data = {
       building1: {
         name: 'Building 1',
-        red: Math.floor(Math.random() * 50),
-        green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50),
+        production: BuildingsValues.default[`building-0-lvl-0`],
+        cost: BuildingsCosts.default[`buy-building-0`],
       },
       building2: {
         name: 'Building 2',
-        red: Math.floor(Math.random() * 50),
-        green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50),
+        production: BuildingsValues.default[`building-1-lvl-0`],
+        cost: BuildingsCosts.default[`buy-building-1`],
       },
       building3: {
         name: 'Building 3',
-        red: Math.floor(Math.random() * 50),
-        green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50),
+        production: BuildingsValues.default[`building-2-lvl-0`],
+        cost: BuildingsCosts.default[`buy-building-2`],
       },
     };
     const dialogRef = this.dialog.open(NewBuildingPopupComponent, {
@@ -153,6 +165,8 @@ export class CityComponent implements OnInit {
         cell.buildingType = id;
         cell.buildingLvl = 0;
         this.terrain[index] = cell;
+        this.auth.EditCell(index, 'buildingType', id);
+        this.auth.EditCell(index, 'buildingLvl', 0);
       }
     });
   }
