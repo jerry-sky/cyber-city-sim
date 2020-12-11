@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Cell } from '../../../../model/map';
 import { AuthService } from '../services/auth.service';
-import * as BuildingsValues from '../../../../model/hourly-production-values.json';
+import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
 import { FindValueSubscriber } from 'rxjs/internal/operators/find';
 
 @Component({
@@ -47,7 +47,7 @@ export class CityDetailComponent implements OnInit {
           this.buildings++;
           // count production
           const name = `building-${c.buildingType}-lvl-${c.buildingLvl}`;
-          const values = BuildingsValues["default"][name];
+          const values = BuildingsValues[name];
           this.production.red += c.terrain === 0 ? 2 * values.red : values.red;
           this.production.green +=
             c.terrain === 1 ? 2 * values.green : values.green;

@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { BuildingInfoPopupComponent } from '../building-info-popup/building-info-popup.component';
 import { NewBuildingPopupComponent } from '../new-building-popup/new-building-popup.component';
 import { AuthService } from '../services/auth.service';
+import { UpgradeCosts as BuildingsCosts } from '../../../../model/resource-production/upgrade-costs';
+import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
 
 @Component({
   selector: 'app-city',
@@ -22,6 +24,9 @@ export class CityComponent implements OnInit {
     this.getTerrain();
   }
 
+  /**
+   * Retrive terrain from server, as an array of 400 cells
+   */
   getTerrain(): void {
     this.terrain = [];
     this.auth.GetMap().subscribe(
@@ -35,6 +40,9 @@ export class CityComponent implements OnInit {
     );
   }
 
+  /**
+   * Move and scroll city map, to be more or less in the center of visible part of map
+   */
   focusCity(): void {
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
     let firstCellIndex = 0;
@@ -54,6 +62,11 @@ export class CityComponent implements OnInit {
     )}px`;
   }
 
+  /**
+   * Change size of city map using scroll on mouse
+   *
+   * @param event mouse wheel event
+   */
   onScroll(event): void {
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
     const step = 15;
@@ -77,6 +90,11 @@ export class CityComponent implements OnInit {
     event.preventDefault();
   }
 
+  /**
+   * Decide what popup to show after clicking on a cell
+   *
+   * @param event onclick event
+   */
   chosenCell(event): void {
     const index = parseInt(event.target.id.replace('cell-', ''), 10);
     const cell = this.terrain[index];
@@ -92,60 +110,87 @@ export class CityComponent implements OnInit {
     }
   }
 
+  /**
+   * Show popup with current building production, as well as upgrade option
+   *
+   * @param cell the cell that was clicked
+   * @param index index of cell in terrain array
+   */
   showBuildingInfo(cell: Cell, index: number): void {
+    // data object for popup, reading from hourly-production-values.json and upgrade-costs-values.json
     const data = {
       buildingName: `Building ${cell.buildingType + 1} on level ${
         cell.buildingLvl + 1
       }`,
-      before: {
-        red: Math.floor(Math.random() * 50),
-        green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50),
-      },
-      after: {
-        red: Math.floor(Math.random() * 1000),
-        green: Math.floor(Math.random() * 1000),
-        blue: Math.floor(Math.random() * 1000),
-      },
+      // curr hourly production
+      before:
+        BuildingsValues.default[
+          `building-${cell.buildingType}-lvl-${cell.buildingLvl}`
+        ],
+      // hourly production after upgrade
+      after:
+        BuildingsValues.default[
+          `building-${cell.buildingType}-lvl-${cell.buildingLvl + 1}`
+        ],
+      // cost of upgrade
+      cost:
+        BuildingsCosts[
+          `upgrade-building-${cell.buildingType}-to-lvl-${cell.buildingLvl + 1}`
+        ],
     };
-    const dialogRef = this.dialog.open(BuildingInfoPopupComponent, {
-      width: '800px',
-      data,
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        alert(`Upgraded building`);
-      }
-      cell.buildingLvl++;
-      this.terrain[index] = cell;
-    });
+    // check if it's possile to upgrade
+    if (cell.buildingLvl < 2) {
+      // show dialog
+      const dialogRef = this.dialog.open(BuildingInfoPopupComponent, {
+        width: '800px',
+        data,
+      });
+      // apply changes
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          alert(`Upgraded building`);
+        }
+        cell.buildingLvl++;
+        this.terrain[index] = cell;
+        // send changes to server
+        this.auth.EditCell(index, 'buildingLvl', cell.buildingLvl);
+      });
+    } else {
+      alert('Cant upgrade, Building is already maxed out.');
+    }
   }
 
+  /**
+   * Show popup with possible new building for choosen spot
+   *
+   * @param cell the cell that was clicked
+   * @param index index of cell in terrain array
+   */
   showNewBuilding(cell: Cell, index: number): void {
+    // data object for popup, reading from hourly-production-values.json and upgrade-costs-values.json
     const data = {
       building1: {
         name: 'Building 1',
-        red: Math.floor(Math.random() * 50),
-        green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50),
+        production: BuildingsValues.default[`building-0-lvl-0`], // possible hourly production
+        cost: BuildingsCosts[`buy-building-0`], // cost
       },
       building2: {
         name: 'Building 2',
-        red: Math.floor(Math.random() * 50),
-        green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50),
+        production: BuildingsValues.default[`building-1-lvl-0`], // possible hourly production
+        cost: BuildingsCosts[`buy-building-1`], // cost
       },
       building3: {
         name: 'Building 3',
-        red: Math.floor(Math.random() * 50),
-        green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50),
+        production: BuildingsValues.default[`building-2-lvl-0`], // possible hourly production
+        cost: BuildingsCosts[`buy-building-2`], // cost
       },
     };
+    // show dialog
     const dialogRef = this.dialog.open(NewBuildingPopupComponent, {
       width: '800px',
       data,
     });
+    // apply changes
     dialogRef.afterClosed().subscribe((id) => {
       if (id + 1) {
         alert(`Bought building ${id + 1}`);
@@ -153,6 +198,9 @@ export class CityComponent implements OnInit {
         cell.buildingType = id;
         cell.buildingLvl = 0;
         this.terrain[index] = cell;
+        // send changes to server
+        this.auth.EditCell(index, 'buildingType', id);
+        this.auth.EditCell(index, 'buildingLvl', 0);
       }
     });
   }
