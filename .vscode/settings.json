@@ -1,7 +1,8 @@
 {
   "eslint.workingDirectories": [
     "./server",
-    "./client"
+    "./client",
+    "./model"
   ],
   "eslint.validate": [
     "typescript",
