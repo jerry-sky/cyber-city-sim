@@ -1,5 +1,6 @@
 export enum Errors {
   INVALID_CREDENTIALS = 'Username and/or password were incorrect.',
+  USER_ALREADY_EXISTS = 'Username and/or email are already in use.',
 }
 
 /**

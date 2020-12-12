@@ -57,6 +57,20 @@ export class AuthenticationService {
     };
 
     await this.DB.ExecuteInsideDatabaseHarness(async (connection) => {
+      // check if there are no other users of same username and/or email
+      const otherUsers: User[] = await connection.query(
+        'SELECT * FROM ' +
+          DatabaseTables.USERS +
+          ' WHERE `username` = ? OR `email` = ?',
+        [newUser.username, newUser.email]
+      );
+
+      if (otherUsers.length !== 0) {
+        // there is at least one — abort
+        throw Err(Errors.USER_ALREADY_EXISTS);
+      }
+
+      // otherwise add to the database
       await connection.query(
         'INSERT INTO ' + DatabaseTables.USERS + ' SET ?',
         newUser
