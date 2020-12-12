@@ -1,6 +1,6 @@
 # CyberCitySim
 
-*A game-type project developed as an academic endevour during our studies on WUST (PL).*
+*A game-type project developed as an academic endeavour during our studies on WUST (PL).*
 
 **Table of Contents:**
 - [1. Model](#1-model)
