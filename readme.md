@@ -24,6 +24,14 @@ For example all errors that can occur are defined as an `enum` in [`model/errors
 
 The front-end application is an Angular application built using `@angular/cli`.
 
+Before running the program, you need to have the Angular CLI program installed globally in your system (use `npm install -g @angular/cli`). For some reason Angular CLI installed locally can’t be run.
+
+To run the program in development mode use
+```bash
+npm run dev
+```
+whilst being in the `client` directory.
+
 ---
 
 ## 3. Server application program
@@ -31,6 +39,12 @@ The front-end application is an Angular application built using `@angular/cli`.
 *The source files are in the `server` directory.*
 
 The back-end application is an Express.js (with TypeScript) application.
+
+To run the program in development mode use
+```bash
+npm run dev
+```
+whilst being in the `server` directory.
 
 ---
 

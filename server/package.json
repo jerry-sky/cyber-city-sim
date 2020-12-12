@@ -10,8 +10,7 @@
     "lintfix": "npx eslint './src/**/*' --ext js,jsx,ts,tsx --fix",
     "prebuild": "npm run lint",
     "build": "npx tsc && cp ./.env ./dist/server/",
-    "prestart": "npm run build",
-    "start": "node .",
+    "start": "npm run dev",
     "dev": "nodemon --watch \"./src/**/*\" -e ts,json --exec \"ts-node ./src/index\"",
     "dev-vanilla": "nodemon --watch \"./src/**/*\" -e ts,json --exec \"npm run start\""
   },
