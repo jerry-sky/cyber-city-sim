@@ -7,7 +7,8 @@
     "lint-model": "cd model && npm run lint",
     "lint-client": "cd client && npm run lint",
     "lint-server": "cd server && npm run lint",
-    "validate": "npm run lint-model && npm run lint-client && npm run lint-server"
+    "validate": "npm run lint-model && npm run lint-client && npm run lint-server",
+    "install": "cd model && npm i && cd ../server && npm i && cd ../client && npm i"
   },
   "repository": {
     "type": "git",
