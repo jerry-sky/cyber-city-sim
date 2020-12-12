@@ -1,4 +1,5 @@
 -- Create the default database access for a regular player.
+DROP USER IF EXISTS 'ccs-user'@'localhost';
 CREATE USER 'ccs-user'@'localhost' IDENTIFIED BY 'password';
 CREATE DATABASE IF NOT EXISTS ccs CHARACTER SET = utf8mb4;
 
