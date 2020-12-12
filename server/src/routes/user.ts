@@ -1,19 +1,18 @@
 import { LoginRequest, RegisterRequest } from '../../../model/server-requests';
-import {
-  LoginResponse,
-  RegisterResponse,
-} from '../../../model/server-responses';
+import { LoginResponse } from '../../../model/server-responses';
 import { RouterWrapper } from '../auxiliary/express-method-wrapper';
 import { AuthenticationService } from '../services/auth.service';
 import { PasswordService } from '../services/password.service';
 import SecurePassword from 'secure-password';
 import { DatabaseService } from '../services/database.service';
+import { MapService } from '../services/map.service';
 
 const Router = new RouterWrapper();
 
 const Database = new DatabaseService();
 const Pass = new PasswordService(new SecurePassword());
 const Auth = new AuthenticationService(Database, Pass);
+const mapService = new MapService(Database);
 
 Router.post<LoginRequest, LoginResponse, never>(
   '/login',
@@ -21,19 +20,21 @@ Router.post<LoginRequest, LoginResponse, never>(
     const t = request.body;
     const user = await Auth.Login(t.username, t.password);
 
-    response.json({ user });
+    request.session.user = user;
+
+    response.json({ user, hasNoLand: await mapService.HasNoLand(user) });
 
     next();
   }
 );
 
-Router.post<RegisterRequest, RegisterResponse, never>(
+Router.post<RegisterRequest, never, never>(
   '/register',
   async (request, response, next) => {
     const t = request.body;
-    const user = await Auth.Register(t.username, t.email, t.password);
+    await Auth.Register(t.username, t.email, t.password);
 
-    response.json({ user });
+    response.status(204);
 
     next();
   }
