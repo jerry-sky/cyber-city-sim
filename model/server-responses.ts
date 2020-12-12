@@ -4,9 +4,8 @@ import { Map } from './map';
 
 export interface LoginResponse {
   user: User;
+  hasNoLand: boolean;
 }
-
-export type RegisterResponse = LoginResponse;
 
 export interface ErrorResponse {
   errorCode: Errors;

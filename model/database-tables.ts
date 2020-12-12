@@ -3,4 +3,5 @@
  */
 export enum DatabaseTables {
   USERS = 'users',
+  MAP = 'map',
 }

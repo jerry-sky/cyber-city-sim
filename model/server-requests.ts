@@ -14,3 +14,7 @@ export interface EditCellRequest {
   changedCategory: string;
   changedValue: number;
 }
+
+export interface ClaimFirstCellRequest {
+  cellId: number;
+}
