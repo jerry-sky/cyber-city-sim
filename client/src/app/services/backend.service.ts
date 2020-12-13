@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Message } from '../../../../model/message';
 import {
   LoginRequest,
   RegisterRequest,
   EditCellRequest,
+  SendGlobalMessageRequest,
 } from '../../../../model/server-requests';
-import { LoginResponse, MapResponse } from '../../../../model/server-responses';
+import { LoginResponse, MapResponse, MessagesResponse } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -16,6 +18,7 @@ export class BackendService {
   private usersUrl = environment.API + '/user';
   private mapUrl = environment.API + '/map';
   private cityUrl = environment.API + '/city';
+  private globalChatUrl = environment.API + '/globalChat';
 
   constructor(private http: HttpClient) {}
 
@@ -39,5 +42,16 @@ export class BackendService {
 
   public editCell(payload: EditCellRequest): Observable<never> {
     return this.http.post(this.mapUrl + '/cell', payload) as Observable<never>;
+  }
+
+  public sendGlobalMessage(payload: SendGlobalMessageRequest): Observable<never> {
+    return this.http.post(
+      this.globalChatUrl,
+      payload
+    ) as Observable<never>;
+  }
+
+  public getGlobalMessages(): Observable<MessagesResponse> {
+    return this.http.get(this.globalChatUrl) as Observable<MessagesResponse>;
   }
 }

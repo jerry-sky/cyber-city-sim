@@ -4,6 +4,7 @@ import {
   LoginRequest,
   RegisterRequest,
   EditCellRequest,
+  SendGlobalMessageRequest,
 } from '../../../../model/server-requests';
 import { User } from '../../../../model/user';
 import { Map, Cell } from '../../../../model/map';
@@ -87,4 +88,21 @@ export class AuthService {
     };
     return this.backend.editCell(payload);
   }
+
+  SendGlobalMessage(
+    username: string,
+    message: string
+  ) : Observable<never> {
+    const payload: SendGlobalMessageRequest = {
+      username,
+      message
+    };
+    return this.backend.sendGlobalMessage(payload);
+  }
+
+  GetGlobalMessages: Observable(
+    
+  )
 }
+
+  

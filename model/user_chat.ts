@@ -1,13 +1,13 @@
 /**
  * All connections chat-user
  */
-export declare interface UserChat {
+export interface UserChat {
     /**
      * The name of the user who is connected to the chat.
      */
     userId: number;
     /**
-     * Chat unique identifier
+     * Chat unique identifier.
      */
     chatId: number;
   }
