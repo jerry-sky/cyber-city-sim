@@ -10,6 +10,7 @@ import { DirectoryPath, Environment } from '../environment';
 
 import UserRoutes from './routes/user';
 import MapRoutes from './routes/map';
+import CityRoutes from './routes/city';
 
 /**
  * The port which the app will listen to.
@@ -101,6 +102,8 @@ app.use('/public/', Express.static(DirectoryPath + '/public/'));
 app.use('/user', UserRoutes.getNativeRouter());
 
 app.use('/map', MapRoutes.getNativeRouter());
+
+app.use('/city', CityRoutes.getNativeRouter());
 
 // error handler
 app.use(
