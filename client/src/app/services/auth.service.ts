@@ -8,6 +8,7 @@ import {
 } from '../../../../model/server-requests';
 import { User } from '../../../../model/user';
 import { Map, Cell } from '../../../../model/map';
+import { Message } from '../../../../model/message';
 import { BackendService } from '../services/backend.service';
 import { map } from 'rxjs/operators';
 
@@ -100,9 +101,13 @@ export class AuthService {
     return this.backend.sendGlobalMessage(payload);
   }
 
-  GetGlobalMessages: Observable(
-    
-  )
+  GetGlobalMessages(): Observable<Message[]> {
+    return this.backend.getGlobalMessages().pipe(
+      map((response) => 
+        response.messages
+      )
+    );
+  }
 }
 
   
