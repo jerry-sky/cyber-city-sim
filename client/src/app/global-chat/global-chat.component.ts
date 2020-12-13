@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-global-chat',
@@ -9,9 +10,19 @@ import { NgForm } from '@angular/forms';
 export class GlobalChatComponent implements OnInit {
   messages: string[] = ['message1', 'message2', 'message3'];
 
-  constructor() {}
+  constructor(private auth: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.auth.GetMap().subscribe(
+      (res) => {
+        this.getUserProduction(res.cells);
+      },
+      (err) => {
+        console.error('Error retriving user data from server');
+      }
+    );
+  }
+
 
   //send message to global chat
   sendGlobalMessage(message: NgForm) {
