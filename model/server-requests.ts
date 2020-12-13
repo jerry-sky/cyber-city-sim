@@ -18,3 +18,8 @@ export interface EditCellRequest {
 export interface ClaimFirstCellRequest {
   cellId: number;
 }
+
+export interface SendGlobalMessageRequest {
+  username: string;
+  message: string;
+}
