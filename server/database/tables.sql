@@ -10,6 +10,9 @@ CREATE TABLE users(
   `email` TEXT NOT NULL,
   `activated` BOOLEAN NOT NULL,
   `dateJoined` DATE,
+  `redPCB` INT,
+  `bluePCB` INT,
+  `greenPCB` INT,
   PRIMARY KEY (id)
 );
 
@@ -20,9 +23,6 @@ CREATE TABLE map(
   `owner` INT,
   `buildingType` INT,
   `buildingLvl` INT,
-  `redPCB` INT,
-  `bluePCB` INT,
-  `greenPCB` INT,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`owner`) REFERENCES users(`id`)
   ON DELETE CASCADE
