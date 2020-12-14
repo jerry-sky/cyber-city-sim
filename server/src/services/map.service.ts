@@ -25,11 +25,12 @@ export class MapService {
     let ownedLand: Cell[];
     await this.DB.ExecuteInsideDatabaseHarness(async (connection) => {
       ownedLand = await connection.query(
-        'SELECT * FROM ' + DatabaseTables.MAP + ' WHERE `id` = ?',
+        'SELECT * FROM ' + DatabaseTables.MAP + ' WHERE `owner` = ?',
         [user.id]
       );
     });
     const n = ownedLand.length;
+    console.log(n);/////
     return n === 0;
   }
   /**
