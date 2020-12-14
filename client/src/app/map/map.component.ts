@@ -16,8 +16,8 @@ import { HourlyProduction as BuildingsValues } from '../../../../model/resource-
 })
 export class MapComponent implements OnInit {
   terrain: Cell[];
-  currUserId = 0;
-  currUsername = 'username';
+  currUserId = -1;
+  currUsername = '';
   test = true;
   scale = 1;
   // object with data for Profile Popup, used when player clicks cell to see another player stats
@@ -47,10 +47,10 @@ export class MapComponent implements OnInit {
     // get current user data
     this.currUserId = this.auth.UserData.value
       ? this.auth.UserData.value.id
-      : 0;
+      : -1;
     this.currUsername = this.auth.UserData.value
       ? this.auth.UserData.value.username
-      : 'username';
+      : '';
     // get terrain and position
     this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
@@ -108,7 +108,7 @@ export class MapComponent implements OnInit {
     };
     this.getUserProduction(id, this.terrain);
     this.getUserResources(id);
-    if (id !== -1) {
+    if (id !== -1 && id !== 0) {
       if (id === this.currUserId) {
         this.router.navigate([`/city/${this.currUsername}`]);
       } else {
