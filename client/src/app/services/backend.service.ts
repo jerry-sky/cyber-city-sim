@@ -19,37 +19,47 @@ export class BackendService {
   private mapUrl = environment.API + '/map';
   private cityUrl = environment.API + '/city';
 
+  /**
+   * Options to use when performing any HTTP requests.
+   * The `withCredentials` option ensures that the session cookie is sent with every request.
+   */
+  private options = { withCredentials: true };
+
   constructor(private http: HttpClient) {}
 
   public userLogin(payload: LoginRequest): Observable<LoginResponse> {
     return this.http.post(
       this.usersUrl + '/login',
-      payload
+      payload,
+      this.options
     ) as Observable<LoginResponse>;
   }
 
   public userRegister(payload: RegisterRequest): Observable<never> {
     return this.http.post(
       this.usersUrl + '/register',
-      payload
+      payload,
+      this.options
     ) as Observable<never>;
   }
 
   public getMap(): Observable<MapResponse> {
-    return this.http.get(this.mapUrl) as Observable<MapResponse>;
+    return this.http.get(this.mapUrl, this.options) as Observable<MapResponse>;
   }
 
   public upgradeBuilding(payload: UpgradeBuildingRequest): Observable<never> {
     return this.http.post(
       this.cityUrl + '/upgrade-building',
-      payload
+      payload,
+      this.options
     ) as Observable<never>;
   }
 
   public buyBuilding(payload: BuyBuildingRequest): Observable<never> {
     return this.http.post(
       this.cityUrl + '/buy-building',
-      payload
+      payload,
+      this.options
     ) as Observable<never>;
   }
 }
