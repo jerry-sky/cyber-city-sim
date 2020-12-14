@@ -7,20 +7,17 @@ import { Errors } from '../../model/errors';
 import { ErrorResponse } from '../../model/server-responses';
 
 import { DirectoryPath, Environment } from '../environment';
-
-import UserRoutes from './routes/user';
-import MapRoutes from './routes/map';
 import { DatabaseService } from './services/database.service';
 import { DatabaseTables } from '../../model/database-tables';
 import { HourlyProduction } from '../../model/resource-production/hourly-production';
 import { User } from '../../model/user';
 import { Cell } from '../../model/map';
-import {
-  Resource,
-  ResourceNames,
-  ResourcesNamesValues,
-} from '../../model/terrain-type';
+import { Resource, ResourcesNamesValues } from '../../model/terrain-type';
 import { BuildingType } from '../../model/building-type';
+
+import UserRoutes from './routes/user';
+import MapRoutes from './routes/map';
+import CityRoutes from './routes/city';
 
 /**
  * The port which the app will listen to.
@@ -112,6 +109,8 @@ app.use('/public/', Express.static(DirectoryPath + '/public/'));
 app.use('/user', UserRoutes.getNativeRouter());
 
 app.use('/map', MapRoutes.getNativeRouter());
+
+app.use('/city', CityRoutes.getNativeRouter());
 
 // error handler
 app.use(
