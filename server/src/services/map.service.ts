@@ -30,7 +30,6 @@ export class MapService {
       );
     });
     const n = ownedLand.length;
-    console.log(n);/////
     return n === 0;
   }
   /**
