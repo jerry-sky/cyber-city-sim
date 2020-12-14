@@ -13,9 +13,11 @@ import { HourlyProduction as BuildingsValues } from '../../../../model/resource-
 })
 export class MapComponent implements OnInit {
   terrain: Cell[];
-  currUser = 1;
+  currUserId = 0;
+  currUsername = 'username';
   test = true;
   scale = 1;
+  // object with data for Profile Popup, used when player clicks cell to see another player stats
   chosenUserData: DialogData = {
     username: '',
     slots: 0,
@@ -39,6 +41,10 @@ export class MapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // get current user data
+    this.currUserId = this.auth.UserData.value.id || 0;
+    this.currUsername = this.auth.UserData.value.username || 'username';
+    // get terrain and position
     this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
     grid.style.top = `-${Math.floor(window.innerHeight * 0.25)}px`;
@@ -79,7 +85,7 @@ export class MapComponent implements OnInit {
   chosenCity(event): void {
     const id: number = parseInt(event.target.id.replace('user-', ''), 10);
     this.chosenUserData = {
-      username: '',
+      username: 'username',
       slots: 0,
       buildings: 0,
       production: {
@@ -96,8 +102,8 @@ export class MapComponent implements OnInit {
     this.getUserProduction(id, this.terrain);
     this.getUserResources(id);
     if (id !== -1) {
-      if (id === this.currUser) {
-        this.router.navigate(['/city/benek']);
+      if (id === this.currUserId) {
+        this.router.navigate([`/city/${this.currUsername}`]);
       } else {
         const data = this.chosenUserData;
         this.dialog.open(ProfilePopupComponent, {
