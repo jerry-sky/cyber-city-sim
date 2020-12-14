@@ -15,3 +15,16 @@ export enum Resource {
    */
   GREEN = 2,
 }
+
+export enum ResourceNames {
+  RED = 'redPCB',
+  BLUE = 'bluePCB',
+  GREEN = 'greenPCB',
+}
+
+/**
+ * All the resources as an object.
+ */
+export type ResourcesNamesValues = {
+  [key in ResourceNames]: number;
+};

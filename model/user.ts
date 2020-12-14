@@ -1,7 +1,9 @@
+import { ResourcesNamesValues } from './terrain-type';
+
 /**
  * All data of a one user.
  */
-export declare interface User {
+export declare interface User extends ResourcesNamesValues {
   /**
    * Unique identifier.
    */

@@ -10,6 +10,9 @@ CREATE TABLE users(
   `email` TEXT NOT NULL,
   `activated` BOOLEAN NOT NULL,
   `dateJoined` DATE,
+  `redPCB` INT,
+  `bluePCB` INT,
+  `greenPCB` INT,
   PRIMARY KEY (id)
 );
 
