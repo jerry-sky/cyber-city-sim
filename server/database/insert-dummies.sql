@@ -17,6 +17,6 @@ UPDATE `map` SET `owner` = 1 WHERE `id` = 1;
 UPDATE `map` SET `owner` = 1 WHERE `id` = 2;
 UPDATE `map` SET `owner` = 1 WHERE `id` = 21;
 
-UPDATE `map` SET `owner` = 1 WHERE `id` = 331;
-UPDATE `map` SET `owner` = 1 WHERE `id` = 332;
-UPDATE `map` SET `owner` = 1 WHERE `id` = 333;
+UPDATE `map` SET `owner` = 2 WHERE `id` = 331;
+UPDATE `map` SET `owner` = 2 WHERE `id` = 332;
+UPDATE `map` SET `owner` = 2 WHERE `id` = 333;

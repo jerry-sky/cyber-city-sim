@@ -10,7 +10,7 @@ export class MapService {
    * Load the world map data from the database.
    */
   public async LoadWorldMap(): Promise<Map> {
-    let map: Map;
+    const map: Map = { cells: [] };
     await this.DB.ExecuteInsideDatabaseHarness(async (connection) => {
       map.cells = await connection.query('SELECT * FROM `map`');
     });
