@@ -39,7 +39,7 @@ export class CityService {
 
       // otherwise upgrade the building
       await connection.query(
-        'UPDATE TABLE `' + DatabaseTables.MAP + '` SET ? WHERE `id` = ?;',
+        'UPDATE `' + DatabaseTables.MAP + '` SET ? WHERE `id` = ?;',
         [<Partial<Cell>>{ buildingLvl: cell.buildingLvl + 1 }, cell.id]
       );
     });
@@ -72,7 +72,7 @@ export class CityService {
 
       // otherwise set the buildingType
       await connection.query(
-        'UPDATE TABLE `' + DatabaseTables.MAP + '` SET ? WHERE `id` = ?;',
+        'UPDATE `' + DatabaseTables.MAP + '` SET ? WHERE `id` = ?;',
         [<Partial<Cell>>{ buildingType }, cell.id]
       );
     });
