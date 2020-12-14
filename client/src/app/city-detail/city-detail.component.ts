@@ -27,7 +27,7 @@ export class CityDetailComponent implements OnInit {
   constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.userId = this.auth.UserData.value.id || 0;
+    this.userId = this.auth.UserData.value ? this.auth.UserData.value.id : 0;
     this.auth.GetMap().subscribe(
       (res) => {
         this.getUserProduction(res.cells);
