@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from '../../../../model/message';
-import { AuthService } from '../services/auth.service';
+import { BackendService } from '../services/backend.service';
 import { ChatService } from '../services/chat.service';
 
 @Component({
@@ -14,10 +14,14 @@ export class GlobalChatComponent implements OnInit {
   username: string;
   messages: Message[] = [];
 
-  constructor(private route: ActivatedRoute, private chat: ChatService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private chat: ChatService,
+    private backend: BackendService
+  ) {}
 
   ngOnInit(): void {
-    this.getUsername();
+    this.getCurrentUsername();
     this.chat.GetGlobalMessages().subscribe(
       (res) => {
         this.messages = res;
@@ -28,10 +32,15 @@ export class GlobalChatComponent implements OnInit {
     );
   }
 
-  getUsername(): void {
-    this.route.params.subscribe((params) => {
-      this.username = params.username;
-    });
+  getCurrentUsername(): void {
+    this.backend.getCurrentUser().subscribe(
+      (res) => {
+        this.username = res.user.username;
+      },
+      (err) => {
+        console.error('Error retrieving user data from server');
+      }
+    );
   }
 
   /**
@@ -41,5 +50,6 @@ export class GlobalChatComponent implements OnInit {
    */
   sendGlobalMessage(message: NgForm) {
     this.chat.SendGlobalMessage(this.username, message.value);
+    message.reset();
   }
 }

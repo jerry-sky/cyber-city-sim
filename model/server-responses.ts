@@ -23,3 +23,11 @@ export interface GlobalMessagesResponse {
 export interface MessageboxUsernamesResponse {
   usernames: string[];
 }
+
+export interface UserResponse {
+  user: User;
+}
+
+export interface PrivateMessagesResponse {
+  messages: Message[];
+}

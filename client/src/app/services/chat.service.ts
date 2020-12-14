@@ -4,7 +4,9 @@ import { map } from 'rxjs/operators';
 import { Message } from '../../../../model/message';
 import {
   GetMessageboxUsernamesRequest,
+  GetPrivateMessagesRequest,
   SendGlobalMessageRequest,
+  SendPrivateMessageRequest,
 } from '../../../../model/server-requests';
 import { BackendService } from './backend.service';
 
@@ -35,5 +37,25 @@ export class ChatService {
     return this.backend
       .getUserChats(payload)
       .pipe(map((response) => response.usernames));
+  }
+
+  GetPrivateMessages(username: string): Observable<Message[]> {
+    const payload: GetPrivateMessagesRequest = {
+      username,
+    };
+    return this.backend
+      .getPrivateMessages(payload)
+      .pipe(map((response) => response.messages));
+  }
+
+  SendPrivateMessage(
+    username: string,
+    messageContent: string
+  ): Observable<never> {
+    const payload: SendPrivateMessageRequest = {
+      username,
+      messageContent,
+    };
+    return this.backend.sendPrivateMessage(payload);
   }
 }

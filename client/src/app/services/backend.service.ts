@@ -8,12 +8,16 @@ import {
   GetMessageboxUsernamesRequest,
   UpgradeBuildingRequest,
   BuyBuildingRequest,
+  GetPrivateMessagesRequest,
+  SendPrivateMessageRequest,
 } from '../../../../model/server-requests';
 import {
   LoginResponse,
   MapResponse,
   GlobalMessagesResponse,
   MessageboxUsernamesResponse,
+  UserResponse,
+  PrivateMessagesResponse,
 } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
@@ -96,5 +100,32 @@ export class BackendService {
       payload,
       this.options
     ) as unknown) as Observable<MessageboxUsernamesResponse>;
+  }
+
+  public getCurrentUser(): Observable<UserResponse> {
+    return this.http.get(
+      this.usersUrl + '/user-data',
+      this.options
+    ) as Observable<UserResponse>;
+  }
+
+  public getPrivateMessages(
+    payload: GetPrivateMessagesRequest
+  ): Observable<PrivateMessagesResponse> {
+    return (this.http.post(
+      this.userChatsUrl + '/messages',
+      payload,
+      this.options
+    ) as unknown) as Observable<PrivateMessagesResponse>;
+  }
+
+  public sendPrivateMessage(
+    payload: SendPrivateMessageRequest
+  ): Observable<never> {
+    return (this.http.post(
+      this.userChatsUrl + '/send-message',
+      payload,
+      this.options
+    ) as unknown) as Observable<never>;
   }
 }
