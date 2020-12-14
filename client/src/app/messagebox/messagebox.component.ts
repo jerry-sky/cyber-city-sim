@@ -5,6 +5,7 @@ import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
 import { AuthService } from '../services/auth.service';
 
 import { UserChat } from '../../../../model/user-chat';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-messagebox',
@@ -17,13 +18,13 @@ export class MessageboxComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private auth: AuthService,
+    private chat: ChatService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.getUsername();
-    this.auth.GetUserChats(this.username).subscribe(
+    this.chat.GetUserChats(this.username).subscribe(
       (res) => {
         this.userChats = res;
       },

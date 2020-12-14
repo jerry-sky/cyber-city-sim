@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from '../../../../model/message';
 import { AuthService } from '../services/auth.service';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-global-chat',
@@ -13,11 +14,11 @@ export class GlobalChatComponent implements OnInit {
   username: string;
   messages: Message[] = [];
 
-  constructor(private auth: AuthService, private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private chat: ChatService) {}
 
   ngOnInit(): void {
     this.getUsername();
-    this.auth.GetGlobalMessages().subscribe(
+    this.chat.GetGlobalMessages().subscribe(
       (res) => {
         this.messages = res;
       },
@@ -39,6 +40,6 @@ export class GlobalChatComponent implements OnInit {
    * @param message the NgForm that contains the sent message
    */
   sendGlobalMessage(message: NgForm) {
-    this.auth.SendGlobalMessage(this.username, message.value);
+    this.chat.SendGlobalMessage(this.username, message.value);
   }
 }
