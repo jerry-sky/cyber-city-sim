@@ -16,7 +16,7 @@ BEGIN
     ELSE
       SET terrain = 3 * RAND();
       INSERT INTO `map`(`id`, `terrain`, `owner`, `buildingType`, `buildingLvl`)
-        VALUES (i, terrain, NULL, -1, NULL);
+        VALUES (i, terrain, 0, -1, 0);
     END IF;
   END LOOP looop;
   SET FOREIGN_KEY_CHECKS = 1;
