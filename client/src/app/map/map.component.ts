@@ -137,7 +137,7 @@ export class MapComponent implements OnInit {
   }
 
   getUserResources(uid: number) {
-    this.auth.GetUserResources().subscribe(
+    this.auth.GetUserResources(uid).subscribe(
       (res) => {
         this.chosenUserData.username = res.username;
         this.chosenUserData.resources.red = res.redPCB;
