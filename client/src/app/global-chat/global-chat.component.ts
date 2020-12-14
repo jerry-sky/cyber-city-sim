@@ -13,10 +13,7 @@ export class GlobalChatComponent implements OnInit {
   username: string;
   messages: Message[] = [];
 
-  constructor(
-    private auth: AuthService,
-    private route: ActivatedRoute
-    ) {}
+  constructor(private auth: AuthService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.getUsername();
@@ -38,7 +35,7 @@ export class GlobalChatComponent implements OnInit {
 
   /**
    * Send message to global chat
-   * 
+   *
    * @param message the NgForm that contains the sent message
    */
   sendGlobalMessage(message: NgForm) {

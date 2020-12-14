@@ -9,7 +9,12 @@ import {
   SendGlobalMessageRequest,
   GetMessageboxUsernamesRequest,
 } from '../../../../model/server-requests';
-import { LoginResponse, MapResponse, GlobalMessagesResponse, MessageboxUsernamesResponse } from '../../../../model/server-responses';
+import {
+  LoginResponse,
+  MapResponse,
+  GlobalMessagesResponse,
+  MessageboxUsernamesResponse,
+} from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -46,21 +51,24 @@ export class BackendService {
     return this.http.post(this.mapUrl + '/cell', payload) as Observable<never>;
   }
 
-  public sendGlobalMessage(payload: SendGlobalMessageRequest): Observable<never> {
-    return this.http.post(
-      this.globalChatUrl,
-      payload
-    ) as Observable<never>;
+  public sendGlobalMessage(
+    payload: SendGlobalMessageRequest
+  ): Observable<never> {
+    return this.http.post(this.globalChatUrl, payload) as Observable<never>;
   }
 
   public getGlobalMessages(): Observable<GlobalMessagesResponse> {
-    return this.http.get(this.globalChatUrl) as Observable<GlobalMessagesResponse>;
+    return this.http.get(
+      this.globalChatUrl
+    ) as Observable<GlobalMessagesResponse>;
   }
 
-  public getUserChats(payload: GetMessageboxUsernamesRequest): Observable<MessageboxUsernamesResponse> {
-    return this.http.post(
+  public getUserChats(
+    payload: GetMessageboxUsernamesRequest
+  ): Observable<MessageboxUsernamesResponse> {
+    return (this.http.post(
       this.userChatsUrl,
       payload
-    ) as unknown as Observable<MessageboxUsernamesResponse>;
+    ) as unknown) as Observable<MessageboxUsernamesResponse>;
   }
 }

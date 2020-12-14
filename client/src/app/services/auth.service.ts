@@ -92,35 +92,26 @@ export class AuthService {
     return this.backend.editCell(payload);
   }
 
-  SendGlobalMessage(
-    username: string,
-    message: string
-  ) : Observable<never> {
+  SendGlobalMessage(username: string, message: string): Observable<never> {
     const payload: SendGlobalMessageRequest = {
       username,
-      message
+      message,
     };
     return this.backend.sendGlobalMessage(payload);
   }
 
   GetGlobalMessages(): Observable<Message[]> {
-    return this.backend.getGlobalMessages().pipe(
-      map((response) => 
-        response.messages
-      )
-    );
+    return this.backend
+      .getGlobalMessages()
+      .pipe(map((response) => response.messages));
   }
 
-  GetUserChats(
-    username: string
-  ): Observable<string[]> {
+  GetUserChats(username: string): Observable<string[]> {
     const payload: GetUserChatsRequest = {
-      username
+      username,
     };
-    return this.backend.getUserChats(payload).pipe(
-      map((response) => 
-        response.usernames
-      )
-    );
+    return this.backend
+      .getUserChats(payload)
+      .pipe(map((response) => response.usernames));
   }
 }
