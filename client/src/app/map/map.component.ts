@@ -47,16 +47,7 @@ export class MapComponent implements OnInit {
 
   getTerrain(): void {
     this.auth.GetMap().subscribe(
-      (res) => {
-        this.terrain = res.cells;
-        this.terrain.push({
-          id: 1,
-          terrain: 2,
-          owner: 2,
-          buildingLvl: -1,
-          buildingType: -1,
-        } as Cell);
-      },
+      (res) => (this.terrain = res.cells),
       (err) => console.error('Error retriving map from server')
     );
   }
