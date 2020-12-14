@@ -7,8 +7,9 @@ import {
   RegisterRequest,
   EditCellRequest,
   SendGlobalMessageRequest,
+  GetMessageboxUsernamesRequest,
 } from '../../../../model/server-requests';
-import { LoginResponse, MapResponse, MessagesResponse } from '../../../../model/server-responses';
+import { LoginResponse, MapResponse, GlobalMessagesResponse, MessageboxUsernamesResponse } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -18,7 +19,8 @@ export class BackendService {
   private usersUrl = environment.API + '/user';
   private mapUrl = environment.API + '/map';
   private cityUrl = environment.API + '/city';
-  private globalChatUrl = environment.API + '/globalChat';
+  private globalChatUrl = environment.API + '/global-chat';
+  private userChatsUrl = environment.API + '/user-chats';
 
   constructor(private http: HttpClient) {}
 
@@ -51,7 +53,14 @@ export class BackendService {
     ) as Observable<never>;
   }
 
-  public getGlobalMessages(): Observable<MessagesResponse> {
-    return this.http.get(this.globalChatUrl) as Observable<MessagesResponse>;
+  public getGlobalMessages(): Observable<GlobalMessagesResponse> {
+    return this.http.get(this.globalChatUrl) as Observable<GlobalMessagesResponse>;
+  }
+
+  public getUserChats(payload: GetMessageboxUsernamesRequest): Observable<MessageboxUsernamesResponse> {
+    return this.http.post(
+      this.userChatsUrl,
+      payload
+    ) as unknown as Observable<MessageboxUsernamesResponse>;
   }
 }

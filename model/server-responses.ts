@@ -16,6 +16,10 @@ export interface MapResponse {
   map: Map;
 }
 
-export interface MessagesResponse {
+export interface GlobalMessagesResponse {
   messages: Message[];
+}
+
+export interface MessageboxUsernamesResponse {
+  usernames: string[];
 }

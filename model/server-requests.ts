@@ -23,3 +23,7 @@ export interface SendGlobalMessageRequest {
   username: string;
   message: string;
 }
+
+export interface GetMessageboxUsernamesRequest {
+  username: string;
+}
