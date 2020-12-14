@@ -40,11 +40,25 @@ export class MapService {
    */
   //TODO: introduce cell's cost.
   public async AssignCellToUser(user: User, index: number): Promise<void> {
+    // First ensure that the cell belongs to no one.
+    let owner: Cell[];
     await this.DB.ExecuteInsideDatabaseHarness(async (connection) => {
-      await connection.query(
-        'UPDATE ' + DatabaseTables.MAP + ' SET `owner` = ? WHERE `id` = ?',
-        [user.id, index]
+      owner = await connection.query(
+        'SELECT * FROM ' +
+          DatabaseTables.MAP +
+          ' WHERE `owner` IS NULL AND `id` = ?',
+        [index]
       );
     });
+    // If it's free, then assign it to the user.
+    const n = owner.length;
+    if (!(n === 0)) {
+      await this.DB.ExecuteInsideDatabaseHarness(async (connection) => {
+        await connection.query(
+          'UPDATE ' + DatabaseTables.MAP + ' SET `owner` = ? WHERE `id` = ?',
+          [user.id, index]
+        );
+      });
+    }
   }
 }

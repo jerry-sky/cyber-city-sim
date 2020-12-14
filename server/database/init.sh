@@ -15,3 +15,6 @@ sudo mysql < tables.sql
 # generate the map with 400 cells
 sudo mysql < populate-map.sql
 echo "USE ccs; CALL PopulateMap(400);" | sudo mysql
+
+# insert test users and data
+sudo mysql < insert-dummies.sql
