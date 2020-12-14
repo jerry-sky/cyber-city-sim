@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
 import { AuthService } from '../services/auth.service';
 
-import { UserChat } from '../../../../model/user_chat';
+import { UserChat } from '../../../../model/user-chat';
 
 @Component({
   selector: 'app-messagebox',

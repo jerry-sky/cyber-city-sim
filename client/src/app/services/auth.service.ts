@@ -5,12 +5,11 @@ import {
   RegisterRequest,
   EditCellRequest,
   SendGlobalMessageRequest,
-  GetUserChatsRequest,
+  GetMessageboxUsernamesRequest,
 } from '../../../../model/server-requests';
 import { User } from '../../../../model/user';
 import { Map, Cell } from '../../../../model/map';
 import { Message } from '../../../../model/message';
-import { UserChat } from '../../../../model/user_chat';
 import { BackendService } from '../services/backend.service';
 import { map } from 'rxjs/operators';
 
@@ -107,7 +106,7 @@ export class AuthService {
   }
 
   GetUserChats(username: string): Observable<string[]> {
-    const payload: GetUserChatsRequest = {
+    const payload: GetMessageboxUsernamesRequest = {
       username,
     };
     return this.backend
