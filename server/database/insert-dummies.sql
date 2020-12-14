@@ -5,11 +5,11 @@
 -- Bob    bob
 USE ccs;
 
-INSERT INTO `users` VALUES (1, 'Alice',
+INSERT INTO `users`(`username`, `password`, `email`, `activated`, `dateJoined`) VALUES ('Alice',
 'JGFyZ29uMmlkJHY9MTkkbT02NTUzNix0PTIscD0xJGdnc1JFeEpZMlZTUDZ6eGdCQ3VpZ2ckd1BSRm5ZcW93OEwvS1U2ZTVlSlNYbEpjRUdCRTFxbW9Mek9iejJpS0dkbwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
 'Alice@gmail.com', 1, '2020-12-14');
 
-INSERT INTO `users` VALUES (2, 'Bob',
+INSERT INTO `users`(`username`, `password`, `email`, `activated`, `dateJoined`) VALUES ('Bob',
 'JGFyZ29uMmlkJHY9MTkkbT02NTUzNix0PTIscD0xJElTWHdacXNGV1VyMFF4Ykh6OGxlYUEkUldlcUZ2SW1tc3pOZ0FuUUFUV2d5R3JzOUNodlQ3TGtuZElTUTczQ0VYMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
 'Bob@gmail.com', 1, '2020-12-14');
 
