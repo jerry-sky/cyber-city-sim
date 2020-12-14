@@ -20,6 +20,9 @@ CREATE TABLE map(
   `owner` INT,
   `buildingType` INT,
   `buildingLvl` INT,
+  `redPCB` INT,
+  `bluePCB` INT,
+  `greenPCB` INT,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`owner`) REFERENCES users(`id`)
   ON DELETE CASCADE
