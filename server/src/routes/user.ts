@@ -6,6 +6,9 @@ import { PasswordService } from '../services/password.service';
 import SecurePassword from 'secure-password';
 import { DatabaseService } from '../services/database.service';
 import { MapService } from '../services/map.service';
+import { User } from '../../../model/user';
+import { DatabaseTables } from '../../../model/database-tables';
+import { Err, Errors } from '../../../model/errors';
 
 const Router = new RouterWrapper();
 
@@ -35,6 +38,27 @@ Router.post<RegisterRequest, never, never>(
     await Auth.Register(t.username, t.email, t.password);
 
     response.status(204);
+
+    next();
+  }
+);
+
+Router.get<never, LoginResponse, never>(
+  '/resources',
+  async (request, response, next) => {
+    if (!request.session || !request.session.user) {
+      throw Err(Errors.NOT_LOGGED_IN);
+    }
+    let user: User = request.session.user;
+    await Database.ExecuteInsideDatabaseHarness(async (connection) => {
+      const results: User[] = await connection.query(
+        'SELECT * FROM `' + DatabaseTables.USERS + '` WHERE `id` = ?;',
+        [user.id]
+      );
+      user = results[0];
+    });
+
+    response.json({ user, hasNoLand: await mapService.HasNoLand(user) });
 
     next();
   }

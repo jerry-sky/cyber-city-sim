@@ -2,7 +2,10 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cell } from '../../../../model/map';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogData, ProfilePopupComponent } from '../profile-popup/profile-popup.component';
+import {
+  DialogData,
+  ProfilePopupComponent,
+} from '../profile-popup/profile-popup.component';
 import { AuthService } from '../services/auth.service';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
 
@@ -104,7 +107,7 @@ export class MapComponent implements OnInit {
       },
     };
     this.getUserProduction(id, this.terrain);
-    this.getUserResources(id);
+    this.getUserResources();
     if (id !== -1) {
       if (id === this.currUserId) {
         this.router.navigate([`/city/${this.currUsername}`]);
@@ -137,8 +140,8 @@ export class MapComponent implements OnInit {
     });
   }
 
-  getUserResources(uid: number) {
-    this.auth.GetUserResources(uid).subscribe(
+  getUserResources() {
+    this.auth.GetUserResources().subscribe(
       (res) => {
         this.chosenUserData.username = res.username;
         this.chosenUserData.resources.red = res.redPCB;
