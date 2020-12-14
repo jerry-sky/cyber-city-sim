@@ -7,6 +7,7 @@ import {
   EditCellRequest,
   UpgradeBuildingRequest,
   BuyBuildingRequest,
+  SimpleIdRequest,
 } from '../../../../model/server-requests';
 import { LoginResponse, MapResponse } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
@@ -63,10 +64,10 @@ export class BackendService {
     ) as Observable<never>;
   }
 
-  public getUserResources(): Observable<LoginResponse> {
+  public getUserResources(payload: SimpleIdRequest): Observable<LoginResponse> {
     return this.http.post(
       this.usersUrl + '/resources',
-      {},
+      payload,
       this.options
     ) as Observable<LoginResponse>;
   }

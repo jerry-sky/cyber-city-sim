@@ -107,7 +107,7 @@ export class MapComponent implements OnInit {
       },
     };
     this.getUserProduction(id, this.terrain);
-    this.getUserResources();
+    this.getUserResources(id);
     if (id !== -1) {
       if (id === this.currUserId) {
         this.router.navigate([`/city/${this.currUsername}`]);
@@ -140,8 +140,8 @@ export class MapComponent implements OnInit {
     });
   }
 
-  getUserResources() {
-    this.auth.GetUserResources().subscribe(
+  getUserResources(uid: number) {
+    this.auth.GetUserResources(uid).subscribe(
       (res) => {
         this.chosenUserData.username = res.username;
         this.chosenUserData.resources.red = res.redPCB;
