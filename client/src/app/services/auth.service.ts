@@ -67,24 +67,4 @@ export class AuthService {
     // if everything went okay, then the response contains map's data
     return this.backend.getMap().pipe(map((response) => response.map));
   }
-
-  /**
-   * Edit cell data (owner, new building, level up, etc)
-   * Possible categories:
-   *    owner         (when buing/trading cells)
-   *    buildingType  (when buing building)
-   *    buildingLvl   (when upgrading building)
-   */
-  EditCell(
-    cellId: number,
-    changedCategory: string,
-    changedValue: number
-  ): Observable<never> {
-    const payload: EditCellRequest = {
-      cellId,
-      changedCategory,
-      changedValue,
-    };
-    return this.backend.editCell(payload);
-  }
 }

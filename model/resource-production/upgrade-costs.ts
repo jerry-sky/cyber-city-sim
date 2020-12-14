@@ -6,4 +6,4 @@ interface IUpgradeCosts {
   [key: string]: Buildings;
 }
 
-export const UpgradeCosts = upgradeCosts as IUpgradeCosts;
+export const UpgradeCosts = upgradeCosts['default'] as IUpgradeCosts;
