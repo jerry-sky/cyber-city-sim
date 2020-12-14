@@ -2,11 +2,11 @@
   <div
     *ngFor="let cell of terrain"
     [ngClass]="{
-      'color-0': cell.owner == -1 && cell.terrain == 0,
-      'color-1': cell.owner == -1 && cell.terrain == 1,
-      'color-2': cell.owner == -1 && cell.terrain == 2,
-      'city-other': cell.owner != -1 && cell.owner != currUser,
-      'city-mine': cell.owner == currUser
+      'color-0': cell.owner === 0 && cell.terrain === 0,
+      'color-1': cell.owner === 0 && cell.terrain === 1,
+      'color-2': cell.owner === 0 && cell.terrain === 2,
+      'city-other': cell.owner !== 0 && cell.owner !== currUserId,
+      'city-mine': cell.owner !== 0 && cell.owner === currUserId
     }"
     id="user-{{ cell.owner }}"
     (click)="chosenCity($event)"
