@@ -67,4 +67,14 @@ export class AuthService {
     // if everything went okay, then the response contains map's data
     return this.backend.getMap().pipe(map((response) => response.map));
   }
+
+  /**
+   * Get user resources.
+   */
+  GetUserResources(): Observable<User> {
+    // if everything went okay, then the response contains map's data
+    return this.backend
+      .getUserResources()
+      .pipe(map((response) => response.user || null));
+  }
 }

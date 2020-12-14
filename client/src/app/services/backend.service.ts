@@ -62,4 +62,11 @@ export class BackendService {
       this.options
     ) as Observable<never>;
   }
+
+  public getUserResources(): Observable<LoginResponse> {
+    return this.http.post(
+      this.usersUrl + '/resources',
+      this.options
+    ) as Observable<LoginResponse>;
+  }
 }

@@ -30,6 +30,12 @@ export class CityDetailComponent implements OnInit {
     this.auth.GetMap().subscribe(
       (res) => {
         this.getUserProduction(res.cells);
+        this.getUserResources();
+        const ResourceInterval = 3; //seconds
+        window.setInterval(
+          this.incrementResources.bind(this),
+          1000 * ResourceInterval
+        );
       },
       (err) => {
         console.error('Error retriving user data from server');
@@ -48,13 +54,28 @@ export class CityDetailComponent implements OnInit {
           // count production
           const name = `building-${c.buildingType}-lvl-${c.buildingLvl}`;
           const values = BuildingsValues.default[name];
-          this.production.red += c.terrain === 0 ? 2 * values.red : values.red;
-          this.production.green +=
-            c.terrain === 1 ? 2 * values.green : values.green;
-          this.production.blue +=
-            c.terrain === 2 ? 2 * values.blue : values.blue;
+          this.production.red += values.red;
+          this.production.green += values.green;
+          this.production.blue += values.blue;
         }
       }
     });
+  }
+
+  getUserResources() {
+    this.auth.GetUserResources().subscribe(
+      (res) => {
+        this.resources.red = res.redPCB;
+        this.resources.green = res.greenPCB;
+        this.resources.blue = res.bluePCB;
+      },
+      (err) => console.log(err)
+    );
+  }
+
+  incrementResources() {
+    this.resources.red += this.production.red;
+    this.resources.green += this.production.green;
+    this.resources.blue += this.production.blue;
   }
 }
