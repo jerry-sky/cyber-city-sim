@@ -14,7 +14,7 @@ BEGIN
     IF i = size THEN
       LEAVE looop;
     ELSE
-      SET terrain = 3 * RAND();
+      SET terrain = 2 * RAND();
       INSERT INTO `map`(`id`, `terrain`, `owner`, `buildingType`, `buildingLvl`)
         VALUES (i, terrain, 0, -1, 0);
     END IF;
