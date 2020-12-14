@@ -10,7 +10,7 @@ import { FindValueSubscriber } from 'rxjs/internal/operators/find';
   styleUrls: ['./city-detail.component.scss'],
 })
 export class CityDetailComponent implements OnInit {
-  userId = 1;
+  userId = 0;
   slots = 0;
   buildings = 0;
   production = {
@@ -27,6 +27,7 @@ export class CityDetailComponent implements OnInit {
   constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
+    this.userId = this.auth.UserData.value.id || 0;
     this.auth.GetMap().subscribe(
       (res) => {
         this.getUserProduction(res.cells);
@@ -63,7 +64,7 @@ export class CityDetailComponent implements OnInit {
   }
 
   getUserResources() {
-    this.auth.GetUserResources().subscribe(
+    this.auth.GetUserResources(this.userId).subscribe(
       (res) => {
         this.resources.red = res.redPCB;
         this.resources.green = res.greenPCB;
