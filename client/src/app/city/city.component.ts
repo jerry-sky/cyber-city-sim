@@ -176,18 +176,18 @@ export class CityComponent implements OnInit {
     const data = {
       building1: {
         name: 'Building 1',
-        production: BuildingsValues[`building-0-lvl-0`], // possible hourly production
-        cost: BuildingsCosts[`buy-building-0`], // cost
+        production: BuildingsValues['building-0-lvl-0'], // possible hourly production
+        cost: BuildingsCosts['buy-building-0'], // cost
       },
       building2: {
         name: 'Building 2',
-        production: BuildingsValues[`building-1-lvl-0`], // possible hourly production
-        cost: BuildingsCosts[`buy-building-1`], // cost
+        production: BuildingsValues['building-1-lvl-0'], // possible hourly production
+        cost: BuildingsCosts['buy-building-1'], // cost
       },
       building3: {
         name: 'Building 3',
-        production: BuildingsValues[`building-2-lvl-0`], // possible hourly production
-        cost: BuildingsCosts[`buy-building-2`], // cost
+        production: BuildingsValues['building-2-lvl-0'], // possible hourly production
+        cost: BuildingsCosts['buy-building-2'], // cost
       },
     };
     // show dialog
