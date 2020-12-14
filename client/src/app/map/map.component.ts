@@ -42,8 +42,12 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     // get current user data
-    this.currUserId = this.auth.UserData.value.id || 0;
-    this.currUsername = this.auth.UserData.value.username || 'username';
+    this.currUserId = this.auth.UserData.value
+      ? this.auth.UserData.value.id
+      : 0;
+    this.currUsername = this.auth.UserData.value
+      ? this.auth.UserData.value.username
+      : 'username';
     // get terrain and position
     this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
