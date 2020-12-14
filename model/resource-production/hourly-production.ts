@@ -6,4 +6,4 @@ interface IHourlyProduction {
   [key: string]: Buildings;
 }
 
-export const HourlyProduction = hourlyProduction as IHourlyProduction;
+export const HourlyProduction: IHourlyProduction = hourlyProduction as IHourlyProduction;

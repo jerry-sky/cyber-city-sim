@@ -6,6 +6,7 @@ import { NewBuildingPopupComponent } from '../new-building-popup/new-building-po
 import { AuthService } from '../services/auth.service';
 import { UpgradeCosts as BuildingsCosts } from '../../../../model/resource-production/upgrade-costs';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
+import { CityService } from '../services/city.service';
 
 @Component({
   selector: 'app-city',
@@ -18,7 +19,11 @@ export class CityComponent implements OnInit {
   userId = 1;
   scale = 1;
 
-  constructor(private auth: AuthService, public dialog: MatDialog) {}
+  constructor(
+    private auth: AuthService,
+    public dialog: MatDialog,
+    private city: CityService
+  ) {}
 
   ngOnInit(): void {
     this.getTerrain();
@@ -134,7 +139,7 @@ export class CityComponent implements OnInit {
         ],
       // cost of upgrade
       cost:
-        BuildingsCosts[
+        BuildingsCosts.default[
           `upgrade-building-${cell.buildingType}-to-lvl-${cell.buildingLvl + 1}`
         ],
     };
@@ -153,7 +158,7 @@ export class CityComponent implements OnInit {
         cell.buildingLvl++;
         this.terrain[index] = cell;
         // send changes to server
-        this.auth.EditCell(index, 'buildingLvl', cell.buildingLvl);
+        this.city.UpgradeBuilding(index);
       });
     } else {
       alert('Cant upgrade, Building is already maxed out.');
@@ -171,18 +176,18 @@ export class CityComponent implements OnInit {
     const data = {
       building1: {
         name: 'Building 1',
-        production: BuildingsValues.default[`building-0-lvl-0`], // possible hourly production
-        cost: BuildingsCosts[`buy-building-0`], // cost
+        production: BuildingsValues.default['building-0-lvl-0'], // possible hourly production
+        cost: BuildingsCosts.default['buy-building-0'], // cost
       },
       building2: {
         name: 'Building 2',
-        production: BuildingsValues.default[`building-1-lvl-0`], // possible hourly production
-        cost: BuildingsCosts[`buy-building-1`], // cost
+        production: BuildingsValues.default['building-1-lvl-0'], // possible hourly production
+        cost: BuildingsCosts.default['buy-building-1'], // cost
       },
       building3: {
         name: 'Building 3',
-        production: BuildingsValues.default[`building-2-lvl-0`], // possible hourly production
-        cost: BuildingsCosts[`buy-building-2`], // cost
+        production: BuildingsValues.default['building-2-lvl-0'], // possible hourly production
+        cost: BuildingsCosts.default['buy-building-2'], // cost
       },
     };
     // show dialog
@@ -199,8 +204,7 @@ export class CityComponent implements OnInit {
         cell.buildingLvl = 0;
         this.terrain[index] = cell;
         // send changes to server
-        this.auth.EditCell(index, 'buildingType', id);
-        this.auth.EditCell(index, 'buildingLvl', 0);
+        this.city.BuyBuilding(index, id);
       }
     });
   }

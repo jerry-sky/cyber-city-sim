@@ -11,7 +11,13 @@ export interface Map {
   cells: Array<Cell>;
 }
 
+export const MAX_BUILDING_LEVEL = 2;
+
 export interface Cell {
+  /**
+   * Unique identifier.
+   */
+  id: number;
   /**
    * Terrain type — each terrain cell is rich in some resources.
    */

@@ -1,3 +1,5 @@
+import { BuildingType } from './building-type';
+
 export interface LoginRequest {
   username: string;
   password: string;
@@ -9,10 +11,23 @@ export interface RegisterRequest {
   password: string;
 }
 
-export interface EditCellRequest {
+/**
+ * Abstract request shape that is related to the editing of a cell.
+ */
+export abstract class EditCellRequest {
   cellId: number;
-  changedCategory: string;
-  changedValue: number;
+}
+
+/**
+ * The user wants to upgrade their building. Only the cell ID is required.
+ */
+export interface UpgradeBuildingRequest extends EditCellRequest {}
+
+/**
+ * The user wants to build a new building on their bought cell.
+ */
+export interface BuyBuildingRequest extends EditCellRequest {
+  buildingType: BuildingType;
 }
 
 export interface ClaimFirstCellRequest {

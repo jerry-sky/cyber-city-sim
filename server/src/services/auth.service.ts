@@ -46,8 +46,8 @@ export class AuthenticationService {
     username: string,
     email: string,
     password: string
-  ): Promise<User> {
-    const newUser: User = {
+  ): Promise<void> {
+    const newUser: Partial<User> = {
       id: undefined,
       username,
       email,
@@ -76,8 +76,5 @@ export class AuthenticationService {
         newUser
       );
     });
-
-    // return user data without the password hash
-    return { ...newUser, password: '' };
   }
 }

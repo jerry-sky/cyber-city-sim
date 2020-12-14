@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 import {
   LoginRequest,
   RegisterRequest,
-  EditCellRequest,
   SendGlobalMessageRequest,
   GetMessageboxUsernamesRequest,
+  UpgradeBuildingRequest,
+  BuyBuildingRequest,
 } from '../../../../model/server-requests';
 import {
   LoginResponse,
@@ -26,39 +27,64 @@ export class BackendService {
   private globalChatUrl = environment.API + '/global-chat';
   private userChatsUrl = environment.API + '/user-chats';
 
+  /**
+   * Options to use when performing any HTTP requests.
+   * The `withCredentials` option ensures that the session cookie is sent with every request.
+   */
+  private options = { withCredentials: true };
+
   constructor(private http: HttpClient) {}
 
   public userLogin(payload: LoginRequest): Observable<LoginResponse> {
     return this.http.post(
       this.usersUrl + '/login',
-      payload
+      payload,
+      this.options
     ) as Observable<LoginResponse>;
   }
 
   public userRegister(payload: RegisterRequest): Observable<never> {
     return this.http.post(
       this.usersUrl + '/register',
-      payload
+      payload,
+      this.options
     ) as Observable<never>;
   }
 
   public getMap(): Observable<MapResponse> {
-    return this.http.get(this.mapUrl) as Observable<MapResponse>;
+    return this.http.get(this.mapUrl, this.options) as Observable<MapResponse>;
   }
 
-  public editCell(payload: EditCellRequest): Observable<never> {
-    return this.http.post(this.mapUrl + '/cell', payload) as Observable<never>;
+  public upgradeBuilding(payload: UpgradeBuildingRequest): Observable<never> {
+    return this.http.post(
+      this.cityUrl + '/upgrade-building',
+      payload,
+      this.options
+    ) as Observable<never>;
+  }
+
+  public buyBuilding(payload: BuyBuildingRequest): Observable<never> {
+    return this.http.post(
+      this.cityUrl + '/buy-building',
+      payload,
+      this.options
+    ) as Observable<never>;
   }
 
   public sendGlobalMessage(
     payload: SendGlobalMessageRequest
   ): Observable<never> {
-    return this.http.post(this.globalChatUrl, payload) as Observable<never>;
+    return this.http.post(
+      this.globalChatUrl,
+      payload,
+      this.options
+    ) as Observable<never>;
   }
 
   public getGlobalMessages(): Observable<GlobalMessagesResponse> {
     return this.http.get(
-      this.globalChatUrl
+      this.globalChatUrl,
+      this.options
     ) as Observable<GlobalMessagesResponse>;
   }
 
@@ -67,7 +93,8 @@ export class BackendService {
   ): Observable<MessageboxUsernamesResponse> {
     return (this.http.post(
       this.userChatsUrl,
-      payload
+      payload,
+      this.options
     ) as unknown) as Observable<MessageboxUsernamesResponse>;
   }
 }
