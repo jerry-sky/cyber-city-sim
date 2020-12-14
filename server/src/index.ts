@@ -10,6 +10,17 @@ import { DirectoryPath, Environment } from '../environment';
 
 import UserRoutes from './routes/user';
 import MapRoutes from './routes/map';
+import { DatabaseService } from './services/database.service';
+import { DatabaseTables } from '../../model/database-tables';
+import { HourlyProduction } from '../../model/resource-production/hourly-production';
+import { User } from '../../model/user';
+import { Cell } from '../../model/map';
+import {
+  Resource,
+  ResourceNames,
+  ResourcesNamesValues,
+} from '../../model/terrain-type';
+import { BuildingType } from '../../model/building-type';
 
 /**
  * The port which the app will listen to.
@@ -149,3 +160,62 @@ app.listen(port, () => {
     '\n'
   );
 });
+
+// the main resource loop
+// every X minutes update user’s resources based on their earnings
+const ResourceInterval = 3; //seconds
+const Database = new DatabaseService();
+setInterval(async () => {
+  await Database.ExecuteInsideDatabaseHarness(async (connection) => {
+    const users: Partial<User>[] = await connection.query(
+      'SELECT `id`, `redPCB`, `bluePCB`, `greenPCB` FROM `' +
+        DatabaseTables.USERS +
+        '`;'
+    );
+
+    for (const user of users) {
+      // get all the cells that belong to the user
+      const cells: Cell[] = await connection.query(
+        'SELECT * FROM `' + DatabaseTables.MAP + '` WHERE `owner` = ?;',
+        [user.id]
+      );
+
+      const userResources: ResourcesNamesValues = {
+        bluePCB: user.bluePCB,
+        greenPCB: user.greenPCB,
+        redPCB: user.redPCB,
+      };
+
+      for (const cell of cells) {
+        if (cell.buildingType === BuildingType.EMPTY) {
+          // no building to profit from
+          continue;
+        }
+
+        // get the hourly production values
+        const h =
+          HourlyProduction[
+            'building-' + cell.buildingType + '-lvl-' + cell.buildingLvl
+          ]; // I hate this
+
+        // benefit from the building on this cell with respect to the terrain type of this cell
+        switch (cell.terrain) {
+          case Resource.BLUE:
+            userResources.bluePCB += h.blue;
+            break;
+          case Resource.GREEN:
+            userResources.greenPCB += h.green;
+            break;
+          case Resource.RED:
+            userResources.redPCB += h.red;
+            break;
+        }
+      }
+      // update user’s earned resources
+      await connection.query(
+        'UPDATE `' + DatabaseTables.USERS + '` SET ? WHERE `id` = ?;',
+        [<Partial<User>>{ ...userResources }, user.id]
+      );
+    }
+  });
+}, 1000 * ResourceInterval);
