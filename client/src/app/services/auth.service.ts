@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {
   LoginRequest,
   RegisterRequest,
-  SimpleIdRequest,
 } from '../../../../model/server-requests';
 import { User } from '../../../../model/user';
 import { Map, Cell } from '../../../../model/map';
@@ -71,13 +70,10 @@ export class AuthService {
   /**
    * Get user resources.
    */
-  GetUserResources(userId: number): Observable<User> {
+  GetUserResources(): Observable<User> {
     // if everything went okay, then the response contains map's data
-    const payload: SimpleIdRequest = {
-      userId,
-    };
     return this.backend
-      .getUserResources(payload)
+      .getUserResources()
       .pipe(map((response) => response.user || null));
   }
 }
