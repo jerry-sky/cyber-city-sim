@@ -64,7 +64,7 @@ export class CityDetailComponent implements OnInit {
   }
 
   getUserResources() {
-    this.auth.GetUserResources().subscribe(
+    this.auth.GetUserResources(this.userId).subscribe(
       (res) => {
         this.resources.red = res.redPCB;
         this.resources.green = res.greenPCB;

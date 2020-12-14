@@ -1,4 +1,8 @@
-import { LoginRequest, RegisterRequest } from '../../../model/server-requests';
+import {
+  LoginRequest,
+  RegisterRequest,
+  SimpleIdRequest,
+} from '../../../model/server-requests';
 import { LoginResponse } from '../../../model/server-responses';
 import { RouterWrapper } from '../auxiliary/express-method-wrapper';
 import { AuthenticationService } from '../services/auth.service';
@@ -25,7 +29,10 @@ Router.post<LoginRequest, LoginResponse, never>(
 
     request.session.user = user;
 
-    response.json({ user, hasNoLand: await mapService.HasNoLand(user) });
+    response.json({
+      user: { ...user, password: '' },
+      hasNoLand: await mapService.HasNoLand(user),
+    });
 
     next();
   }
@@ -43,22 +50,23 @@ Router.post<RegisterRequest, never, never>(
   }
 );
 
-Router.get<never, LoginResponse, never>(
+Router.post<SimpleIdRequest, LoginResponse, never>(
   '/resources',
   async (request, response, next) => {
-    if (!request.session || !request.session.user) {
-      throw Err(Errors.NOT_LOGGED_IN);
-    }
-    let user: User = request.session.user;
+    const userId = request.body.userId;
+    let user: User;
     await Database.ExecuteInsideDatabaseHarness(async (connection) => {
       const results: User[] = await connection.query(
         'SELECT * FROM `' + DatabaseTables.USERS + '` WHERE `id` = ?;',
-        [user.id]
+        [userId]
       );
       user = results[0];
     });
 
-    response.json({ user, hasNoLand: await mapService.HasNoLand(user) });
+    response.json({
+      user: { ...user, password: '' },
+      hasNoLand: await mapService.HasNoLand(user),
+    });
 
     next();
   }
