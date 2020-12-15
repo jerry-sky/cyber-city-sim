@@ -34,11 +34,11 @@ CREATE TABLE map(
 DROP TABLE IF EXISTS channels;
 CREATE TABLE channels(
   `id` INT NOT NULL AUTO_INCREMENT,
-  `global` BOOLEAN NOT NULL,
+  `private` BOOLEAN NOT NULL,
   PRIMARY KEY (`id`)
 );
 -- Immediately add the general global channel.
-INSERT INTO `channels` VALUES (1, true);
+INSERT INTO `channels` VALUES (1, false);
 
 -- All relations chat-to-user.
 DROP TABLE IF EXISTS userChat;
