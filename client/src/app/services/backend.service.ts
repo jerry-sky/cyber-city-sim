@@ -4,12 +4,22 @@ import { Observable } from 'rxjs';
 import {
   LoginRequest,
   RegisterRequest,
-  EditCellRequest,
+  SendGlobalMessageRequest,
+  GetMessageboxUsernamesRequest,
   UpgradeBuildingRequest,
   BuyBuildingRequest,
   SimpleIdRequest,
+  GetPrivateMessagesRequest,
+  SendPrivateMessageRequest,
 } from '../../../../model/server-requests';
-import { LoginResponse, MapResponse } from '../../../../model/server-responses';
+import {
+  LoginResponse,
+  MapResponse,
+  GlobalMessagesResponse,
+  MessageboxUsernamesResponse,
+  UserResponse,
+  PrivateMessagesResponse,
+} from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -19,6 +29,8 @@ export class BackendService {
   private usersUrl = environment.API + '/user';
   private mapUrl = environment.API + '/map';
   private cityUrl = environment.API + '/city';
+  private globalChatUrl = environment.API + '/global-chat';
+  private userChatsUrl = environment.API + '/user-chats';
 
   /**
    * Options to use when performing any HTTP requests.
@@ -70,5 +82,59 @@ export class BackendService {
       payload,
       this.options
     ) as Observable<LoginResponse>;
+  }
+
+  public sendGlobalMessage(
+    payload: SendGlobalMessageRequest
+  ): Observable<never> {
+    return this.http.post(
+      this.globalChatUrl,
+      payload,
+      this.options
+    ) as Observable<never>;
+  }
+
+  public getGlobalMessages(): Observable<GlobalMessagesResponse> {
+    return this.http.get(
+      this.globalChatUrl,
+      this.options
+    ) as Observable<GlobalMessagesResponse>;
+  }
+
+  public getUserChats(
+    payload: GetMessageboxUsernamesRequest
+  ): Observable<MessageboxUsernamesResponse> {
+    return (this.http.post(
+      this.userChatsUrl,
+      payload,
+      this.options
+    ) as unknown) as Observable<MessageboxUsernamesResponse>;
+  }
+
+  public getCurrentUser(): Observable<UserResponse> {
+    return this.http.get(
+      this.usersUrl + '/user-data',
+      this.options
+    ) as Observable<UserResponse>;
+  }
+
+  public getPrivateMessages(
+    payload: GetPrivateMessagesRequest
+  ): Observable<PrivateMessagesResponse> {
+    return (this.http.post(
+      this.userChatsUrl + '/messages',
+      payload,
+      this.options
+    ) as unknown) as Observable<PrivateMessagesResponse>;
+  }
+
+  public sendPrivateMessage(
+    payload: SendPrivateMessageRequest
+  ): Observable<never> {
+    return (this.http.post(
+      this.userChatsUrl + '/send-message',
+      payload,
+      this.options
+    ) as unknown) as Observable<never>;
   }
 }

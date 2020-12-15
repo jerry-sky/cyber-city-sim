@@ -40,3 +40,21 @@ export interface ClaimFirstCellRequest {
 export interface SimpleIdRequest {
   userId: number;
 }
+
+export interface SendGlobalMessageRequest {
+  username: string;
+  message: string;
+}
+
+export interface GetMessageboxUsernamesRequest {
+  username: string;
+}
+
+export interface GetPrivateMessagesRequest {
+  username: string;
+}
+
+export interface SendPrivateMessageRequest {
+  username: string;
+  messageContent: string;
+}

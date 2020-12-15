@@ -6,7 +6,7 @@ import {
   SimpleIdRequest,
 } from '../../../../model/server-requests';
 import { User } from '../../../../model/user';
-import { Map, Cell } from '../../../../model/map';
+import { Map } from '../../../../model/map';
 import { BackendService } from '../services/backend.service';
 import { map } from 'rxjs/operators';
 

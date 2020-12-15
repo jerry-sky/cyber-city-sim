@@ -11,9 +11,9 @@
   <div class="right-panel">
     <div
       *ngFor="let message of messages"
-      class="message {{ message | slice: 0:1 }}"
+      class="message {{ message.userId | isCurrentUser }}"
     >
-      {{ message | slice: 1 }}
+      {{ message.content }}
     </div>
     <!--future: <div *ngFor="let message of messages" class="message {message.mine}">{{message.content}}</div>-->
     <form
@@ -28,7 +28,7 @@
         mat-raised-button
         color="primary"
         type="submit"
-        [routerLink]="['/chat', username]"
+        [routerLink]="['/chat', chatUsername]"
       >
         <span class="material-icons">send</span>
       </button>

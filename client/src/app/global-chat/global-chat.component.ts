@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Message } from '../../../../model/message';
+import { BackendService } from '../services/backend.service';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-global-chat',
@@ -7,15 +11,45 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./global-chat.component.scss'],
 })
 export class GlobalChatComponent implements OnInit {
-  messages: string[] = ['message1', 'message2', 'message3'];
+  username: string;
+  messages: Message[] = [];
 
-  constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private chat: ChatService,
+    private backend: BackendService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getCurrentUsername();
+    this.chat.GetGlobalMessages().subscribe(
+      (res) => {
+        this.messages = res;
+      },
+      (err) => {
+        console.error('Error retrieving messages from server');
+      }
+    );
+  }
 
-  //send message to global chat
+  getCurrentUsername(): void {
+    this.backend.getCurrentUser().subscribe(
+      (res) => {
+        this.username = res.user.username;
+      },
+      (err) => {
+        console.error('Error retrieving user data from server');
+      }
+    );
+  }
+
+  /**
+   * Send message to global chat
+   *
+   * @param message the NgForm that contains the sent message
+   */
   sendGlobalMessage(message: NgForm) {
-    console.log('sending message to global chat: ', message.value);
-    this.messages.push(message.value.mess);
+    this.chat.SendGlobalMessage(this.username, message.value);
+    message.reset();
   }
 }
