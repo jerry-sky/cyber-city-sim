@@ -9,16 +9,15 @@ BEGIN
   SET FOREIGN_KEY_CHECKS = 0;
   TRUNCATE TABLE `map`;
   SET i = 0;
-  looop: LOOP
-    SET i = i + 1;
+  loop1: LOOP
     IF i = size THEN
-      LEAVE looop;
-    ELSE
-      SET terrain = 3 * RAND();
-      INSERT INTO `map`(`id`, `terrain`, `owner`, `buildingType`, `buildingLvl`)
-        VALUES (i, terrain, 0, -1, 0);
+      LEAVE loop1;
     END IF;
-  END LOOP looop;
+    SET i = i + 1;
+    SET terrain = 2 * RAND();
+    INSERT INTO `map`(`id`, `terrain`, `owner`, `buildingType`, `buildingLvl`)
+      VALUES (i, terrain, 0, -1, 0);
+  END LOOP loop1;
   SET FOREIGN_KEY_CHECKS = 1;
 END $$
 DELIMITER ;
