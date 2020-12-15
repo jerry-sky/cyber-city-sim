@@ -82,7 +82,7 @@ const sessionStore = new ExpressSessionFileStore({
 // session middleware
 app.use(
   ExpressSession({
-    name: 'krzemien-api-session',
+    name: 'css-api-session',
     secret: Environment.COOKIE_SECRET,
     store: sessionStore,
     resave: true,
@@ -91,7 +91,7 @@ app.use(
     cookie: {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
-      secure: Environment.PRODUCTION === 'true' ? true : false,
+      secure: Environment.PRODUCTION === 'true',
     },
     proxy: true,
   })
