@@ -2,8 +2,12 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cell } from '../../../../model/map';
 import { MatDialog } from '@angular/material/dialog';
-import { ProfilePopupComponent } from '../profile-popup/profile-popup.component';
+import {
+  DialogData,
+  ProfilePopupComponent,
+} from '../profile-popup/profile-popup.component';
 import { AuthService } from '../services/auth.service';
+import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
 
 @Component({
   selector: 'app-map',
@@ -12,9 +16,26 @@ import { AuthService } from '../services/auth.service';
 })
 export class MapComponent implements OnInit {
   terrain: Cell[];
-  currUser = 1;
+  currUserId = 0;
+  currUsername = 'username';
   test = true;
   scale = 1;
+  // object with data for Profile Popup, used when player clicks cell to see another player stats
+  chosenUserData: DialogData = {
+    username: '',
+    slots: 0,
+    buildings: 0,
+    production: {
+      red: 0,
+      green: 0,
+      blue: 0,
+    },
+    resources: {
+      red: 0,
+      green: 0,
+      blue: 0,
+    },
+  };
 
   constructor(
     private auth: AuthService,
@@ -23,6 +44,14 @@ export class MapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // get current user data
+    this.currUserId = this.auth.UserData.value
+      ? this.auth.UserData.value.id
+      : 0;
+    this.currUsername = this.auth.UserData.value
+      ? this.auth.UserData.value.username
+      : 'username';
+    // get terrain and position
     this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
     grid.style.top = `-${Math.floor(window.innerHeight * 0.25)}px`;
@@ -62,34 +91,64 @@ export class MapComponent implements OnInit {
   //method executed when clicking the city on the map
   chosenCity(event): void {
     const id: number = parseInt(event.target.id.replace('user-', ''), 10);
-    // temp data
-    const data = {
-      username: '',
+    this.chosenUserData = {
+      username: 'username',
+      slots: 0,
+      buildings: 0,
       production: {
-        red: Math.floor(Math.random() * 50),
-        green: Math.floor(Math.random() * 50),
-        blue: Math.floor(Math.random() * 50),
+        red: 0,
+        green: 0,
+        blue: 0,
       },
       resources: {
-        red: Math.floor(Math.random() * 1000),
-        green: Math.floor(Math.random() * 1000),
-        blue: Math.floor(Math.random() * 1000),
+        red: 0,
+        green: 0,
+        blue: 0,
       },
     };
-    if (id === this.currUser) {
-      data.username = 'benek';
-    } else {
-      data.username = 'janek';
-    }
+    this.getUserProduction(id, this.terrain);
+    this.getUserResources(id);
     if (id !== -1) {
-      if (id === this.currUser) {
-        this.router.navigate(['/city/benek']);
+      if (id === this.currUserId) {
+        this.router.navigate([`/city/${this.currUsername}`]);
       } else {
+        const data = this.chosenUserData;
         this.dialog.open(ProfilePopupComponent, {
           width: '800px',
           data,
         });
       }
     }
+  }
+
+  getUserProduction(uid: number, terrain: Cell[]) {
+    terrain.forEach((c) => {
+      if (c.owner === uid) {
+        // count cells
+        this.chosenUserData.slots++;
+        if (c.buildingType !== -1) {
+          // count buildings
+          this.chosenUserData.buildings++;
+          // count production
+          const name = `building-${c.buildingType}-lvl-${c.buildingLvl}`;
+          const values = BuildingsValues.default[name];
+          this.chosenUserData.production.red += values.red;
+          this.chosenUserData.production.green += values.green;
+          this.chosenUserData.production.blue += values.blue;
+        }
+      }
+    });
+  }
+
+  getUserResources(uid: number) {
+    this.auth.GetUserResources(uid).subscribe(
+      (res) => {
+        this.chosenUserData.username = res.username;
+        this.chosenUserData.resources.red = res.redPCB;
+        this.chosenUserData.resources.green = res.greenPCB;
+        this.chosenUserData.resources.blue = res.bluePCB;
+      },
+      (err) => console.log(err)
+    );
   }
 }

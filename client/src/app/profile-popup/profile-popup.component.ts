@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 export interface DialogData {
   username: string;
+  slots: number;
+  buildings: number;
   production: {
     red: number;
     green: number;

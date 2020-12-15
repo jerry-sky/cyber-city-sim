@@ -16,7 +16,7 @@ import { CityService } from '../services/city.service';
 export class CityComponent implements OnInit {
   @Input() username: string;
   terrain: Cell[];
-  userId = 1;
+  userId = 0;
   scale = 1;
 
   constructor(
@@ -26,6 +26,7 @@ export class CityComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.userId = this.auth.UserData.value ? this.auth.UserData.value.id : 0;
     this.getTerrain();
   }
 
@@ -158,7 +159,7 @@ export class CityComponent implements OnInit {
         cell.buildingLvl++;
         this.terrain[index] = cell;
         // send changes to server
-        this.city.UpgradeBuilding(index);
+        this.city.UpgradeBuilding(index + 1);
       });
     } else {
       alert('Cant upgrade, Building is already maxed out.');
@@ -204,7 +205,7 @@ export class CityComponent implements OnInit {
         cell.buildingLvl = 0;
         this.terrain[index] = cell;
         // send changes to server
-        this.city.BuyBuilding(index, id);
+        this.city.BuyBuilding(index + 1, id);
       }
     });
   }

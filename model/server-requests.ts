@@ -34,6 +34,13 @@ export interface ClaimFirstCellRequest {
   cellId: number;
 }
 
+/**
+ * When only information know of user is its id
+ */
+export interface SimpleIdRequest {
+  userId: number;
+}
+
 export interface SendGlobalMessageRequest {
   username: string;
   message: string;

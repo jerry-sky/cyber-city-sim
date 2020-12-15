@@ -8,6 +8,7 @@ import {
   GetMessageboxUsernamesRequest,
   UpgradeBuildingRequest,
   BuyBuildingRequest,
+  SimpleIdRequest,
   GetPrivateMessagesRequest,
   SendPrivateMessageRequest,
 } from '../../../../model/server-requests';
@@ -73,6 +74,14 @@ export class BackendService {
       payload,
       this.options
     ) as Observable<never>;
+  }
+
+  public getUserResources(payload: SimpleIdRequest): Observable<LoginResponse> {
+    return this.http.post(
+      this.usersUrl + '/resources',
+      payload,
+      this.options
+    ) as Observable<LoginResponse>;
   }
 
   public sendGlobalMessage(

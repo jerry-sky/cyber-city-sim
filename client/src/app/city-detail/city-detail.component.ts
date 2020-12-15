@@ -10,7 +10,7 @@ import { FindValueSubscriber } from 'rxjs/internal/operators/find';
   styleUrls: ['./city-detail.component.scss'],
 })
 export class CityDetailComponent implements OnInit {
-  userId = 1;
+  userId = 0;
   slots = 0;
   buildings = 0;
   production = {
@@ -27,9 +27,16 @@ export class CityDetailComponent implements OnInit {
   constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
+    this.userId = this.auth.UserData.value ? this.auth.UserData.value.id : 0;
     this.auth.GetMap().subscribe(
       (res) => {
         this.getUserProduction(res.cells);
+        this.getUserResources();
+        const ResourceInterval = 3; //seconds
+        window.setInterval(
+          this.incrementResources.bind(this),
+          1000 * ResourceInterval
+        );
       },
       (err) => {
         console.error('Error retriving user data from server');
@@ -48,13 +55,28 @@ export class CityDetailComponent implements OnInit {
           // count production
           const name = `building-${c.buildingType}-lvl-${c.buildingLvl}`;
           const values = BuildingsValues.default[name];
-          this.production.red += c.terrain === 0 ? 2 * values.red : values.red;
-          this.production.green +=
-            c.terrain === 1 ? 2 * values.green : values.green;
-          this.production.blue +=
-            c.terrain === 2 ? 2 * values.blue : values.blue;
+          this.production.red += values.red;
+          this.production.green += values.green;
+          this.production.blue += values.blue;
         }
       }
     });
+  }
+
+  getUserResources() {
+    this.auth.GetUserResources(this.userId).subscribe(
+      (res) => {
+        this.resources.red = res.redPCB;
+        this.resources.green = res.greenPCB;
+        this.resources.blue = res.bluePCB;
+      },
+      (err) => console.log(err)
+    );
+  }
+
+  incrementResources() {
+    this.resources.red += this.production.red;
+    this.resources.green += this.production.green;
+    this.resources.blue += this.production.blue;
   }
 }

@@ -18,7 +18,7 @@ export class ChatService {
         id: undefined,
       };
       await connection.query(
-        'INSERT INTO `' + DatabaseTables.MESSAGE + '` SET ?;',
+        'INSERT INTO `' + DatabaseTables.MESSAGES + '` SET ?;',
         [message]
       );
     });
@@ -28,7 +28,7 @@ export class ChatService {
     let messages: Message[] = [];
     await this.database.ExecuteInsideDatabaseHarness(async (connection) => {
       messages = await connection.query(
-        'SELECT * FROM `' + DatabaseTables.MESSAGE + '` WHERE `id` = ?;',
+        'SELECT * FROM `' + DatabaseTables.MESSAGES + '` WHERE `id` = ?;',
         [GLOBAL_CHAT_ID]
       );
     });
