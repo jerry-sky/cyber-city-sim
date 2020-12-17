@@ -50,7 +50,7 @@ export class MapService {
       const results: Cell[] = await connection.query(
         'SELECT * FROM ' +
           DatabaseTables.MAP +
-          ' WHERE `owner` IS NULL AND `id` = ?',
+          ' WHERE `owner` = 0 AND `id` = ?',
         [index]
       );
       if (results.length === 1) {
