@@ -7,6 +7,7 @@
     "lint-model": "cd model && npm run lint",
     "lint-client": "cd client && npm run lint",
     "lint-server": "cd server && npm run lint",
+    "prevalidate": "npx editorconfig-checker",
     "validate": "npm run lint-model && npm run lint-client && npm run lint-server",
     "install": "cd model && npm i && cd ../server && npm i && cd ../client && npm i"
   },
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
+    "editorconfig-checker": "^3.3.0",
     "eslint": "^7.13.0",
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.2.0",
