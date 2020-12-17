@@ -56,7 +56,7 @@ export class ChatService {
    * Figure out the private chatroom's ID for storage purposes.
    */
   private async GetChannelId(user1: User, user2: User): Promise<number> {
-    let result;
+    let result: { chatId: number }[] = [];
     // Find the users' mutual channel that is not the global one.
     await this.database.ExecuteInsideDatabaseHarness(async (connection) => {
       result = await connection.query(
@@ -67,7 +67,6 @@ export class ChatService {
         [user1.id, user2.id, GLOBAL_CHAT_ID]
       );
     });
-    result = JSON.parse(JSON.stringify(result));
     if (result.length === 1) {
       return result[0].chatId;
     } else {
