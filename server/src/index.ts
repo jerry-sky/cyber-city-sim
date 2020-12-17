@@ -83,7 +83,7 @@ const sessionStore = new ExpressSessionFileStore({
 // session middleware
 app.use(
   ExpressSession({
-    name: 'krzemien-api-session',
+    name: 'css-api-session',
     secret: Environment.COOKIE_SECRET,
     store: sessionStore,
     resave: true,
@@ -92,7 +92,7 @@ app.use(
     cookie: {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
-      secure: Environment.PRODUCTION === 'true' ? true : false,
+      secure: Environment.PRODUCTION === 'true',
     },
     proxy: true,
   })
@@ -121,7 +121,7 @@ app.use(
     /**
      * Get the error code.
      */
-    const err = error.message as Errors;
+    const errorCode = error.message as Errors;
 
     /**
      * The HTTP status code.
@@ -129,18 +129,28 @@ app.use(
      */
     let status = 400;
 
-    switch (err) {
-      case Errors.INVALID_CREDENTIALS:
-        status = 401;
-        break;
-      default:
-        console.error(error);
-        break;
+    if (Object.values(Errors).includes(errorCode)) {
+      // error is a user-based error
+      switch (errorCode) {
+        case Errors.INVALID_CREDENTIALS:
+          status = 401;
+          break;
+        case Errors.NOT_LOGGED_IN:
+          status = 403;
+          break;
+        case Errors.USER_ALREADY_EXISTS:
+          status = 409;
+          break;
+      }
+    } else {
+      // error is an internal error (possibly related to bad code)
+      status = 500;
+      console.error(error);
     }
 
     // compose a response object
     const res: ErrorResponse = {
-      errorCode: err,
+      errorCode,
     };
 
     response.status(status).json(res);
