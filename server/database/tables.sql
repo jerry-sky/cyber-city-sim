@@ -20,9 +20,9 @@ DROP TABLE IF EXISTS map;
 CREATE TABLE map(
   `id` INT NOT NULL AUTO_INCREMENT,
   `terrain` INT NOT NULL,
-  `owner` INT,
-  `buildingType` INT,
-  `buildingLvl` INT,
+  `owner` INT NOT NULL DEFAULT 0,
+  `buildingType` INT NOT NULL DEFAULT -1,
+  `buildingLvl` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`owner`) REFERENCES users(`id`)
   ON DELETE CASCADE
