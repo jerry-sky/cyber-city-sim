@@ -8,6 +8,7 @@ export enum Errors {
   MAX_BUILDING_LEVEL = 'Can’t upgrade a building that is maxed out.',
   BUILDING_ALREADY_EXISTS = 'Can’t buy a building on a cell that already has a building.',
   NONEXISTENT_CHAT = 'The are no recorded messages between the selected users.',
+  USER_DOES_NOT_EXIST = 'Selected user doesn’t exist.',
 }
 
 /**
