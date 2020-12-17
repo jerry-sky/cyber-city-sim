@@ -38,7 +38,6 @@ export class MapService {
    * @param index The cell's index number.
    * @param cell The cell object containing information about resources and the like.
    */
-  //TODO: introduce cell's cost.
   public async AssignCellToUser(user: User, index: number): Promise<void> {
     // First ensure that the cell belongs to no one.
     let owner: Cell[];
@@ -46,7 +45,7 @@ export class MapService {
       owner = await connection.query(
         'SELECT * FROM ' +
           DatabaseTables.MAP +
-          ' WHERE `owner` IS NULL AND `id` = ?',
+          ' WHERE `owner` = 0 AND `id` = ?',
         [index]
       );
     });
