@@ -63,6 +63,10 @@ Router.post<SimpleIdRequest, LoginResponse, never>(
       user = results[0];
     });
 
+    if (!user) {
+      throw Err(Errors.USER_DOES_NOT_EXIST);
+    }
+
     response.json({
       user: { ...user, password: '' },
       hasNoLand: await mapService.HasNoLand(user),
