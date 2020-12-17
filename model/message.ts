@@ -5,7 +5,7 @@ export interface Message {
   /**
    * Unique identifier.
    */
-  id: number;
+  messageId: number;
   /**
    * Id of the message creator (User).
    */

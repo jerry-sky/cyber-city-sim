@@ -9,13 +9,13 @@ export class ChatService {
 
   public async SendGlobalMessage(sender: User, content: string): Promise<void> {
     await this.database.ExecuteInsideDatabaseHarness(async (connection) => {
-      // compose the message
+      // Compose the message.
       const message: Message = {
-        chatId: GLOBAL_CHAT_ID,
-        content,
-        date: new Date(),
+        messageId: 0, // The auto-increment will take care of tracking this.
         userId: sender.id,
-        id: undefined,
+        content,
+        chatId: GLOBAL_CHAT_ID,
+        date: new Date(),
       };
       await connection.query(
         'INSERT INTO `' + DatabaseTables.MESSAGES + '` SET ?;',
@@ -25,10 +25,11 @@ export class ChatService {
   }
 
   public async GetGlobalChatMessages(): Promise<Message[]> {
+    // Get an array of messages from the global chat.
     let messages: Message[] = [];
     await this.database.ExecuteInsideDatabaseHarness(async (connection) => {
       messages = await connection.query(
-        'SELECT * FROM `' + DatabaseTables.MESSAGES + '` WHERE `id` = ?;',
+        'SELECT * FROM `' + DatabaseTables.MESSAGES + '` WHERE `chatId` = ?;',
         [GLOBAL_CHAT_ID]
       );
     });
