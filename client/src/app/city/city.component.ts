@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Cell } from '../../../../model/map';
+import { Cell, MAX_BUILDING_LEVEL } from '../../../../model/map';
 import { MatDialog } from '@angular/material/dialog';
 import { BuildingInfoPopupComponent } from '../building-info-popup/building-info-popup.component';
 import { NewBuildingPopupComponent } from '../new-building-popup/new-building-popup.component';
@@ -101,8 +101,8 @@ export class CityComponent implements OnInit {
    *
    * @param event onclick event
    */
-  chosenCell(event): void {
-    const index = parseInt(event.target.id.replace('cell-', ''), 10);
+  chosenCell(targetId: string): void {
+    const index = parseInt(targetId.replace('cell-', ''), 10);
     const cell = this.terrain[index];
     if (cell.owner === this.userId) {
       // building exists
@@ -140,12 +140,12 @@ export class CityComponent implements OnInit {
         ],
       // cost of upgrade
       cost:
-        BuildingsCosts.default[
-          `upgrade-building-${cell.buildingType}-to-lvl-${cell.buildingLvl + 1}`
+        BuildingsCosts.default[ // I hate this
+          `upgrade-building-${cell.buildingType}-to-lvl-${cell.buildingLvl + 1}` // I hate this even more
         ],
     };
-    // check if it's possile to upgrade
-    if (cell.buildingLvl < 2) {
+    // check if it's possible to upgrade
+    if (cell.buildingLvl < MAX_BUILDING_LEVEL) {
       // show dialog
       const dialogRef = this.dialog.open(BuildingInfoPopupComponent, {
         width: '800px',
@@ -154,7 +154,7 @@ export class CityComponent implements OnInit {
       // apply changes
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          alert(`Upgraded building`);
+          alert(`Upgraded the building.`);
         }
         cell.buildingLvl++;
         this.terrain[index] = cell;
@@ -162,7 +162,7 @@ export class CityComponent implements OnInit {
         this.city.UpgradeBuilding(index + 1);
       });
     } else {
-      alert('Cant upgrade, Building is already maxed out.');
+      alert('Can’t upgrade, the building is already maxed out.');
     }
   }
 
