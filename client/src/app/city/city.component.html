@@ -2,7 +2,7 @@
   <div
     *ngFor="let cell of terrain"
     [ngClass]="{
-      background: cell.owner == -1,
+      background: cell.owner == -1 || cell.owner == 0,
       'color-0':
         cell.owner === userId && cell.buildingType === -1 && cell.terrain == 0,
       'color-1':

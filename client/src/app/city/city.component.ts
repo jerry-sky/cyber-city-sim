@@ -16,7 +16,7 @@ import { CityService } from '../services/city.service';
 export class CityComponent implements OnInit {
   @Input() username: string;
   terrain: Cell[];
-  userId = 0;
+  userId = -1;
   scale = 1;
 
   constructor(
@@ -26,7 +26,7 @@ export class CityComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.auth.UserData.value ? this.auth.UserData.value.id : 0;
+    this.userId = this.auth.UserData.value ? this.auth.UserData.value.id : -1;
     this.getTerrain();
   }
 
