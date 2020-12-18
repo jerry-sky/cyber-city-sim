@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import {
   LoginRequest,
   RegisterRequest,
-  EditCellRequest,
   UpgradeBuildingRequest,
   BuyBuildingRequest,
   SimpleIdRequest,
+  ClaimCellRequest,
 } from '../../../../model/server-requests';
 import { LoginResponse, MapResponse } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
@@ -59,6 +59,14 @@ export class BackendService {
   public buyBuilding(payload: BuyBuildingRequest): Observable<never> {
     return this.http.post(
       this.cityUrl + '/buy-building',
+      payload,
+      this.options
+    ) as Observable<never>;
+  }
+
+  public buyCell(payload: ClaimCellRequest): Observable<never> {
+    return this.http.post(
+      this.mapUrl + '/claim-cell',
       payload,
       this.options
     ) as Observable<never>;

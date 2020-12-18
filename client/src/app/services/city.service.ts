@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { BuildingType } from '../../../../model/building-type';
 import { BackendService } from './backend.service';
 
@@ -20,5 +21,12 @@ export class CityService {
    */
   public BuyBuilding(cellId: number, buildingType: BuildingType): void {
     this.backend.buyBuilding({ cellId, buildingType }).subscribe();
+  }
+
+  /**
+   * Buy a cell for city beginning or expansion.
+   */
+  public BuyCell(cellId: number): Observable<boolean> {
+    return this.backend.buyCell({ cellId });
   }
 }

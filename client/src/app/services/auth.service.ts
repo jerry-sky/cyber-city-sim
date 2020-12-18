@@ -20,6 +20,9 @@ export class AuthService {
   public UserData: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
     null
   );
+  public UserHasLand: BehaviorSubject<boolean | null> = new BehaviorSubject<
+    boolean | null
+  >(false);
 
   constructor(private backend: BackendService) {}
 
@@ -39,6 +42,7 @@ export class AuthService {
     return this.backend.userLogin(payload).pipe(
       map((response) => {
         this.UserData.next(response.user);
+        this.UserHasLand.next(!response.hasNoLand);
         return true;
       })
     );
