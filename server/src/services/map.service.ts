@@ -61,12 +61,14 @@ export class MapService {
         if (ownedLand > 0) {
           // If the user does own any cells — charge resources for them.
           // Get the resources that the user currently owns.
-          const userResources = await connection.query(
-            'SELECT `redPCB`, `bluePCB`, `greenPCB` FROM `' +
-              DatabaseTables.USERS +
-              '` WHERE `id` = ?',
-            [user.id]
-          );
+          const userResources = (
+            await connection.query(
+              'SELECT `redPCB`, `bluePCB`, `greenPCB` FROM `' +
+                DatabaseTables.USERS +
+                '` WHERE `id` = ?',
+              [user.id]
+            )
+          )[0];
           // Decide which resource to alter because of this transaction.
           let key: keyof User = ResourceNames.RED;
           if (cell.terrain === Resource.BLUE) {
