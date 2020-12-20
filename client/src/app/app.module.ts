@@ -32,6 +32,7 @@ import { ProfilePopupComponent } from './profile-popup/profile-popup.component';
 import { BuildingInfoPopupComponent } from './building-info-popup/building-info-popup.component';
 import { NewBuildingPopupComponent } from './new-building-popup/new-building-popup.component';
 import { InfoPopupComponent } from './info-popup/info-popup.component';
+import { ClaimCellPopupComponent } from './claim-cell-popup/claim-cell-popup.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { InfoPopupComponent } from './info-popup/info-popup.component';
     BuildingInfoPopupComponent,
     NewBuildingPopupComponent,
     InfoPopupComponent,
+    ClaimCellPopupComponent,
   ],
   imports: [
     BrowserModule,

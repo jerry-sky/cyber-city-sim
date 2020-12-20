@@ -43,4 +43,8 @@
         background: url('../../assets/images/city-building-3.png');
         background-size: cover;
     }
+    // neighbour cells
+    .neighbour-slot {
+        opacity: 0.3;
+    }
 }

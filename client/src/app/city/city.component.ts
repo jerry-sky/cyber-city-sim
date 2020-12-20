@@ -3,6 +3,7 @@ import { Cell } from '../../../../model/map';
 import { MatDialog } from '@angular/material/dialog';
 import { BuildingInfoPopupComponent } from '../building-info-popup/building-info-popup.component';
 import { NewBuildingPopupComponent } from '../new-building-popup/new-building-popup.component';
+import { ClaimCellPopupComponent } from '../claim-cell-popup/claim-cell-popup.component';
 import { AuthService } from '../services/auth.service';
 import { UpgradeCosts as BuildingsCosts } from '../../../../model/resource-production/upgrade-costs';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
@@ -15,7 +16,8 @@ import { CityService } from '../services/city.service';
 })
 export class CityComponent implements OnInit {
   @Input() username: string;
-  terrain: Cell[];
+  terrain: Cell[] = [];
+  neighbours: Cell[] = [];
   userId = -1;
   scale = 1;
 
@@ -38,12 +40,47 @@ export class CityComponent implements OnInit {
     this.auth.GetMap().subscribe(
       (res) => {
         this.terrain = res.cells;
+        this.checkNeighbours();
         this.focusCity();
       },
       (err) => {
         console.error('Error retriving city from server');
       }
     );
+  }
+
+  /**
+   * Show all cells adjacent to user city
+   */
+  checkNeighbours(): void {
+    const userCityIds = this.terrain
+      .filter((c) => c.owner === this.userId)
+      .map((c) => c.id);
+    this.neighbours = this.terrain.filter((c) => {
+      // is part of city
+      if (userCityIds.includes(c.id)) {
+        return false;
+      }
+      // other user owns it
+      if (c.owner !== 0 && c.owner !== -1) {
+        return false;
+      }
+      for (const i of userCityIds) {
+        const row1 = Math.floor((i - 1) / 20);
+        const row2 = Math.floor((c.id - 1) / 20);
+        const col1 = (i - 1) % 20;
+        const col2 = (c.id - 1) % 20;
+        // horizontally
+        if (row1 === row2 && Math.abs(col1 - col2) === 1) {
+          return true;
+        }
+        // verrtically
+        if (col1 === col2 && Math.abs(row1 - row2) === 1) {
+          return true;
+        }
+      }
+      return false;
+    });
   }
 
   /**
@@ -113,6 +150,8 @@ export class CityComponent implements OnInit {
       else {
         this.showNewBuilding(cell, index);
       }
+    } else if (this.neighbours.includes(cell)) {
+      this.showCellBuying(cell, index);
     }
   }
 
@@ -206,6 +245,39 @@ export class CityComponent implements OnInit {
         this.terrain[index] = cell;
         // send changes to server
         this.city.BuyBuilding(index + 1, id);
+      }
+    });
+  }
+
+  /**
+   * Show popup asking to buy cell
+   *
+   * @param cell the cell that was clicked
+   * @param index index of cell in terrain array
+   */
+  showCellBuying(cell, index): void {
+    // show dialog
+    const dialogRef = this.dialog.open(ClaimCellPopupComponent, {
+      width: '400px',
+    });
+    // apply changes
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // send changes to server
+        this.city.BuyCell(cell.id).subscribe(
+          (res) => {
+            alert(`Bought cell ${cell.id}`);
+            cell.owner = this.userId;
+            this.terrain[index] = cell;
+            this.checkNeighbours();
+          },
+          (err) => {
+            alert(err.error.errorCode);
+            cell.owner = this.userId;
+            this.terrain[index] = cell;
+            this.checkNeighbours();
+          }
+        );
       }
     });
   }
