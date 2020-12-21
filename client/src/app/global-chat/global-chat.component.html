@@ -1,7 +1,7 @@
 <div class="main">
   <div class="messages">
     <p *ngFor="let mess of messages" class="mess">
-      {{ mess.userId }}: {{ mess.content }}
+      {{ getUsername(mess.userId) }}: {{ mess.content }}
     </p>
   </div>
   <form (submit)="sendGlobalMessage(messageForm)" #messageForm="ngForm">

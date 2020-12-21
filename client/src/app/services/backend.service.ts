@@ -18,6 +18,7 @@ import {
   MessageboxUsernamesResponse,
   UserResponse,
   PrivateMessagesResponse,
+  UsernameDictionaryResponse,
 } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
@@ -30,6 +31,7 @@ export class BackendService {
   private cityUrl = environment.API + '/city';
   private globalChatUrl = environment.API + '/global-chat';
   private userChatsUrl = environment.API + '/user-chats';
+  private usernamesUrl = environment.API + '/usernames';
 
   /**
    * Options to use when performing any HTTP requests.
@@ -132,5 +134,12 @@ export class BackendService {
       payload,
       this.options
     ) as unknown) as Observable<never>;
+  }
+
+  public getUsernameDictionary(): Observable<UsernameDictionaryResponse> {
+    return (this.http.get(
+      this.usersUrl + '/usernames',
+      this.options,
+    ) as Observable<UsernameDictionaryResponse>);
   }
 }
