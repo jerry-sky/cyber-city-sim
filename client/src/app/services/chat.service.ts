@@ -16,9 +16,8 @@ import { BackendService } from './backend.service';
 export class ChatService {
   constructor(private backend: BackendService) {}
 
-  SendGlobalMessage(username: string, message: string): Observable<never> {
+  SendGlobalMessage(message: string): Observable<never> {
     const payload: SendGlobalMessageRequest = {
-      username,
       message,
     };
     return this.backend.sendGlobalMessage(payload);
@@ -30,12 +29,9 @@ export class ChatService {
       .pipe(map((response) => response.messages));
   }
 
-  GetUserChats(username: string): Observable<string[]> {
-    const payload: GetMessageboxUsernamesRequest = {
-      username,
-    };
+  GetUserChats(): Observable<string[]> {
     return this.backend
-      .getUserChats(payload)
+      .getUserChats()
       .pipe(map((response) => response.usernames));
   }
 

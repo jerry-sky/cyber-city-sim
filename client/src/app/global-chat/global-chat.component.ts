@@ -49,7 +49,7 @@ export class GlobalChatComponent implements OnInit {
    * @param message the NgForm that contains the sent message
    */
   sendGlobalMessage(message: NgForm) {
-    this.chat.SendGlobalMessage(this.username, message.value);
+    this.chat.SendGlobalMessage(message.value);
     message.reset();
   }
 }

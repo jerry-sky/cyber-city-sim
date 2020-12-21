@@ -26,7 +26,7 @@ export class MessageboxComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentUsername();
-    this.chat.GetUserChats(this.username).subscribe(
+    this.chat.GetUserChats().subscribe(
       (res) => {
         this.userChats = res;
       },

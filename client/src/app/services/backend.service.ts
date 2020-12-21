@@ -5,7 +5,6 @@ import {
   LoginRequest,
   RegisterRequest,
   SendGlobalMessageRequest,
-  GetMessageboxUsernamesRequest,
   UpgradeBuildingRequest,
   BuyBuildingRequest,
   SimpleIdRequest,
@@ -101,12 +100,9 @@ export class BackendService {
     ) as Observable<GlobalMessagesResponse>;
   }
 
-  public getUserChats(
-    payload: GetMessageboxUsernamesRequest
-  ): Observable<MessageboxUsernamesResponse> {
+  public getUserChats(): Observable<MessageboxUsernamesResponse> {
     return (this.http.post(
       this.userChatsUrl,
-      payload,
       this.options
     ) as unknown) as Observable<MessageboxUsernamesResponse>;
   }
@@ -119,8 +115,8 @@ export class BackendService {
   }
 
   public getPrivateMessages(
-    payload: GetPrivateMessagesRequest
-  ): Observable<PrivateMessagesResponse> {
+      payload: GetPrivateMessagesRequest
+    ): Observable<PrivateMessagesResponse> {
     return (this.http.post(
       this.userChatsUrl + '/messages',
       payload,
