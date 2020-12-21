@@ -56,6 +56,6 @@
         cell.owner === userId && cell.buildingType == 2 && cell.buildingLvl == 2
     }"
     id="cell-{{ terrain.indexOf(cell) }}"
-    (click)="chosenCell($event)"
+    (click)="chosenCell($event.target.id)"
   ></div>
 </div>
