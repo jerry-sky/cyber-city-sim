@@ -20,14 +20,14 @@ export class AuthService {
   public UserData: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
     null
   );
-  public UserHasLand: BehaviorSubject<boolean | null> = new BehaviorSubject<
-    boolean | null
-  >(false);
+  public UserLand: BehaviorSubject<number | null> = new BehaviorSubject<
+    number | null
+  >(null);
 
   constructor(private backend: BackendService) {}
 
   IsAuthenticated(): boolean {
-    if (!this.UserHasLand.getValue()) {
+    if (!this.UserData.getValue()) {
       return sessionStorage.getItem('user-data') !== null;
     } else {
       return false;
@@ -41,11 +41,11 @@ export class AuthService {
       return this.UserData.getValue();
     }
   }
-  CheckUserHasLand(): boolean {
-    if (!this.UserHasLand.getValue()) {
-      return sessionStorage.getItem('user-has-land') === 'true';
+  GetUserLand(): number {
+    if (!this.UserLand.getValue()) {
+      return parseInt(sessionStorage.getItem('user-land'), 10);
     } else {
-      return this.UserHasLand.getValue();
+      return this.UserLand.getValue();
     }
   }
 
@@ -62,11 +62,8 @@ export class AuthService {
       map((response) => {
         this.UserData.next(response.user);
         sessionStorage.setItem('user-data', JSON.stringify(response.user));
-        this.UserHasLand.next(!response.hasNoLand);
-        sessionStorage.setItem(
-          'user-has-land',
-          JSON.stringify(!response.hasNoLand)
-        );
+        this.UserLand.next(response.land);
+        sessionStorage.setItem('user-land', response.land.toString());
         return true;
       })
     );
@@ -77,7 +74,7 @@ export class AuthService {
    */
   Logout(): void {
     sessionStorage.setItem('user-data', null);
-    sessionStorage.setItem('user-has-land', null);
+    sessionStorage.setItem('user-land', null);
   }
 
   /**

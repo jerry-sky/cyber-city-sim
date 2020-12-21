@@ -150,6 +150,7 @@ export class CityComponent implements OnInit {
       else {
         this.showNewBuilding(cell, index);
       }
+      // adjecent empty cell
     } else if (this.neighbours.includes(cell)) {
       this.showCellBuying(cell, index);
     }
@@ -193,12 +194,19 @@ export class CityComponent implements OnInit {
       // apply changes
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          alert(`Upgraded building`);
+          // send changes to server
+          this.city.UpgradeBuilding(index + 1).subscribe(
+            (res) => {
+              alert(`Upgraded building`);
+              cell.buildingLvl++;
+              this.terrain[index] = cell;
+              window.location.reload();
+            },
+            (err) => {
+              alert(err.error.errorCode);
+            }
+          );
         }
-        cell.buildingLvl++;
-        this.terrain[index] = cell;
-        // send changes to server
-        this.city.UpgradeBuilding(index + 1);
       });
     } else {
       alert('Cant upgrade, Building is already maxed out.');
@@ -238,13 +246,20 @@ export class CityComponent implements OnInit {
     // apply changes
     dialogRef.afterClosed().subscribe((id) => {
       if (id + 1) {
-        alert(`Bought building ${id + 1}`);
-        cell.owner = this.userId;
-        cell.buildingType = id;
-        cell.buildingLvl = 0;
-        this.terrain[index] = cell;
         // send changes to server
-        this.city.BuyBuilding(index + 1, id);
+        this.city.BuyBuilding(index + 1, id).subscribe(
+          (res) => {
+            alert(`Bought building ${id + 1}`);
+            cell.owner = this.userId;
+            cell.buildingType = id;
+            cell.buildingLvl = 0;
+            this.terrain[index] = cell;
+            window.location.reload();
+          },
+          (err) => {
+            alert(err.error.errorCode);
+          }
+        );
       }
     });
   }
@@ -259,6 +274,7 @@ export class CityComponent implements OnInit {
     // show dialog
     const dialogRef = this.dialog.open(ClaimCellPopupComponent, {
       width: '400px',
+      data: cell.terrain,
     });
     // apply changes
     dialogRef.afterClosed().subscribe((result) => {
@@ -270,6 +286,7 @@ export class CityComponent implements OnInit {
             cell.owner = this.userId;
             this.terrain[index] = cell;
             this.checkNeighbours();
+            window.location.reload();
           },
           (err) => {
             alert(err.error.errorCode);

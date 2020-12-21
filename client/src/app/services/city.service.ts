@@ -12,15 +12,18 @@ export class CityService {
   /**
    * Upgrade building that is present on the selected city cell.
    */
-  public UpgradeBuilding(cellId: number): void {
-    this.backend.upgradeBuilding({ cellId }).subscribe();
+  public UpgradeBuilding(cellId: number): Observable<boolean> {
+    return this.backend.upgradeBuilding({ cellId });
   }
 
   /**
    * Buy a building of chosen type on the selected city cell.
    */
-  public BuyBuilding(cellId: number, buildingType: BuildingType): void {
-    this.backend.buyBuilding({ cellId, buildingType }).subscribe();
+  public BuyBuilding(
+    cellId: number,
+    buildingType: BuildingType
+  ): Observable<boolean> {
+    return this.backend.buyBuilding({ cellId, buildingType });
   }
 
   /**

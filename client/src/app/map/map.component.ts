@@ -54,7 +54,7 @@ export class MapComponent implements OnInit {
     // get current user data
     this.currUserId = this.auth.GetUserData().id;
     this.currUsername = this.auth.GetUserData().username;
-    this.currUserHasLand = this.auth.CheckUserHasLand();
+    this.currUserHasLand = this.auth.GetUserLand() !== 0;
     // get terrain and position
     this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;

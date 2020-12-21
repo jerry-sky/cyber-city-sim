@@ -31,7 +31,7 @@ Router.post<LoginRequest, LoginResponse, never>(
 
     response.json({
       user: { ...user, password: '' },
-      hasNoLand: await mapService.HasNoLand(user),
+      land: await mapService.HowManyCellsUserOwns(user),
     });
 
     next();
@@ -65,7 +65,7 @@ Router.post<SimpleIdRequest, LoginResponse, never>(
 
     response.json({
       user: { ...user, password: '' },
-      hasNoLand: await mapService.HasNoLand(user),
+      land: await mapService.HowManyCellsUserOwns(user),
     });
 
     next();
