@@ -273,9 +273,6 @@ export class CityComponent implements OnInit {
           },
           (err) => {
             alert(err.error.errorCode);
-            cell.owner = this.userId;
-            this.terrain[index] = cell;
-            this.checkNeighbours();
           }
         );
       }
