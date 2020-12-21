@@ -31,3 +31,7 @@ export interface UserResponse {
 export interface PrivateMessagesResponse {
   messages: Message[];
 }
+
+export interface UsernameDictionaryResponse {
+  users: { id: number; username: string }[];
+}
