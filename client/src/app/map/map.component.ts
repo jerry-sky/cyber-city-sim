@@ -44,7 +44,7 @@ export class MapComponent implements OnInit {
   };
 
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private city: CityService,
     private router: Router,
     public dialog: MatDialog
@@ -52,13 +52,9 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     // get current user data
-    this.currUserId = this.auth.UserData.value
-      ? this.auth.UserData.value.id
-      : -1;
-    this.currUsername = this.auth.UserData.value
-      ? this.auth.UserData.value.username
-      : '';
-    this.currUserHasLand = this.auth.UserHasLand.value;
+    this.currUserId = this.auth.GetUserData().id;
+    this.currUsername = this.auth.GetUserData().username;
+    this.currUserHasLand = this.auth.CheckUserHasLand();
     // get terrain and position
     this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
@@ -75,7 +71,7 @@ export class MapComponent implements OnInit {
   }
 
   checkIfHasLand(): void {
-    if (!this.auth.UserHasLand.value) {
+    if (!this.currUserHasLand) {
       this.dialog.open(InfoPopupComponent, {
         width: '600px',
         data: {

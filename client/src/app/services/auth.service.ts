@@ -27,7 +27,26 @@ export class AuthService {
   constructor(private backend: BackendService) {}
 
   IsAuthenticated(): boolean {
-    return this.UserData.getValue() !== null;
+    if (!this.UserHasLand.getValue()) {
+      return sessionStorage.getItem('user-data') !== null;
+    } else {
+      return false;
+    }
+  }
+
+  GetUserData(): User {
+    if (!this.UserData.getValue()) {
+      return JSON.parse(sessionStorage.getItem('user-data')) as User;
+    } else {
+      return this.UserData.getValue();
+    }
+  }
+  CheckUserHasLand(): boolean {
+    if (!this.UserHasLand.getValue()) {
+      return sessionStorage.getItem('user-has-land') === 'true';
+    } else {
+      return this.UserHasLand.getValue();
+    }
   }
 
   /**
@@ -42,10 +61,23 @@ export class AuthService {
     return this.backend.userLogin(payload).pipe(
       map((response) => {
         this.UserData.next(response.user);
+        sessionStorage.setItem('user-data', JSON.stringify(response.user));
         this.UserHasLand.next(!response.hasNoLand);
+        sessionStorage.setItem(
+          'user-has-land',
+          JSON.stringify(!response.hasNoLand)
+        );
         return true;
       })
     );
+  }
+
+  /**
+   * Remove login data from session.
+   */
+  Logout(): void {
+    sessionStorage.setItem('user-data', null);
+    sessionStorage.setItem('user-has-land', null);
   }
 
   /**

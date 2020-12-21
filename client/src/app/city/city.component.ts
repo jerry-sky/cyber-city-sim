@@ -28,7 +28,7 @@ export class CityComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.auth.UserData.value ? this.auth.UserData.value.id : -1;
+    this.userId = this.auth.GetUserData().id;
     this.getTerrain();
   }
 
