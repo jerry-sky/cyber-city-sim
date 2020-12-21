@@ -11,7 +11,6 @@ import { ChatService } from '../services/chat.service';
   styleUrls: ['./global-chat.component.scss'],
 })
 export class GlobalChatComponent implements OnInit {
-  username: string;
   messages: Message[] = [];
 
   constructor(
@@ -21,7 +20,6 @@ export class GlobalChatComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getCurrentUsername();
     this.chat.GetGlobalMessages().subscribe(
       (res) => {
         this.messages = res;
@@ -32,24 +30,15 @@ export class GlobalChatComponent implements OnInit {
     );
   }
 
-  getCurrentUsername(): void {
-    this.backend.getCurrentUser().subscribe(
-      (res) => {
-        this.username = res.user.username;
-      },
-      (err) => {
-        console.error('Error retrieving user data from server');
-      }
-    );
-  }
-
   /**
    * Send message to global chat
    *
    * @param message the NgForm that contains the sent message
    */
   sendGlobalMessage(message: NgForm) {
-    this.chat.SendGlobalMessage(message.value);
+    this.chat.SendGlobalMessage(message.value["mess"]).subscribe();
     message.reset();
   }
+
+
 }

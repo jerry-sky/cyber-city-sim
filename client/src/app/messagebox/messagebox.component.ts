@@ -14,18 +14,19 @@ import { BackendService } from '../services/backend.service';
   styleUrls: ['./messagebox.component.scss'],
 })
 export class MessageboxComponent implements OnInit {
-  public userChats: string[];
   public username: string;
+  public userChats: string[];
 
   constructor(
     public dialog: MatDialog,
     private chat: ChatService,
     private backend: BackendService,
+    private auth: AuthService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.getCurrentUsername();
+    this.username = this.auth.UserData.value.username;
     this.chat.GetUserChats().subscribe(
       (res) => {
         this.userChats = res;
@@ -36,16 +37,6 @@ export class MessageboxComponent implements OnInit {
     );
   }
 
-  getCurrentUsername(): void {
-    this.backend.getCurrentUser().subscribe(
-      (res) => {
-        this.username = res.user.username;
-      },
-      (err) => {
-        console.error('Error retrieving user data from server');
-      }
-    );
-  }
 
   logout(): void {
     this.dialog.open(LogoutPopupComponent, { width: '400px' });

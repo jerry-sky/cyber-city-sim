@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Message } from '../../../../model/message';
 import {
-  GetMessageboxUsernamesRequest,
   GetPrivateMessagesRequest,
   SendGlobalMessageRequest,
   SendPrivateMessageRequest,
@@ -52,6 +51,7 @@ export class ChatService {
       username,
       messageContent,
     };
+    console.log(messageContent);
     return this.backend.sendPrivateMessage(payload);
   }
 }

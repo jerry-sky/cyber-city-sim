@@ -7,6 +7,7 @@ import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
 import { BackendService } from '../services/backend.service';
 import { User } from '../../../../model/user';
 import { Message } from '../../../../model/message';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-private-chat',
@@ -26,20 +27,8 @@ export class PrivateChatComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getCurrentUser();
     this.getChatUsername();
     this.getMessages();
-  }
-
-  getCurrentUser(): void {
-    this.backend.getCurrentUser().subscribe(
-      (res) => {
-        this.user = res.user;
-      },
-      (err) => {
-        console.error('Error retrieving user data from server');
-      }
-    );
   }
 
   getChatUsername(): void {
@@ -65,7 +54,7 @@ export class PrivateChatComponent implements OnInit {
    * @param message the NgForm that contains the sent message
    */
   sendPrivateMessage(message: NgForm) {
-    this.chat.SendPrivateMessage(this.chatUsername, message.value);
+    this.chat.SendPrivateMessage(this.chatUsername, message.value["mess"]).subscribe();
     message.reset();
   }
 
