@@ -20,11 +20,33 @@ export class AuthService {
   public UserData: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(
     null
   );
+  public UserLand: BehaviorSubject<number | null> = new BehaviorSubject<
+    number | null
+  >(null);
 
   constructor(private backend: BackendService) {}
 
   IsAuthenticated(): boolean {
-    return this.UserData.getValue() !== null;
+    if (!this.UserData.getValue()) {
+      return sessionStorage.getItem('user-data') !== null;
+    } else {
+      return false;
+    }
+  }
+
+  GetUserData(): User {
+    if (!this.UserData.getValue()) {
+      return JSON.parse(sessionStorage.getItem('user-data')) as User;
+    } else {
+      return this.UserData.getValue();
+    }
+  }
+  GetUserLand(): number {
+    if (!this.UserLand.getValue()) {
+      return parseInt(sessionStorage.getItem('user-land'), 10);
+    } else {
+      return this.UserLand.getValue();
+    }
   }
 
   /**
@@ -39,9 +61,20 @@ export class AuthService {
     return this.backend.userLogin(payload).pipe(
       map((response) => {
         this.UserData.next(response.user);
+        sessionStorage.setItem('user-data', JSON.stringify(response.user));
+        this.UserLand.next(response.land);
+        sessionStorage.setItem('user-land', response.land.toString());
         return true;
       })
     );
+  }
+
+  /**
+   * Remove login data from session.
+   */
+  Logout(): void {
+    sessionStorage.setItem('user-data', null);
+    sessionStorage.setItem('user-land', null);
   }
 
   /**

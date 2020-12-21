@@ -4,7 +4,7 @@ import { Map } from './map';
 
 export interface LoginResponse {
   user: User;
-  hasNoLand: boolean;
+  land: number;
 }
 
 export interface ErrorResponse {

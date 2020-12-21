@@ -3,6 +3,7 @@ import { Cell, MAX_BUILDING_LEVEL } from '../../../../model/map';
 import { MatDialog } from '@angular/material/dialog';
 import { BuildingInfoPopupComponent } from '../building-info-popup/building-info-popup.component';
 import { NewBuildingPopupComponent } from '../new-building-popup/new-building-popup.component';
+import { ClaimCellPopupComponent } from '../claim-cell-popup/claim-cell-popup.component';
 import { AuthService } from '../services/auth.service';
 import { UpgradeCosts as BuildingsCosts } from '../../../../model/resource-production/upgrade-costs';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
@@ -15,8 +16,9 @@ import { CityService } from '../services/city.service';
 })
 export class CityComponent implements OnInit {
   @Input() username: string;
-  terrain: Cell[];
-  userId = 0;
+  terrain: Cell[] = [];
+  neighbours: Cell[] = [];
+  userId = -1;
   scale = 1;
 
   constructor(
@@ -26,7 +28,7 @@ export class CityComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.auth.UserData.value ? this.auth.UserData.value.id : 0;
+    this.userId = this.auth.GetUserData().id;
     this.getTerrain();
   }
 
@@ -38,12 +40,47 @@ export class CityComponent implements OnInit {
     this.auth.GetMap().subscribe(
       (res) => {
         this.terrain = res.cells;
+        this.checkNeighbours();
         this.focusCity();
       },
       (err) => {
         console.error('Error retriving city from server');
       }
     );
+  }
+
+  /**
+   * Show all cells adjacent to user city
+   */
+  checkNeighbours(): void {
+    const userCityIds = this.terrain
+      .filter((c) => c.owner === this.userId)
+      .map((c) => c.id);
+    this.neighbours = this.terrain.filter((c) => {
+      // is part of city
+      if (userCityIds.includes(c.id)) {
+        return false;
+      }
+      // other user owns it
+      if (c.owner !== 0 && c.owner !== -1) {
+        return false;
+      }
+      for (const i of userCityIds) {
+        const row1 = Math.floor((i - 1) / 20);
+        const row2 = Math.floor((c.id - 1) / 20);
+        const col1 = (i - 1) % 20;
+        const col2 = (c.id - 1) % 20;
+        // horizontally
+        if (row1 === row2 && Math.abs(col1 - col2) === 1) {
+          return true;
+        }
+        // verrtically
+        if (col1 === col2 && Math.abs(row1 - row2) === 1) {
+          return true;
+        }
+      }
+      return false;
+    });
   }
 
   /**
@@ -113,6 +150,9 @@ export class CityComponent implements OnInit {
       else {
         this.showNewBuilding(cell, index);
       }
+      // adjecent empty cell
+    } else if (this.neighbours.includes(cell)) {
+      this.showCellBuying(cell, index);
     }
   }
 
@@ -154,12 +194,19 @@ export class CityComponent implements OnInit {
       // apply changes
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          alert(`Upgraded the building.`);
+          // send changes to server
+          this.city.UpgradeBuilding(index + 1).subscribe(
+            (res) => {
+              alert(`Upgraded building`);
+              cell.buildingLvl++;
+              this.terrain[index] = cell;
+              window.location.reload();
+            },
+            (err) => {
+              alert(err.error.errorCode);
+            }
+          );
         }
-        cell.buildingLvl++;
-        this.terrain[index] = cell;
-        // send changes to server
-        this.city.UpgradeBuilding(index + 1);
       });
     } else {
       alert('Can’t upgrade, the building is already maxed out.');
@@ -199,13 +246,52 @@ export class CityComponent implements OnInit {
     // apply changes
     dialogRef.afterClosed().subscribe((id) => {
       if (id + 1) {
-        alert(`Bought building ${id + 1}`);
-        cell.owner = this.userId;
-        cell.buildingType = id;
-        cell.buildingLvl = 0;
-        this.terrain[index] = cell;
         // send changes to server
-        this.city.BuyBuilding(index + 1, id);
+        this.city.BuyBuilding(index + 1, id).subscribe(
+          (res) => {
+            alert(`Bought building ${id + 1}`);
+            cell.owner = this.userId;
+            cell.buildingType = id;
+            cell.buildingLvl = 0;
+            this.terrain[index] = cell;
+            window.location.reload();
+          },
+          (err) => {
+            alert(err.error.errorCode);
+          }
+        );
+      }
+    });
+  }
+
+  /**
+   * Show popup asking to buy cell
+   *
+   * @param cell the cell that was clicked
+   * @param index index of cell in terrain array
+   */
+  showCellBuying(cell, index): void {
+    // show dialog
+    const dialogRef = this.dialog.open(ClaimCellPopupComponent, {
+      width: '400px',
+      data: cell.terrain,
+    });
+    // apply changes
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // send changes to server
+        this.city.BuyCell(cell.id).subscribe(
+          (res) => {
+            alert(`Bought cell ${cell.id}`);
+            cell.owner = this.userId;
+            this.terrain[index] = cell;
+            this.checkNeighbours();
+            window.location.reload();
+          },
+          (err) => {
+            alert(err.error.errorCode);
+          }
+        );
       }
     });
   }

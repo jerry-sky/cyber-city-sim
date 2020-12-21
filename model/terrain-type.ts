@@ -28,3 +28,14 @@ export enum ResourceNames {
 export type ResourcesNamesValues = {
   [key in ResourceNames]: number;
 };
+
+/**
+ * Calculate the cost of one cell based on the terrain of the cell and how many cells the player already owns.
+ */
+export const CellCost = (terrainType: Resource, ownedLand: number) => {
+  switch (terrainType) {
+    // TODO: implement some game algebra — maybe the user should choose which resource they want to spend?
+    default:
+      return Math.floor((1.618 ^ ownedLand) * 70);
+  }
+};

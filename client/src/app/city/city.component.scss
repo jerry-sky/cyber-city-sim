@@ -17,11 +17,11 @@
         background-size: cover;
     }
     .color-1 {
-        background: url('../../assets/images/map-background-green.png');
+        background: url('../../assets/images/map-background-blue.png');
         background-size: cover;
     }
     .color-2 {
-        background: url('../../assets/images/map-background-blue.png');
+        background: url('../../assets/images/map-background-green.png');
         background-size: cover;
     }
     // cells with buildings
@@ -42,5 +42,9 @@
     .building-2-lvl-2 {
         background: url('../../assets/images/city-building-3.png');
         background-size: cover;
+    }
+    // neighbour cells
+    .neighbour-slot {
+        opacity: 0.3;
     }
 }
