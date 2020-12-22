@@ -117,8 +117,8 @@ export class BackendService {
   }
 
   public getPrivateMessages(
-      payload: GetPrivateMessagesRequest
-    ): Observable<PrivateMessagesResponse> {
+    payload: GetPrivateMessagesRequest
+  ): Observable<PrivateMessagesResponse> {
     return (this.http.post(
       this.userChatsUrl + '/messages',
       payload,
@@ -137,9 +137,9 @@ export class BackendService {
   }
 
   public getUsernameDictionary(): Observable<UsernameDictionaryResponse> {
-    return (this.http.get(
+    return this.http.get(
       this.usersUrl + '/usernames',
-      this.options,
-    ) as Observable<UsernameDictionaryResponse>);
+      this.options
+    ) as Observable<UsernameDictionaryResponse>;
   }
 }

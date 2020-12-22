@@ -7,17 +7,16 @@ import { ChatService } from '../services/chat.service';
 import { interval } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
-
 @Component({
   selector: 'app-global-chat',
   templateUrl: './global-chat.component.html',
   styleUrls: ['./global-chat.component.scss'],
 })
 export class GlobalChatComponent implements OnInit, OnDestroy {
+  public messages: Message[] = [];
+  public usernamesDictionary = [];
   private numbers = interval(1000);
   private alive: boolean;
-  messages: Message[] = [];
-  usernamesDictionary = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -33,8 +32,8 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
     this.alive = true;
     this.getUsernamesDictionary();
     this.numbers
-    .pipe(takeWhile(() => this.alive))
-    .subscribe(() => this.loadGlobalMessages())
+      .pipe(takeWhile(() => this.alive))
+      .subscribe(() => this.loadGlobalMessages());
   }
 
   /**
@@ -43,7 +42,7 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
    * @param message the NgForm that contains the sent message
    */
   sendGlobalMessage(message: NgForm) {
-    this.chat.SendGlobalMessage(message.value["mess"]).subscribe();
+    this.chat.SendGlobalMessage(message.value.mess).subscribe();
     message.reset();
   }
 
@@ -53,16 +52,15 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
         this.usernamesDictionary = res.users;
       },
       (err) => {
-        console.error('Error retrieving usernames and userids dictionary')
+        console.error('Error retrieving usernames and userids dictionary');
       }
-    )
+    );
   }
 
   getUsername(userId: number): string {
     for (const dic of this.usernamesDictionary) {
-      console.log(dic);
-      if (dic["id"] == userId) {
-        return dic["username"];
+      if (dic.id === userId) {
+        return dic.username;
       }
     }
   }
@@ -77,5 +75,4 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
       }
     );
   }
-
 }

@@ -37,7 +37,6 @@ export class MessageboxComponent implements OnInit {
     );
   }
 
-
   logout(): void {
     this.dialog.open(LogoutPopupComponent, { width: '400px' });
   }

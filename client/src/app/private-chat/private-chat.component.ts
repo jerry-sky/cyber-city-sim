@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ChatService } from '../services/chat.service';
@@ -7,17 +7,20 @@ import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
 import { BackendService } from '../services/backend.service';
 import { User } from '../../../../model/user';
 import { Message } from '../../../../model/message';
-import { AuthService } from '../services/auth.service';
+import { interval } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-private-chat',
   templateUrl: './private-chat.component.html',
   styleUrls: ['./private-chat.component.scss'],
 })
-export class PrivateChatComponent implements OnInit {
+export class PrivateChatComponent implements OnInit, OnDestroy {
   public user: User;
   public chatUsername: string;
   public messages: Message[];
+  private alive: boolean;
+  private numbers = interval(1000);
 
   constructor(
     public dialog: MatDialog,
@@ -26,9 +29,16 @@ export class PrivateChatComponent implements OnInit {
     private backend: BackendService
   ) {}
 
+  ngOnDestroy(): void {
+    this.alive = false;
+  }
+
   ngOnInit(): void {
+    this.alive = true;
     this.getChatUsername();
-    this.getMessages();
+    this.numbers
+      .pipe(takeWhile(() => this.alive))
+      .subscribe(() => this.getMessages());
   }
 
   getChatUsername(): void {
@@ -43,7 +53,7 @@ export class PrivateChatComponent implements OnInit {
         this.messages = res;
       },
       (err) => {
-        console.error('Error retrieving user data from server');
+        console.error('Error retrieving private messages from server');
       }
     );
   }
@@ -54,7 +64,9 @@ export class PrivateChatComponent implements OnInit {
    * @param message the NgForm that contains the sent message
    */
   sendPrivateMessage(message: NgForm) {
-    this.chat.SendPrivateMessage(this.chatUsername, message.value["mess"]).subscribe();
+    this.chat
+      .SendPrivateMessage(this.chatUsername, message.value.mess)
+      .subscribe();
     message.reset();
   }
 
