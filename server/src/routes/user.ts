@@ -15,7 +15,6 @@ import { DatabaseService } from '../services/database.service';
 import { MapService } from '../services/map.service';
 import { User } from '../../../model/user';
 import { DatabaseTables } from '../../../model/database-tables';
-import { Err, Errors } from '../../../model/errors';
 
 const Router = new RouterWrapper();
 
@@ -34,7 +33,7 @@ Router.post<LoginRequest, LoginResponse, never>(
 
     response.json({
       user: { ...user, password: '' },
-      hasNoLand: await mapService.HasNoLand(user),
+      land: await mapService.HowManyCellsUserOwns(user),
     });
 
     next();
@@ -72,7 +71,7 @@ Router.post<SimpleIdRequest, LoginResponse, never>(
 
     response.json({
       user: { ...user, password: '' },
-      hasNoLand: await mapService.HasNoLand(user),
+      land: await mapService.HowManyCellsUserOwns(user),
     });
 
     next();

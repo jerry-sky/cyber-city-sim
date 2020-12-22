@@ -23,8 +23,8 @@
     line-height: $small-font-size;
 }
 .popup-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: center;
     margin-bottom: 2vw;
 
     * {

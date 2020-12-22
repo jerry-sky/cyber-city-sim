@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import {
   LoginRequest,
   RegisterRequest,
-  SendGlobalMessageRequest,
+  GetPrivateMessagesRequest,
+  SendPrivateMessageRequest,
   UpgradeBuildingRequest,
   BuyBuildingRequest,
   SimpleIdRequest,
-  GetPrivateMessagesRequest,
-  SendPrivateMessageRequest,
+  ClaimCellRequest,
+  SendGlobalMessageRequest,
 } from '../../../../model/server-requests';
 import {
   LoginResponse,
@@ -72,6 +73,14 @@ export class BackendService {
   public buyBuilding(payload: BuyBuildingRequest): Observable<never> {
     return this.http.post(
       this.cityUrl + '/buy-building',
+      payload,
+      this.options
+    ) as Observable<never>;
+  }
+
+  public buyCell(payload: ClaimCellRequest): Observable<never> {
+    return this.http.post(
+      this.mapUrl + '/claim-cell',
       payload,
       this.options
     ) as Observable<never>;

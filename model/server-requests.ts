@@ -30,7 +30,7 @@ export interface BuyBuildingRequest extends EditCellRequest {
   buildingType: BuildingType;
 }
 
-export interface ClaimFirstCellRequest {
+export interface ClaimCellRequest {
   cellId: number;
 }
 

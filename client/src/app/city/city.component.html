@@ -2,13 +2,24 @@
   <div
     *ngFor="let cell of terrain"
     [ngClass]="{
-      background: cell.owner == -1,
+      background:
+        (cell.owner == -1 || cell.owner == 0) && !neighbours.includes(cell),
       'color-0':
-        cell.owner === userId && cell.buildingType === -1 && cell.terrain == 0,
+        (cell.owner === userId &&
+          cell.buildingType === -1 &&
+          cell.terrain == 0) ||
+        (neighbours.includes(cell) && cell.terrain === 0),
       'color-1':
-        cell.owner === userId && cell.buildingType === -1 && cell.terrain == 1,
+        (cell.owner === userId &&
+          cell.buildingType === -1 &&
+          cell.terrain == 1) ||
+        (neighbours.includes(cell) && cell.terrain === 1),
       'color-2':
-        cell.owner === userId && cell.buildingType === -1 && cell.terrain == 2,
+        (cell.owner === userId &&
+          cell.buildingType === -1 &&
+          cell.terrain == 2) ||
+        (neighbours.includes(cell) && cell.terrain === 2),
+      'neighbour-slot': neighbours.includes(cell),
       'building-0-lvl-0':
         cell.owner === userId &&
         cell.buildingType == 0 &&
@@ -45,6 +56,6 @@
         cell.owner === userId && cell.buildingType == 2 && cell.buildingLvl == 2
     }"
     id="cell-{{ terrain.indexOf(cell) }}"
-    (click)="chosenCell($event)"
+    (click)="chosenCell($event.target.id)"
   ></div>
 </div>

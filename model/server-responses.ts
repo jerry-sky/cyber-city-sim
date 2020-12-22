@@ -5,7 +5,7 @@ import { Message } from './message';
 
 export interface LoginResponse {
   user: User;
-  hasNoLand: boolean;
+  land: number;
 }
 
 export interface ErrorResponse {

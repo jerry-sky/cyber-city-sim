@@ -1,0 +1,29 @@
+@import '../style/vars.scss';
+
+.popup-main {
+    padding: 0;
+    margin: 0;
+}
+.text {
+    display: block;
+    text-align: center;
+    font-weight: 500;
+    font-size: $medium-font-size;
+    line-height: $medium-font-size;
+    margin: 2vw 0;
+}
+.btns {
+    display: flex;
+    justify-content: center;
+
+    button {
+        margin: 0.5vw;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .text{
+        font-size: $medium-font-size-500px;
+        line-height: $medium-font-size-500px;
+    }
+}

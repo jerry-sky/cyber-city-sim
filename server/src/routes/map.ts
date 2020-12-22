@@ -4,7 +4,7 @@ import { Map } from '../../../model/map';
 import { DatabaseService } from '../services/database.service';
 import { MapService } from '../services/map.service';
 import { Err, Errors } from '../../../model/errors';
-import { ClaimFirstCellRequest } from '../../../model/server-requests';
+import { ClaimCellRequest } from '../../../model/server-requests';
 
 const Router = new RouterWrapper();
 const Database = new DatabaseService();
@@ -17,23 +17,21 @@ Router.get<never, MapResponse, never>('/', async (request, response, next) => {
   next();
 });
 
-Router.post<ClaimFirstCellRequest, never, never>(
-  '/claim-first-cell',
+Router.post<ClaimCellRequest, never, never>(
+  '/claim-cell',
   async (request, response, next) => {
     // Check if there is an ongoing session to get user's info from.
     if (!request.session && !request.session.user) {
       throw Err(Errors.NOT_LOGGED_IN);
     }
-    // If the user has logged in for the first time, give them one cell of their choice.
-    if (mapService.HasNoLand(request.session.user)) {
-      await mapService.AssignCellToUser(
-        request.session.user,
-        request.body.cellId
-      );
-      response.status(204);
-    } else {
-      throw Err(Errors.USER_HAS_CELLS);
-    }
+
+    // Assign the cell to the user. If it is the first cell they will own,
+    // the transaction will introduce no cost for the user.
+    await mapService.AssignCellToUser(
+      request.session.user,
+      request.body.cellId
+    );
+
     next();
   }
 );

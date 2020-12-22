@@ -6,7 +6,12 @@ import {
   DialogData,
   ProfilePopupComponent,
 } from '../profile-popup/profile-popup.component';
+import {
+  InfoData,
+  InfoPopupComponent,
+} from '../info-popup/info-popup.component';
 import { AuthService } from '../services/auth.service';
+import { CityService } from '../services/city.service';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
 
 @Component({
@@ -18,6 +23,7 @@ export class MapComponent implements OnInit {
   terrain: Cell[];
   currUserId = -1;
   currUsername = '';
+  currUserHasLand = false;
   test = true;
   scale = 1;
   // object with data for Profile Popup, used when player clicks cell to see another player stats
@@ -38,24 +44,23 @@ export class MapComponent implements OnInit {
   };
 
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
+    private city: CityService,
     private router: Router,
     public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     // get current user data
-    this.currUserId = this.auth.UserData.value
-      ? this.auth.UserData.value.id
-      : -1;
-    this.currUsername = this.auth.UserData.value
-      ? this.auth.UserData.value.username
-      : '';
+    this.currUserId = this.auth.GetUserData().id;
+    this.currUsername = this.auth.GetUserData().username;
+    this.currUserHasLand = this.auth.GetUserLand() !== 0;
     // get terrain and position
     this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
     grid.style.top = `-${Math.floor(window.innerHeight * 0.25)}px`;
     grid.style.left = `-${Math.floor(window.innerHeight * 0.1)}px`;
+    this.checkIfHasLand();
   }
 
   getTerrain(): void {
@@ -63,6 +68,19 @@ export class MapComponent implements OnInit {
       (res) => (this.terrain = res.cells),
       (err) => console.error('Error retriving map from server')
     );
+  }
+
+  checkIfHasLand(): void {
+    if (!this.currUserHasLand) {
+      this.dialog.open(InfoPopupComponent, {
+        width: '600px',
+        data: {
+          message:
+            'You dont have a City yet. Claim a cell of your choice and start the adventure!',
+          btn: 'Lets start',
+        } as InfoData,
+      });
+    }
   }
 
   onScroll(event): void {
@@ -91,31 +109,71 @@ export class MapComponent implements OnInit {
   //method executed when clicking the city on the map
   chosenCity(event): void {
     const id: number = parseInt(event.target.id.replace('user-', ''), 10);
-    this.chosenUserData = {
-      username: 'username',
-      slots: 0,
-      buildings: 0,
-      production: {
-        red: 0,
-        green: 0,
-        blue: 0,
-      },
-      resources: {
-        red: 0,
-        green: 0,
-        blue: 0,
-      },
-    };
-    this.getUserProduction(id, this.terrain);
-    this.getUserResources(id);
+    // clicked cell owned by somebody
     if (id !== -1 && id !== 0) {
+      this.chosenUserData = {
+        username: 'username',
+        slots: 0,
+        buildings: 0,
+        production: {
+          red: 0,
+          green: 0,
+          blue: 0,
+        },
+        resources: {
+          red: 0,
+          green: 0,
+          blue: 0,
+        },
+      };
+      this.getUserProduction(id, this.terrain);
+      this.getUserResources(id);
+      // its user's cell
       if (id === this.currUserId) {
         this.router.navigate([`/city/${this.currUsername}`]);
+        // its someone's else cell
       } else {
-        const data = this.chosenUserData;
         this.dialog.open(ProfilePopupComponent, {
           width: '800px',
-          data,
+          data: this.chosenUserData,
+        });
+      }
+      // clicked on empty cell
+    } else {
+      if (!this.currUserHasLand) {
+        // index of choosen cell
+        const cellId =
+          Array.prototype.indexOf.call(
+            event.target.parentNode.childNodes,
+            event.target
+          ) + 1;
+        // ask user if is sure to claim cell
+        const dialogRef = this.dialog.open(InfoPopupComponent, {
+          width: '600px',
+          data: {
+            message: `Are you sure you want to claim cell nr. ${cellId}?`,
+            btn: 'Claim',
+          } as InfoData,
+        });
+        // claim
+        dialogRef.afterClosed().subscribe((res) => {
+          if (res) {
+            this.city.BuyCell(cellId).subscribe(
+              (res2) => {
+                console.log(res2);
+                this.terrain[cellId - 1].owner = this.currUserId;
+                this.currUserHasLand = true;
+                this.dialog.open(InfoPopupComponent, {
+                  width: '600px',
+                  data: {
+                    message: `Bravo! You are now a proud owner of your own city. Lets start by buying some buildings!`,
+                    btn: 'Start the game',
+                  } as InfoData,
+                });
+              },
+              (err) => alert(err.error.errorCode)
+            );
+          }
         });
       }
     }
