@@ -15,6 +15,7 @@ import { DatabaseService } from '../services/database.service';
 import { MapService } from '../services/map.service';
 import { User } from '../../../model/user';
 import { DatabaseTables } from '../../../model/database-tables';
+import { Err, Errors } from '../../../model/errors';
 
 const Router = new RouterWrapper();
 
