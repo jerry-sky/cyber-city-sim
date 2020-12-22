@@ -200,7 +200,7 @@ export class CityComponent implements OnInit {
               alert(`Upgraded building`);
               cell.buildingLvl++;
               this.terrain[index] = cell;
-              window.location.reload();
+              this.city.sendRefreashSignal();
             },
             (err) => {
               alert(err.error.errorCode);
@@ -254,7 +254,7 @@ export class CityComponent implements OnInit {
             cell.buildingType = id;
             cell.buildingLvl = 0;
             this.terrain[index] = cell;
-            window.location.reload();
+            this.city.sendRefreashSignal();
           },
           (err) => {
             alert(err.error.errorCode);
@@ -286,7 +286,7 @@ export class CityComponent implements OnInit {
             cell.owner = this.userId;
             this.terrain[index] = cell;
             this.checkNeighbours();
-            window.location.reload();
+            this.city.sendRefreashSignal();
           },
           (err) => {
             alert(err.error.errorCode);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { BuildingType } from '../../../../model/building-type';
 import { BackendService } from './backend.service';
 
@@ -7,6 +7,9 @@ import { BackendService } from './backend.service';
   providedIn: 'root',
 })
 export class CityService {
+  refreashSignalSource = new Subject<string>();
+  refreashSignal = this.refreashSignalSource.asObservable();
+
   constructor(private backend: BackendService) {}
 
   /**
@@ -31,5 +34,12 @@ export class CityService {
    */
   public BuyCell(cellId: number): Observable<boolean> {
     return this.backend.buyCell({ cellId });
+  }
+
+  /**
+   * Send signal to city-detail.component to refreash user resources.
+   */
+  public sendRefreashSignal(): void {
+    this.refreashSignalSource.next('Please refreash');
   }
 }

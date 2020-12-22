@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Cell } from '../../../../model/map';
 import { AuthService } from '../services/auth.service';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
-import { FindValueSubscriber } from 'rxjs/internal/operators/find';
 import { ResourceInterval } from '../../../../model/terrain-type';
+import { CityService } from '../services/city.service';
 
 @Component({
   selector: 'app-city-detail',
@@ -25,10 +25,18 @@ export class CityDetailComponent implements OnInit {
     blue: 0,
   };
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private city: CityService) {}
 
   ngOnInit(): void {
+    // user data
     this.userId = this.auth.GetUserData().id;
+    // user resources and production
+    this.getAllData();
+    // refreash signal
+    this.city.refreashSignal.subscribe((data) => this.getAllData());
+  }
+
+  getAllData(): void {
     this.auth.GetMap().subscribe(
       (res) => {
         this.getUserProduction(res.cells);
