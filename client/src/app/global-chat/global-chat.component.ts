@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Message } from '../../../../model/message';
 import { BackendService } from '../services/backend.service';
 import { ChatService } from '../services/chat.service';
-import { interval } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({
@@ -15,8 +15,8 @@ import { takeWhile } from 'rxjs/operators';
 export class GlobalChatComponent implements OnInit, OnDestroy {
   public messages: Message[] = [];
   public usernamesDictionary = [];
-  private numbers = interval(1000);
-  private alive: boolean;
+  private numbers: Observable<number>;
+  private alive: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,15 +25,17 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.alive = false;
+    this.alive.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.alive = true;
     this.getUsernamesDictionary();
-    this.numbers
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(() => this.loadGlobalMessages());
+    if (!this.numbers) {
+      this.numbers = interval(1000);
+    }
+    this.alive = this.numbers.subscribe(() => {
+      this.loadGlobalMessages();
+    });
   }
 
   /**

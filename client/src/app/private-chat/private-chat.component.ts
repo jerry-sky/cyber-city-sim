@@ -7,7 +7,7 @@ import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
 import { BackendService } from '../services/backend.service';
 import { User } from '../../../../model/user';
 import { Message } from '../../../../model/message';
-import { interval } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({
@@ -19,7 +19,7 @@ export class PrivateChatComponent implements OnInit, OnDestroy {
   public user: User;
   public chatUsername: string;
   public messages: Message[];
-  private alive: boolean;
+  private alive: Subscription;
   private numbers = interval(1000);
 
   constructor(
@@ -30,15 +30,12 @@ export class PrivateChatComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.alive = false;
+    this.alive.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.alive = true;
     this.getChatUsername();
-    this.numbers
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(() => this.getMessages());
+    this.alive = this.numbers.subscribe(() => this.getMessages());
   }
 
   getChatUsername(): void {
