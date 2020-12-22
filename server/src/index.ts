@@ -12,7 +12,11 @@ import { DatabaseTables } from '../../model/database-tables';
 import { HourlyProduction } from '../../model/resource-production/hourly-production';
 import { User } from '../../model/user';
 import { Cell } from '../../model/map';
-import { Resource, ResourcesNamesValues } from '../../model/terrain-type';
+import {
+  Resource,
+  ResourceInterval,
+  ResourcesNamesValues,
+} from '../../model/terrain-type';
 import { BuildingType } from '../../model/building-type';
 
 import UserRoutes from './routes/user';
@@ -175,7 +179,6 @@ app.listen(port, () => {
 
 // the main resource loop
 // every X minutes update user’s resources based on their earnings
-const ResourceInterval = 3; //seconds
 const Database = new DatabaseService();
 setInterval(async () => {
   await Database.ExecuteInsideDatabaseHarness(async (connection) => {
@@ -210,18 +213,9 @@ setInterval(async () => {
             'building-' + cell.buildingType + '-lvl-' + cell.buildingLvl
           ]; // I hate this
 
-        // benefit from the building on this cell with respect to the terrain type of this cell
-        switch (cell.terrain) {
-          case Resource.BLUE:
-            userResources.bluePCB += h.blue;
-            break;
-          case Resource.GREEN:
-            userResources.greenPCB += h.green;
-            break;
-          case Resource.RED:
-            userResources.redPCB += h.red;
-            break;
-        }
+        userResources.bluePCB += h.blue;
+        userResources.greenPCB += h.green;
+        userResources.redPCB += h.red;
       }
       // update user’s earned resources
       await connection.query(

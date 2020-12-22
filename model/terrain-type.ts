@@ -39,3 +39,8 @@ export const CellCost = (terrainType: Resource, ownedLand: number) => {
       return Math.floor((1.618 ^ ownedLand) * 70);
   }
 };
+
+/**
+ * How frequently the resources generate.
+ */
+export const ResourceInterval = 3; //seconds

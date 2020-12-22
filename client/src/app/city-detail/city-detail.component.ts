@@ -3,6 +3,7 @@ import { Cell } from '../../../../model/map';
 import { AuthService } from '../services/auth.service';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
 import { FindValueSubscriber } from 'rxjs/internal/operators/find';
+import { ResourceInterval } from '../../../../model/terrain-type';
 
 @Component({
   selector: 'app-city-detail',
@@ -32,7 +33,6 @@ export class CityDetailComponent implements OnInit {
       (res) => {
         this.getUserProduction(res.cells);
         this.getUserResources();
-        const ResourceInterval = 3; //seconds
         window.setInterval(
           this.incrementResources.bind(this),
           1000 * ResourceInterval
