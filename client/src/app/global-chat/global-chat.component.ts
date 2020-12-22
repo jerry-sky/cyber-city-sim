@@ -5,6 +5,8 @@ import { Message } from '../../../../model/message';
 import { BackendService } from '../services/backend.service';
 import { ChatService } from '../services/chat.service';
 import { interval } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-global-chat',
@@ -13,6 +15,7 @@ import { interval } from 'rxjs';
 })
 export class GlobalChatComponent implements OnInit, OnDestroy {
   private numbers = interval(1000);
+  private alive: boolean;
   messages: Message[] = [];
   usernamesDictionary = [];
 
@@ -23,19 +26,15 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-
+    this.alive = false;
   }
 
   ngOnInit(): void {
+    this.alive = true;
     this.getUsernamesDictionary();
-    this.chat.GetGlobalMessages().subscribe(
-      (res) => {
-        this.messages = res;
-      },
-      (err) => {
-        console.error('Error retrieving messages from server');
-      }
-    );
+    this.numbers
+    .pipe(takeWhile(() => this.alive))
+    .subscribe(() => this.loadGlobalMessages())
   }
 
   /**
@@ -66,6 +65,17 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
         return dic["username"];
       }
     }
+  }
+
+  loadGlobalMessages() {
+    this.chat.GetGlobalMessages().subscribe(
+      (res) => {
+        this.messages = res;
+      },
+      (err) => {
+        console.error('Error retrieving messages from server');
+      }
+    );
   }
 
 }
