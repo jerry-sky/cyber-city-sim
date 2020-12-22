@@ -12,9 +12,12 @@ sudo mysql < database.sql
 # import the database tables
 sudo mysql < tables.sql
 
-# generate the map with 400 cells
-sudo mysql < populate-map.sql
-echo "USE ccs; CALL PopulateMap(401);" | sudo mysql
+# load triggers
+sudo mysql < triggers.sql
+
+# load the procedures, then call some of them
+sudo mysql < procedures.sql
+echo 'USE ccs; CALL PopulateMap(400);' | sudo mysql
 
 # insert test users and data
 sudo mysql < insert-dummies.sql

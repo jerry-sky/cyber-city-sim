@@ -40,3 +40,24 @@ export interface ClaimCellRequest {
 export interface SimpleIdRequest {
   userId: number;
 }
+
+/**
+ * The user wants to send message to global chat.
+ */
+
+export interface SendGlobalMessageRequest {
+  message: string;
+}
+
+/**
+ * The user wants to send message to private chat.
+ */
+
+export interface SendPrivateMessageRequest {
+  username: string;
+  messageContent: string;
+}
+
+export interface GetPrivateMessagesRequest {
+  username: string;
+}

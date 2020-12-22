@@ -18,6 +18,7 @@ import { BuildingType } from '../../model/building-type';
 import UserRoutes from './routes/user';
 import MapRoutes from './routes/map';
 import CityRoutes from './routes/city';
+import GlobalChatRoutes from './routes/global-chat';
 
 /**
  * The port which the app will listen to.
@@ -111,6 +112,8 @@ app.use('/user', UserRoutes.getNativeRouter());
 app.use('/map', MapRoutes.getNativeRouter());
 
 app.use('/city', CityRoutes.getNativeRouter());
+
+app.use('/global-chat', GlobalChatRoutes.getNativeRouter());
 
 // error handler
 app.use(

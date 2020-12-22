@@ -7,6 +7,8 @@ export enum Errors {
   CANT_UPGRADE_EMPTY_CELL = 'Selected cell does not have a building to upgrade.',
   MAX_BUILDING_LEVEL = 'Can’t upgrade a building that is maxed out.',
   BUILDING_ALREADY_EXISTS = 'Can’t buy a building on a cell that already has a building.',
+  NONEXISTENT_CHAT = 'The are no recorded messages between the selected users.',
+  USER_DOES_NOT_EXIST = 'Selected user doesn’t exist.',
   CELL_OWNED_BY_SOMEONE_ELSE = 'Chosen cell is already owned by some other player.',
   INSUFFICIENT_FUNDS = 'Desired purchase could not be successfully completed due to lack of resources (funds).',
 }

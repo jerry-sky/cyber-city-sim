@@ -3,7 +3,10 @@ import {
   RegisterRequest,
   SimpleIdRequest,
 } from '../../../model/server-requests';
-import { LoginResponse } from '../../../model/server-responses';
+import {
+  LoginResponse,
+  UsernameDictionaryResponse,
+} from '../../../model/server-responses';
 import { RouterWrapper } from '../auxiliary/express-method-wrapper';
 import { AuthenticationService } from '../services/auth.service';
 import { PasswordService } from '../services/password.service';
@@ -62,12 +65,30 @@ Router.post<SimpleIdRequest, LoginResponse, never>(
       user = results[0];
     });
 
+    if (!user) {
+      throw Err(Errors.USER_DOES_NOT_EXIST);
+    }
+
     response.json({
       user: { ...user, password: '' },
       land: await mapService.HowManyCellsUserOwns(user),
     });
 
     next();
+  }
+);
+
+Router.get<never, UsernameDictionaryResponse, never>(
+  '/usernames',
+  async (request, response, next) => {
+    let users: { id: number; username: string }[];
+    await Database.ExecuteInsideDatabaseHarness(async (conn) => {
+      users = await conn.query(
+        'SELECT `id`, `username` FROM `' + DatabaseTables.USERS + '`;'
+      );
+    });
+
+    response.json({ users });
   }
 );
 
