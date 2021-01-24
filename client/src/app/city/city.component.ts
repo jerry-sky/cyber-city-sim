@@ -4,10 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { BuildingInfoPopupComponent } from '../building-info-popup/building-info-popup.component';
 import { NewBuildingPopupComponent } from '../new-building-popup/new-building-popup.component';
 import { ClaimCellPopupComponent } from '../claim-cell-popup/claim-cell-popup.component';
-import { AuthService } from '../services/auth.service';
 import { UpgradeCosts as BuildingsCosts } from '../../../../model/resource-production/upgrade-costs';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
 import { CityService } from '../services/city.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-city',
@@ -22,13 +22,17 @@ export class CityComponent implements OnInit {
   scale = 1;
 
   constructor(
-    private auth: AuthService,
     public dialog: MatDialog,
-    private city: CityService
+    private city: CityService,
+    private usr: UserService
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.auth.GetUserData().id;
+    this.usr.userDataSignal.subscribe((data) => {
+      if (data != null) {
+        this.userId = data.id;
+      }
+    });
     this.getTerrain();
   }
 
@@ -37,7 +41,7 @@ export class CityComponent implements OnInit {
    */
   getTerrain(): void {
     this.terrain = [];
-    this.auth.GetMap().subscribe(
+    this.city.GetMap().subscribe(
       (res) => {
         this.terrain = res.cells;
         this.checkNeighbours();
@@ -200,7 +204,7 @@ export class CityComponent implements OnInit {
               alert(`Upgraded building`);
               cell.buildingLvl++;
               this.terrain[index] = cell;
-              this.city.sendRefreashSignal();
+              this.usr.reloadResources();
             },
             (err) => {
               alert(err.error.errorCode);
@@ -254,7 +258,8 @@ export class CityComponent implements OnInit {
             cell.buildingType = id;
             cell.buildingLvl = 0;
             this.terrain[index] = cell;
-            this.city.sendRefreashSignal();
+            this.usr.addBuilding();
+            this.usr.reloadResources();
           },
           (err) => {
             alert(err.error.errorCode);
@@ -286,7 +291,8 @@ export class CityComponent implements OnInit {
             cell.owner = this.userId;
             this.terrain[index] = cell;
             this.checkNeighbours();
-            this.city.sendRefreashSignal();
+            this.usr.addCell();
+            this.usr.reloadResources();
           },
           (err) => {
             alert(err.error.errorCode);

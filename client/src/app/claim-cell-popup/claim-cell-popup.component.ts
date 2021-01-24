@@ -1,8 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UpgradeCosts as BuildingsCosts } from '../../../../model/resource-production/upgrade-costs';
 import { CellCost } from '../../../../model/terrain-type';
-import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-claim-cell-popup',
@@ -17,23 +16,29 @@ export class ClaimCellPopupComponent implements OnInit {
   };
   constructor(
     public dialogRef: MatDialogRef<ClaimCellPopupComponent>,
-    public auth: AuthService,
-    @Inject(MAT_DIALOG_DATA) public terrainType: number) {}
+    private usr: UserService,
+    @Inject(MAT_DIALOG_DATA) public terrainType: number
+  ) {}
 
   ngOnInit(): void {
     // read cost
-    const c = CellCost(this.terrainType, this.auth.GetUserLand());
-    switch (this.terrainType) {
-      case 0:
-        this.cost.red = c;
-        break;
-      case 1:
-        this.cost.blue = c;
-        break;
-      case 2:
-        this.cost.green = c;
-        break;
-    }
+    this.usr.userDataSignal.subscribe((data) => {
+      if (data != null) {
+        const land = data.cells;
+        const c = CellCost(this.terrainType, land);
+        switch (this.terrainType) {
+          case 0:
+            this.cost.red = c;
+            break;
+          case 1:
+            this.cost.blue = c;
+            break;
+          case 2:
+            this.cost.green = c;
+            break;
+        }
+      }
+    });
   }
 
   goBack(): void {

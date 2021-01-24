@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BuildingType } from '../../../../model/building-type';
 import { BackendService } from './backend.service';
+import { Map } from '../../../../model/map';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CityService {
-  refreashSignalSource = new Subject<string>();
-  refreashSignal = this.refreashSignalSource.asObservable();
-
   constructor(private backend: BackendService) {}
 
   /**
@@ -37,9 +36,10 @@ export class CityService {
   }
 
   /**
-   * Send signal to city-detail.component to refreash user resources.
+   * Get map configuration.
    */
-  public sendRefreashSignal(): void {
-    this.refreashSignalSource.next('Please refreash');
+  public GetMap(): Observable<Map> {
+    // if everything went okay, then the response contains map's data
+    return this.backend.getMap().pipe(map((response) => response.map));
   }
 }
