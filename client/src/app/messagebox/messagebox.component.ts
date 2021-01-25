@@ -7,6 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { UserChat } from '../../../../model/user-chat';
 import { ChatService } from '../services/chat.service';
 import { BackendService } from '../services/backend.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-messagebox',
@@ -20,13 +21,15 @@ export class MessageboxComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private chat: ChatService,
-    private backend: BackendService,
-    private auth: AuthService,
-    private route: ActivatedRoute
+    private usr: UserService
   ) {}
 
   ngOnInit(): void {
-    this.username = this.auth.UserData.value.username;
+    this.usr.userDataSignal.subscribe((data) => {
+      if (data != null) {
+        this.username = data.username;
+      }
+    });
     this.chat.GetUserChats().subscribe(
       (res) => {
         this.userChats = res;

@@ -13,6 +13,7 @@ import {
 import { AuthService } from '../services/auth.service';
 import { CityService } from '../services/city.service';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-map',
@@ -46,15 +47,22 @@ export class MapComponent implements OnInit {
   constructor(
     public auth: AuthService,
     private city: CityService,
+    private usr: UserService,
     private router: Router,
     public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     // get current user data
-    this.currUserId = this.auth.GetUserData().id;
-    this.currUsername = this.auth.GetUserData().username;
-    this.currUserHasLand = this.auth.GetUserLand() !== 0;
+    this.usr.userDataSignal.subscribe((data) => {
+      if (data != null) {
+        this.currUserId = data.id;
+        this.currUsername = data.username;
+        this.currUserHasLand = data.cells !== 0;
+      } else {
+        this.currUserHasLand = true;
+      }
+    });
     // get terrain and position
     this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
@@ -64,7 +72,7 @@ export class MapComponent implements OnInit {
   }
 
   getTerrain(): void {
-    this.auth.GetMap().subscribe(
+    this.city.GetMap().subscribe(
       (res) => (this.terrain = res.cells),
       (err) => console.error('Error retriving map from server')
     );
@@ -160,7 +168,6 @@ export class MapComponent implements OnInit {
           if (res) {
             this.city.BuyCell(cellId).subscribe(
               (res2) => {
-                console.log(res2);
                 this.terrain[cellId - 1].owner = this.currUserId;
                 this.currUserHasLand = true;
                 this.dialog.open(InfoPopupComponent, {
@@ -170,6 +177,8 @@ export class MapComponent implements OnInit {
                     btn: 'Start the game',
                   } as InfoData,
                 });
+                this.usr.addCell();
+                this.usr.reloadResources();
               },
               (err) => alert(err.error.errorCode)
             );
@@ -199,7 +208,7 @@ export class MapComponent implements OnInit {
   }
 
   getUserResources(uid: number) {
-    this.auth.GetUserResources(uid).subscribe(
+    this.usr.GetUserResources(uid).subscribe(
       (res) => {
         this.chosenUserData.username = res.username;
         this.chosenUserData.resources.red = res.redPCB;
