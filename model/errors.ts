@@ -11,6 +11,7 @@ export enum Errors {
   USER_DOES_NOT_EXIST = 'Selected user doesn’t exist.',
   CELL_OWNED_BY_SOMEONE_ELSE = 'Chosen cell is already owned by some other player.',
   INSUFFICIENT_FUNDS = 'Desired purchase could not be successfully completed due to lack of resources (funds).',
+  NO_RESOURCES_FOR_TRADE = 'There are not enough resources to create or accept this trade offer.',
 }
 
 /**
