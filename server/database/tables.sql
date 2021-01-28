@@ -59,4 +59,17 @@ CREATE TABLE messages(
   `date` DATE,
   FOREIGN KEY (`userId`) REFERENCES users(`id`)
 );
+
+-- Current trade offers.
+DROP TABLE IF EXISTS tradeOffers;
+CREATE TABLE tradeOffers(
+  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `sellerId` INT NOT NULL,
+  `neededResourceType` INT NOT NULL,
+  `neededResourceQuantity` INT NOT NULL,
+  `offeredResourceType` INT NOT NULL,
+  `offeredResourceQuantity` INT NOT NULL,
+  FOREIGN KEY (`sellerId`) REFERENCES users(`id`)
+);
+
 SET FOREIGN_KEY_CHECKS = 1;
