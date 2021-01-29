@@ -65,9 +65,9 @@ DROP TABLE IF EXISTS tradeOffers;
 CREATE TABLE tradeOffers(
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `sellerId` INT NOT NULL,
-  `neededResourceType` INT NOT NULL,
+  `neededResourceType` TEXT NOT NULL,
   `neededResourceQuantity` INT NOT NULL,
-  `offeredResourceType` INT NOT NULL,
+  `offeredResourceType` TEXT NOT NULL,
   `offeredResourceQuantity` INT NOT NULL,
   FOREIGN KEY (`sellerId`) REFERENCES users(`id`)
 );

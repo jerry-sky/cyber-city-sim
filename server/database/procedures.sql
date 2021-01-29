@@ -34,5 +34,40 @@ BEGIN
   INSERT INTO `userChat` VALUES (userId2, chatId);
 END $$
 DELIMITER ;
+-- A transaction finalizing an exchange of resources between two players.
+-- Don't ever ask me about this procedure.
+DROP PROCEDURE IF EXISTS TradeResources;
+DELIMITER $$
+CREATE PROCEDURE TradeResources(
+  offerId INT, buyerId INT, soldResource VARCHAR(10), soldAmount INT, boughtResource VARCHAR(10), boughtAmount INT
+)
+BEGIN
+  DECLARE sellId INT;
+  DECLARE query TEXT;
+  SET sellId = (SELECT sellerId FROM tradeOffers);
 
+  -- First subtract the respective PCBs from the users.
+  SET query = CONCAT('UPDATE users SET `', soldResource, '` = `', soldResource, '` - ', CAST(soldAmount as CHAR), ' WHERE id = ', CAST(sellId as CHAR));
+  PREPARE stmt FROM query;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;
 
+  SET query = CONCAT('UPDATE users SET `', boughtResource, '` = `', boughtResource, '` - ', CAST(boughtAmount as CHAR), ' WHERE id = ', CAST(buyerId as CHAR));
+  PREPARE stmt FROM query;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;
+
+  -- Next swap the resources and complete the transaction.
+  SET query = CONCAT('UPDATE users SET `', boughtResource, '` = `', boughtResource, '` + ', CAST(boughtAmount as CHAR), ' WHERE id = ', CAST(sellId as CHAR));
+  PREPARE stmt FROM query;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;
+
+  SET query = CONCAT('UPDATE users SET `', soldResource, '` = `', soldResource, '` + ', CAST(soldAmount as CHAR), ' WHERE id = ', CAST(buyerId as CHAR));
+  PREPARE stmt FROM query;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;
+
+  -- Finally, remove the trade offer from the tradehouse.
+  DELETE FROM tradeOffers WHERE `id` = offerId;
+END $$
