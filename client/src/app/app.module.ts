@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -70,6 +71,7 @@ import { ClaimCellPopupComponent } from './claim-cell-popup/claim-cell-popup.com
     MatDialogModule,
     FormsModule,
     DragDropModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

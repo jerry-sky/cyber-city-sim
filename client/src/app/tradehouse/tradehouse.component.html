@@ -30,20 +30,37 @@
         Accept
       </button>
     </div>
-    <!--future: <div *ngFor="let message of messages" class="message {message.mine}">{{message.content}}</div>-->
     <form
       class="new_offer"
       (submit)="sendTradehouseOffer(tradehouseOfferForm)"
       #tradehouseOfferForm="ngForm"
     >
       <p>Trade</p>
-      <mat-form-field
-        ><input matInput name="offer_get" required ngModel
-      /></mat-form-field>
+      <!-- number -->
+      <mat-form-field appearance="fill">
+        <input matInput name="offer_get" required ngModel />
+      </mat-form-field>
+      <!-- mean of trade -->
+      <mat-form-field appearance="fill">
+        <mat-select ngModel name="mean_get">
+          <mat-option *ngFor="let mean of meansOfTrade" [value]="mean">{{
+            mean
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <p>for</p>
-      <mat-form-field
-        ><input matInput name="offer_give" required ngModel
-      /></mat-form-field>
+      <!-- number -->
+      <mat-form-field appearance="fill">
+        <input matInput name="offer_give" required ngModel />
+      </mat-form-field>
+      <!-- mean of trade -->
+      <mat-form-field appearance="fill">
+        <mat-select ngModel name="mean_give">
+          <mat-option *ngFor="let mean of meansOfTrade" [value]="mean">{{
+            mean
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <div></div>
       <button
         mat-raised-button

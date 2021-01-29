@@ -11,6 +11,7 @@ import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
 export class TradehouseComponent implements OnInit {
   public username: string;
   public offers: string[];
+  public meansOfTrade = ['Red', 'Green', 'Blue', 'Cell'];
 
   constructor(public dialog: MatDialog) {}
 
@@ -23,15 +24,25 @@ export class TradehouseComponent implements OnInit {
 
   //method executed when clicking on the submit <<trade house offer form>> button, verifying and sending the tradehouse offer
   sendTradehouseOffer(tradehouseOffer: NgForm): void {
-    const offerGet = tradehouseOffer.value.offer_get.trim();
-    const offerGive = tradehouseOffer.value.offer_give.trim();
-    if (!offerGet || !offerGive) {
-      alert('Specify correct offer');
+    console.log(tradehouseOffer);
+    const offerGet = Number(tradehouseOffer.value.offer_get.trim());
+    const meanGet = tradehouseOffer.value.mean_get.trim();
+    const offerGive = Number(tradehouseOffer.value.offer_give.trim());
+    const meanGive = tradehouseOffer.value.mean_give.trim();
+    if (
+      !offerGet ||
+      !meanGet ||
+      !offerGive ||
+      !meanGive ||
+      offerGet <= 0 ||
+      offerGive <= 0
+    ) {
+      alert('Fill all required fields correctly');
       return;
     }
-    const newOffer = `Trade ${offerGet} for ${offerGive}`;
+    const newOffer = `Trade ${offerGet} ${meanGet} for ${offerGive} ${meanGive}`;
     this.offers.push(newOffer);
-    console.log(`sending offer: ${newOffer}`);
+    console.log(newOffer);
   }
 
   //method verifying that user is able to accept the offer and removing the offer from the tradehouse
