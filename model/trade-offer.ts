@@ -1,3 +1,5 @@
+import { ResourceNames } from "./terrain-type";
+
 /**
  * A trade offer template
  */
@@ -13,7 +15,7 @@ export interface TradeOffer {
   /**
    * The type of circuit boards requested by the offer's creator.
    */
-  neededResourceType: number;
+  neededResourceType: ResourceNames;
   /**
    * The amount of circuit boards requested.
    */
@@ -21,7 +23,7 @@ export interface TradeOffer {
   /**
    * The type of circuit boards given by the offer's creator.
    */
-  offeredResourceType: number;
+  offeredResourceType: ResourceNames;
   /**
    * The amount of circuit boards given by the offer's creator.
    */

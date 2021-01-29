@@ -36,9 +36,9 @@ export class TradeService {
       const offer: TradeOffer = {
         id: 0, // The auto-increment will take care of tracking this.
         sellerId: creator.id,
-        offeredResourceType: offeredResource,
+        offeredResourceType: enum_map[offeredResource],
         offeredResourceQuantity: offeredAmount,
-        neededResourceType: neededResource,
+        neededResourceType: enum_map[neededResource],
         neededResourceQuantity: neededAmount,
       };
       await connection.query(
@@ -48,6 +48,9 @@ export class TradeService {
     });
   }
 
+  /**
+   * Retrieve all exchange offers and put them on a list.
+   */
   public async GetTradeOffers(): Promise<TradeOffer[]> {
     let offers: TradeOffer[] = [];
     await this.database.ExecuteInsideDatabaseHarness(async (connection) => {
@@ -56,5 +59,22 @@ export class TradeService {
       );
     });
     return offers;
+  }
+
+  /**
+   * Agree to a selected resource exchange.
+   * @param offerId This offer's ID, included in the TradeOffer object.
+   * @param acceptedBy The user who accepted the exchange request.
+   */
+  public async AcceptTradeOffer(
+    offerId: number,
+    acceptedBy: User
+  ): Promise<void> {
+    // I know eslint doesn't like this style, but frankly I don't care (it "corrects" the code wrong).
+    await this.database.ExecuteInsideDatabaseHarness(async (connection) => {
+      await connection.query('CALL TradeResources(?, ?);',
+        [offerId, acceptedBy.id]
+      );
+    });
   }
 }

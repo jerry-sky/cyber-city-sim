@@ -38,13 +38,20 @@ DELIMITER ;
 -- Don't ever ask me about this procedure.
 DROP PROCEDURE IF EXISTS TradeResources;
 DELIMITER $$
-CREATE PROCEDURE TradeResources(
-  offerId INT, buyerId INT, soldResource VARCHAR(10), soldAmount INT, boughtResource VARCHAR(10), boughtAmount INT
-)
+CREATE PROCEDURE TradeResources(offerId INT, buyerId INT)
 BEGIN
+  DECLARE boughtResource VARCHAR(10);
+  DECLARE boughtAmount INT;
+  DECLARE soldResource VARCHAR(10);
+  DECLARE soldAmount INT;
+
   DECLARE sellId INT;
   DECLARE query TEXT;
-  SET sellId = (SELECT sellerId FROM tradeOffers);
+  SELECT
+    sellerId, neededResourceType, neededResourceQuantity, offeredResourceType, offeredResourceQuantity
+  INTO
+    sellId, boughtResource, boughtAmount, soldResource, soldAmount
+  FROM tradeOffers WHERE id = offerId;
 
   -- First subtract the respective PCBs from the users.
   SET query = CONCAT('UPDATE users SET `', soldResource, '` = `', soldResource, '` - ', CAST(soldAmount as CHAR), ' WHERE id = ', CAST(sellId as CHAR));
@@ -70,4 +77,5 @@ BEGIN
 
   -- Finally, remove the trade offer from the tradehouse.
   DELETE FROM tradeOffers WHERE `id` = offerId;
+  SELECT * FROM users;
 END $$
