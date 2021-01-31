@@ -2,6 +2,7 @@ import { Errors } from './errors';
 import { User } from './user';
 import { Map } from './map';
 import { Message } from './message';
+import { TradeOffer } from './trade-offer';
 
 export interface LoginResponse {
   user: User;
@@ -34,4 +35,8 @@ export interface PrivateMessagesResponse {
 
 export interface UsernameDictionaryResponse {
   users: { id: number; username: string }[];
+}
+
+export interface TradeOffersResponse {
+  list: TradeOffer[];
 }

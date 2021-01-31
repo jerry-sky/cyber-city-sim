@@ -1,4 +1,5 @@
 import { BuildingType } from './building-type';
+import { Resource } from './terrain-type';
 
 export interface LoginRequest {
   username: string;
@@ -60,4 +61,15 @@ export interface SendPrivateMessageRequest {
 
 export interface GetPrivateMessagesRequest {
   username: string;
+}
+
+export interface CreateTradeOfferRequest {
+  offeredResource: Resource;
+  offeredAmount: number;
+  neededResource: Resource;
+  neededAmount: number;
+}
+
+export interface AcceptTradeOfferRequest {
+  offerId: number;
 }
