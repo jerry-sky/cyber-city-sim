@@ -41,7 +41,6 @@ export class TradehouseComponent implements OnInit {
    * @param tradehouseOffer form with exchange values
    */
   sendTradehouseOffer(tradehouseOffer: NgForm): void {
-    console.log(tradehouseOffer);
     const offerGet = Number(tradehouseOffer.value.offer_get.trim());
     const meanGet = tradehouseOffer.value.mean_get.trim();
     const offerGive = Number(tradehouseOffer.value.offer_give.trim());
@@ -71,16 +70,8 @@ export class TradehouseComponent implements OnInit {
       .CreateOffer(meanGiveResource, offerGive, meanGetResource, offerGet)
       .subscribe(
         (res) => {
-          const maxId =
-            this.offers.reduce((prev, curr) => {
-              if (curr.id > prev.id) {
-                return curr;
-              } else {
-                return prev;
-              }
-            }).id || -1;
           const newOffer = `[${
-            maxId + 1
+            res + 1
           }] Get ${offerGet} ${meanGet} for ${offerGive} ${meanGive}`;
           this.offersStr.push(newOffer);
         },

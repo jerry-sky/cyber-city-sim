@@ -30,14 +30,16 @@ export class TradeService {
     offeredAmount: number,
     neededResource: Resource,
     neededAmount: number
-  ): Observable<boolean> {
+  ): Observable<number> {
     const payload: CreateTradeOfferRequest = {
       offeredResource,
       offeredAmount,
       neededResource,
       neededAmount,
     };
-    return this.backend.createOffer(payload);
+    return this.backend
+      .createOffer(payload)
+      .pipe(map((response) => response.id));
   }
 
   /**

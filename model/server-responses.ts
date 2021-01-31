@@ -40,3 +40,7 @@ export interface UsernameDictionaryResponse {
 export interface TradeOffersResponse {
   list: TradeOffer[];
 }
+
+export interface CreateTradeOfferResponse {
+  id: number;
+}

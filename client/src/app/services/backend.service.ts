@@ -23,6 +23,7 @@ import {
   PrivateMessagesResponse,
   UsernameDictionaryResponse,
   TradeOffersResponse,
+  CreateTradeOfferResponse,
 } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
@@ -163,12 +164,14 @@ export class BackendService {
     ) as Observable<TradeOffersResponse>;
   }
 
-  public createOffer(payload: CreateTradeOfferRequest): Observable<never> {
+  public createOffer(
+    payload: CreateTradeOfferRequest
+  ): Observable<CreateTradeOfferResponse> {
     return this.http.post(
       this.tradehouseUrl,
       payload,
       this.options
-    ) as Observable<never>;
+    ) as Observable<CreateTradeOfferResponse>;
   }
 
   public acceptOffer(payload: AcceptTradeOfferRequest): Observable<never> {
