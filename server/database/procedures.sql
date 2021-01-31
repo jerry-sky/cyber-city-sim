@@ -77,5 +77,4 @@ BEGIN
 
   -- Finally, remove the trade offer from the tradehouse.
   DELETE FROM tradeOffers WHERE `id` = offerId;
-  SELECT * FROM users;
 END $$

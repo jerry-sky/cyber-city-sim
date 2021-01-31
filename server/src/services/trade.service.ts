@@ -70,11 +70,46 @@ export class TradeService {
     offerId: number,
     acceptedBy: User
   ): Promise<void> {
-    // I know eslint doesn't like this style, but frankly I don't care (it "corrects" the code wrong).
+    let selectedOffer: TradeOffer;
+    let offeredBy: User;
     await this.database.ExecuteInsideDatabaseHarness(async (connection) => {
-      await connection.query('CALL TradeResources(?, ?);',
-        [offerId, acceptedBy.id]
-      );
+      // Find the user who created the offer.
+      selectedOffer = (
+        await connection.query(
+          'SELECT * FROM `' +
+            DatabaseTables.TRADE_OFFERS +
+            '` WHERE id = ' +
+            offerId +
+            ';'
+        )
+      )[0];
+      offeredBy = (
+        await connection.query(
+          'SELECT * FROM `' +
+            DatabaseTables.USERS +
+            '` WHERE id = ' +
+            selectedOffer.sellerId +
+            ';'
+        )
+      )[0];
+      // Check if both users have enough resources to complete the trade.
+      let resource: ResourceNames = selectedOffer.neededResourceType;
+      let quantity: number = selectedOffer.neededResourceQuantity;
+      if (acceptedBy[resource] < quantity) {
+        // The buyer doesn't have enough supplies to accept the request.
+        throw Err(Errors.NO_RESOURCES_FOR_TRADE);
+      }
+      resource = selectedOffer.offeredResourceType;
+      quantity = selectedOffer.offeredResourceQuantity;
+      if (offeredBy[resource] < quantity) {
+        // The seller doesn't have enough supplies to accept the request.
+        throw Err(Errors.NO_RESOURCES_FOR_TRADE);
+      }
+
+      await connection.query('CALL TradeResources(?, ?);', [
+        offerId,
+        acceptedBy.id,
+      ]);
     });
   }
 }

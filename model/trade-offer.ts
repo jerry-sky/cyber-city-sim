@@ -1,4 +1,4 @@
-import { ResourceNames } from "./terrain-type";
+import { ResourceNames } from './terrain-type';
 
 /**
  * A trade offer template
