@@ -12,6 +12,7 @@ export class TradeService {
    * Make a trade offer and put it in the trade house.
    * The creator promises to give the offered resource
    * in exchange for the needed resource.
+   * The method returns the newly created offer's ID.
    */
   public async CreateTradeOffer(
     creator: User,
@@ -19,7 +20,9 @@ export class TradeService {
     offeredAmount: number,
     neededResource: Resource,
     neededAmount: number
-  ): Promise<void> {
+  ): Promise<number> {
+    // Declare the returned variable.
+    let newId: number;
     // Map the two enums for more concise code.
     const enum_map: { [type: number]: ResourceNames } = {
       0: ResourceNames.RED,
@@ -45,7 +48,14 @@ export class TradeService {
         'INSERT INTO `' + DatabaseTables.TRADE_OFFERS + '` SET ?;',
         [offer]
       );
+      // Since ID auto-increments, the last inserted offer will have the largest ID number.
+      newId = (
+        await connection.query(
+          'SELECT MAX(`id`) as max FROM `' + DatabaseTables.TRADE_OFFERS + '`;'
+        )
+      )[0]['max'];
     });
+    return newId;
   }
 
   /**

@@ -3,7 +3,10 @@ import {
   AcceptTradeOfferRequest,
   CreateTradeOfferRequest,
 } from '../../../model/server-requests';
-import { TradeOffersResponse } from '../../../model/server-responses';
+import {
+  CreateTradeOfferResponse,
+  TradeOffersResponse,
+} from '../../../model/server-responses';
 import { RouterWrapper } from '../auxiliary/express-method-wrapper';
 import { DatabaseService } from '../services/database.service';
 import { TradeService } from '../services/trade.service';
@@ -24,7 +27,7 @@ Router.get<never, TradeOffersResponse, never>(
   }
 );
 
-Router.post<CreateTradeOfferRequest, never, never>(
+Router.post<CreateTradeOfferRequest, CreateTradeOfferResponse, never>(
   '/',
   async (request, response, next) => {
     if (!request.session || !request.session.user) {
@@ -33,7 +36,7 @@ Router.post<CreateTradeOfferRequest, never, never>(
 
     const p = request.body;
 
-    await Trade.CreateTradeOffer(
+    const offerId: number = await Trade.CreateTradeOffer(
       request.session.user,
       p.offeredResource,
       p.offeredAmount,
@@ -41,7 +44,7 @@ Router.post<CreateTradeOfferRequest, never, never>(
       p.neededAmount
     );
 
-    response.status(204);
+    response.json({ id: offerId });
 
     next();
   }
