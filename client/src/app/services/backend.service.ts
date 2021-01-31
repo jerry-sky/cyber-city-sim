@@ -11,6 +11,8 @@ import {
   SimpleIdRequest,
   ClaimCellRequest,
   SendGlobalMessageRequest,
+  CreateTradeOfferRequest,
+  AcceptTradeOfferRequest,
 } from '../../../../model/server-requests';
 import {
   LoginResponse,
@@ -20,6 +22,7 @@ import {
   UserResponse,
   PrivateMessagesResponse,
   UsernameDictionaryResponse,
+  TradeOffersResponse,
 } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
@@ -33,6 +36,7 @@ export class BackendService {
   private globalChatUrl = environment.API + '/global-chat';
   private userChatsUrl = environment.API + '/user-chats';
   private usernamesUrl = environment.API + '/usernames';
+  private tradehouseUrl = environment.API + '/tradehouse';
 
   /**
    * Options to use when performing any HTTP requests.
@@ -150,5 +154,28 @@ export class BackendService {
       this.usersUrl + '/usernames',
       this.options
     ) as Observable<UsernameDictionaryResponse>;
+  }
+
+  public getAllTrades(): Observable<TradeOffersResponse> {
+    return this.http.get(
+      this.tradehouseUrl,
+      this.options
+    ) as Observable<TradeOffersResponse>;
+  }
+
+  public createOffer(payload: CreateTradeOfferRequest): Observable<never> {
+    return this.http.post(
+      this.tradehouseUrl,
+      payload,
+      this.options
+    ) as Observable<never>;
+  }
+
+  public acceptOffer(payload: AcceptTradeOfferRequest): Observable<never> {
+    return this.http.put(
+      this.tradehouseUrl,
+      payload,
+      this.options
+    ) as Observable<never>;
   }
 }

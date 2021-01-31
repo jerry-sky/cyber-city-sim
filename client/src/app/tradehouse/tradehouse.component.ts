@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
+import { TradeService } from '../services/trade.service';
+import { TradeOffer } from '../../../../model/trade-offer';
+import { Resource, ResourceNames } from '../../../../model/terrain-type';
 
 @Component({
   selector: 'app-tradehouse',
@@ -10,19 +13,33 @@ import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
 })
 export class TradehouseComponent implements OnInit {
   public username: string;
-  public offers: string[];
-  public meansOfTrade = ['Red', 'Green', 'Blue', 'Cell'];
+  public offers: TradeOffer[];
+  public offersStr: string[];
+  public meansOfTrade: string[];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private trade: TradeService) {}
 
   ngOnInit(): void {
-    this.offers = Array(3);
-    this.offers[0] = 'Trade 10 Red for 10 Blue';
-    this.offers[1] = 'Trade 10 Blue for 10 Red';
-    this.offers[2] = 'Trade 10 Red for 10 Green';
+    // get resource names
+    this.meansOfTrade = Object.keys(ResourceNames).map((i) => ResourceNames[i]);
+    // show possible trades
+    this.trade.GetAllTrades().subscribe(
+      (res) => {
+        this.offers = res;
+        this.offersStr = res.map(
+          (t) =>
+            `[${t.id}] Get ${t.offeredResourceQuantity} ${t.offeredResourceType} for ${t.neededResourceQuantity} ${t.neededResourceType}`
+        );
+      },
+      (err) => console.error('Error retriving trades from server')
+    );
   }
 
-  //method executed when clicking on the submit <<trade house offer form>> button, verifying and sending the tradehouse offer
+  /**
+   * User is trying to create a new offer.
+   *
+   * @param tradehouseOffer form with exchange values
+   */
   sendTradehouseOffer(tradehouseOffer: NgForm): void {
     console.log(tradehouseOffer);
     const offerGet = Number(tradehouseOffer.value.offer_get.trim());
@@ -40,17 +57,55 @@ export class TradehouseComponent implements OnInit {
       alert('Fill all required fields correctly');
       return;
     }
-    const newOffer = `Trade ${offerGet} ${meanGet} for ${offerGive} ${meanGive}`;
-    this.offers.push(newOffer);
-    console.log(newOffer);
+    const meanGetResource =
+      Resource[
+        Object.keys(ResourceNames).find((key) => ResourceNames[key] === meanGet)
+      ];
+    const meanGiveResource =
+      Resource[
+        Object.keys(ResourceNames).find(
+          (key) => ResourceNames[key] === meanGive
+        )
+      ];
+    this.trade
+      .CreateOffer(meanGiveResource, offerGive, meanGetResource, offerGet)
+      .subscribe(
+        (res) => {
+          const maxId =
+            this.offers.reduce((prev, curr) => {
+              if (curr.id > prev.id) {
+                return curr;
+              } else {
+                return prev;
+              }
+            }).id || -1;
+          const newOffer = `[${
+            maxId + 1
+          }] Get ${offerGet} ${meanGet} for ${offerGive} ${meanGive}`;
+          this.offersStr.push(newOffer);
+        },
+        (err) => alert(err.error.errorCode)
+      );
   }
 
-  //method verifying that user is able to accept the offer and removing the offer from the tradehouse
+  /**
+   * Accept chosen option for trade.
+   *
+   * @param offer string value of choosen offer
+   */
   acceptOffer(offer: string): void {
-    const indexofOffer = this.offers.indexOf(offer);
-    if (indexofOffer > -1) {
-      this.offers.splice(indexofOffer, 1);
-    }
+    const i = offer.indexOf('[');
+    const j = offer.indexOf(']');
+    const offerId = Number(offer.substring(i + 1, j));
+    this.trade.AcceptOffer(offerId).subscribe(
+      (res) => {
+        const offerIndex = this.offersStr.indexOf(offer);
+        if (offerIndex > -1) {
+          this.offersStr.splice(offerIndex, 1);
+        }
+      },
+      (err) => alert(err.error.errorCode)
+    );
   }
 
   logout(): void {
