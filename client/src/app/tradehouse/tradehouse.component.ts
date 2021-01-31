@@ -5,6 +5,7 @@ import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
 import { TradeService } from '../services/trade.service';
 import { TradeOffer } from '../../../../model/trade-offer';
 import { Resource, ResourceNames } from '../../../../model/terrain-type';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-tradehouse',
@@ -13,11 +14,15 @@ import { Resource, ResourceNames } from '../../../../model/terrain-type';
 })
 export class TradehouseComponent implements OnInit {
   public username: string;
+  public userId: number;
   public offers: TradeOffer[];
-  public offersStr: string[];
   public meansOfTrade: string[];
 
-  constructor(public dialog: MatDialog, private trade: TradeService) {}
+  constructor(
+    public dialog: MatDialog,
+    private trade: TradeService,
+    private usr: UserService
+  ) {}
 
   ngOnInit(): void {
     // get resource names
@@ -26,13 +31,15 @@ export class TradehouseComponent implements OnInit {
     this.trade.GetAllTrades().subscribe(
       (res) => {
         this.offers = res;
-        this.offersStr = res.map(
-          (t) =>
-            `[${t.id}] Get ${t.offeredResourceQuantity} ${t.offeredResourceType} for ${t.neededResourceQuantity} ${t.neededResourceType}`
-        );
       },
       (err) => console.error('Error retriving trades from server')
     );
+    // get user id
+    this.usr.userDataSignal.subscribe((data) => {
+      if (data != null) {
+        this.userId = data.id;
+      }
+    });
   }
 
   /**
@@ -56,6 +63,10 @@ export class TradehouseComponent implements OnInit {
       alert('Fill all required fields correctly');
       return;
     }
+    if (meanGet === meanGive) {
+      alert('Cannot exchange for the same resource');
+      return;
+    }
     const meanGetResource =
       Resource[
         Object.keys(ResourceNames).find((key) => ResourceNames[key] === meanGet)
@@ -70,10 +81,16 @@ export class TradehouseComponent implements OnInit {
       .CreateOffer(meanGiveResource, offerGive, meanGetResource, offerGet)
       .subscribe(
         (res) => {
-          const newOffer = `[${
-            res + 1
-          }] Get ${offerGet} ${meanGet} for ${offerGive} ${meanGive}`;
-          this.offersStr.push(newOffer);
+          const newOffer = {
+            id: res,
+            sellerId: this.userId,
+            neededResourceType: meanGet,
+            neededResourceQuantity: offerGet,
+            offeredResourceType: meanGive,
+            offeredResourceQuantity: offerGive,
+          } as TradeOffer;
+          this.offers.push(newOffer);
+          this.usr.addResource(meanGive, offerGive * -1);
         },
         (err) => alert(err.error.errorCode)
       );
@@ -84,16 +101,18 @@ export class TradehouseComponent implements OnInit {
    *
    * @param offer string value of choosen offer
    */
-  acceptOffer(offer: string): void {
-    const i = offer.indexOf('[');
-    const j = offer.indexOf(']');
-    const offerId = Number(offer.substring(i + 1, j));
-    this.trade.AcceptOffer(offerId).subscribe(
+  acceptOffer(offer: TradeOffer): void {
+    if (offer.sellerId === this.userId) {
+      alert('Cannot accept your own offer');
+      return;
+    }
+    this.trade.AcceptOffer(offer.id).subscribe(
       (res) => {
-        const offerIndex = this.offersStr.indexOf(offer);
-        if (offerIndex > -1) {
-          this.offersStr.splice(offerIndex, 1);
-        }
+        this.offers = this.offers.filter((o) => o.id !== offer.id);
+        const meanGive = offer.neededResourceType;
+        const meanGet = offer.offeredResourceType;
+        this.usr.addResource(meanGive, offer.neededResourceQuantity * -1);
+        this.usr.addResource(meanGet, offer.offeredResourceQuantity);
       },
       (err) => alert(err.error.errorCode)
     );

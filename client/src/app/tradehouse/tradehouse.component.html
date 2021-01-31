@@ -19,8 +19,17 @@
     <app-city-detail></app-city-detail>
   </div>
   <div class="right-panel">
-    <div class="offer" *ngFor="let offer of offersStr">
-      <p>{{ offer }}</p>
+    <div class="offer" *ngFor="let offer of offers">
+      <p>
+        Get
+        <b>
+          {{ offer.offeredResourceQuantity }} {{ offer.offeredResourceType }}
+        </b>
+        for
+        <b>
+          {{ offer.neededResourceQuantity }} {{ offer.neededResourceType }}
+        </b>
+      </p>
       <button
         class="accept_offer_button"
         mat-raised-button
@@ -35,14 +44,14 @@
       (submit)="sendTradehouseOffer(tradehouseOfferForm)"
       #tradehouseOfferForm="ngForm"
     >
-      <p>Trade</p>
+      <p>Give</p>
       <!-- number -->
       <mat-form-field appearance="fill">
-        <input matInput name="offer_get" required ngModel />
+        <input matInput name="offer_give" required ngModel />
       </mat-form-field>
       <!-- mean of trade -->
       <mat-form-field appearance="fill">
-        <mat-select ngModel name="mean_get">
+        <mat-select ngModel name="mean_give">
           <mat-option *ngFor="let mean of meansOfTrade" [value]="mean">{{
             mean
           }}</mat-option>
@@ -51,11 +60,11 @@
       <p>for</p>
       <!-- number -->
       <mat-form-field appearance="fill">
-        <input matInput name="offer_give" required ngModel />
+        <input matInput name="offer_get" required ngModel />
       </mat-form-field>
       <!-- mean of trade -->
       <mat-form-field appearance="fill">
-        <mat-select ngModel name="mean_give">
+        <mat-select ngModel name="mean_get">
           <mat-option *ngFor="let mean of meansOfTrade" [value]="mean">{{
             mean
           }}</mat-option>

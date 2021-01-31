@@ -143,6 +143,21 @@ export class UserService {
   }
 
   /**
+   * Edit number of specified resource
+   */
+  public addResource(resource: string, value: number): void {
+    const data = this.read();
+    if (data !== null) {
+      data[resource] += value;
+      if (data[resource] < 0) {
+        this.reloadResources();
+      } else {
+        this.save(data);
+      }
+    }
+  }
+
+  /**
    * Get resources from server
    */
   public async reloadResources(): Promise<void> {
