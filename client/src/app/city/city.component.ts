@@ -6,6 +6,7 @@ import { NewBuildingPopupComponent } from '../new-building-popup/new-building-po
 import { ClaimCellPopupComponent } from '../claim-cell-popup/claim-cell-popup.component';
 import { UpgradeCosts as BuildingsCosts } from '../../../../model/resource-production/upgrade-costs';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
+import { CellCost } from '../../../../model/terrain-type';
 import { CityService } from '../services/city.service';
 import { UserService } from '../services/user.service';
 
@@ -19,6 +20,7 @@ export class CityComponent implements OnInit {
   terrain: Cell[] = [];
   neighbours: Cell[] = [];
   userId = -1;
+  userCells = 0;
   scale = 1;
 
   constructor(
@@ -31,6 +33,7 @@ export class CityComponent implements OnInit {
     this.usr.userDataSignal.subscribe((data) => {
       if (data != null) {
         this.userId = data.id;
+        this.userCells = data.cells;
       }
     });
     this.getTerrain();
@@ -276,10 +279,28 @@ export class CityComponent implements OnInit {
    * @param index index of cell in terrain array
    */
   showCellBuying(cell, index): void {
+    // data
+    const data = {
+      red: 0,
+      green: 0,
+      blue: 0,
+    };
+    const c = CellCost(cell.terrain, this.userCells);
+    switch (cell.terrain) {
+      case 0:
+        data.red = c;
+        break;
+      case 1:
+        data.blue = c;
+        break;
+      case 2:
+        data.green = c;
+        break;
+    }
     // show dialog
     const dialogRef = this.dialog.open(ClaimCellPopupComponent, {
       width: '400px',
-      data: cell.terrain,
+      data,
     });
     // apply changes
     dialogRef.afterClosed().subscribe((result) => {
