@@ -54,21 +54,26 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     // get current user data
+    let alreadyShownInfo = false;
     this.usr.userDataSignal.subscribe((data) => {
       if (data != null) {
         this.currUserId = data.id;
         this.currUsername = data.username;
         this.currUserHasLand = data.cells !== 0;
+        if (!alreadyShownInfo) {
+          this.checkIfHasLand();
+          alreadyShownInfo = true;
+        }
       } else {
         this.currUserHasLand = true;
       }
+      console.log(data);
     });
     // get terrain and position
     this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
     grid.style.top = `-${Math.floor(window.innerHeight * 0.25)}px`;
     grid.style.left = `-${Math.floor(window.innerHeight * 0.1)}px`;
-    this.checkIfHasLand();
   }
 
   getTerrain(): void {

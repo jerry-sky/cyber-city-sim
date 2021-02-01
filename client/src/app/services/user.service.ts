@@ -39,6 +39,8 @@ export class UserService {
       this.incrementResources.bind(this),
       1000 * ResourceInterval
     );
+    const ReloadInterval = 5; // seconds
+    window.setInterval(this.reloadResources.bind(this), 1000 * ReloadInterval);
   }
 
   /**

@@ -90,9 +90,11 @@ export class TradehouseComponent implements OnInit {
             offeredResourceQuantity: offerGive,
           } as TradeOffer;
           this.offers.push(newOffer);
-          this.usr.addResource(meanGive, offerGive * -1);
         },
-        (err) => alert(err.error.errorCode)
+        (err) => {
+          this.usr.reloadResources();
+          alert(err.error.errorCode);
+        }
       );
   }
 
@@ -109,12 +111,15 @@ export class TradehouseComponent implements OnInit {
     this.trade.AcceptOffer(offer.id).subscribe(
       (res) => {
         this.offers = this.offers.filter((o) => o.id !== offer.id);
-        const meanGive = offer.neededResourceType;
-        const meanGet = offer.offeredResourceType;
-        this.usr.addResource(meanGive, offer.neededResourceQuantity * -1);
-        this.usr.addResource(meanGet, offer.offeredResourceQuantity);
+        this.usr.addResource(
+          offer.offeredResourceType,
+          offer.offeredResourceQuantity
+        );
       },
-      (err) => alert(err.error.errorCode)
+      (err) => {
+        this.usr.reloadResources();
+        alert(err.error.errorCode);
+      }
     );
   }
 
