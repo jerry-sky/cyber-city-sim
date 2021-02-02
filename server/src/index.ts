@@ -23,6 +23,7 @@ import UserRoutes from './routes/user';
 import MapRoutes from './routes/map';
 import CityRoutes from './routes/city';
 import GlobalChatRoutes from './routes/global-chat';
+import TradehouseRoutes from './routes/tradehouse';
 
 /**
  * The port which the app will listen to.
@@ -118,6 +119,8 @@ app.use('/map', MapRoutes.getNativeRouter());
 app.use('/city', CityRoutes.getNativeRouter());
 
 app.use('/global-chat', GlobalChatRoutes.getNativeRouter());
+
+app.use('/tradehouse', TradehouseRoutes.getNativeRouter());
 
 // error handler
 app.use(

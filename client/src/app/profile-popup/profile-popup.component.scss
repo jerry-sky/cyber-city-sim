@@ -14,8 +14,6 @@
 .title {
     display: block;
     font-weight: 500;
-    font-size: $medium-font-size;
-    line-height: $medium-font-size;
     margin: 1vw 0 0.5vw 0;
 }
 .mat-dialog-content > div {
@@ -33,7 +31,7 @@
 }
 .btns {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
 
     button {
         margin: 0.5vw;

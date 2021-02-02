@@ -1,47 +1,47 @@
 {
   "buy-building-0": {
     "red": 10,
-    "green": 10,
-    "blue": 10
+    "green": 0,
+    "blue": 0
   },
   "buy-building-1": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 25,
+    "green": 0,
+    "blue": 0
   },
   "buy-building-2": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 50,
+    "green": 25,
+    "blue": 0
   },
   "upgrade-building-0-to-lvl-1": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 50,
+    "green": 25,
+    "blue": 0
   },
   "upgrade-building-0-to-lvl-2": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 100,
+    "green": 50,
+    "blue": 25
   },
   "upgrade-building-1-to-lvl-1": {
-    "red": 10,
-    "green": 10,
+    "red": 50,
+    "green": 25,
     "blue": 10
   },
   "upgrade-building-1-to-lvl-2": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 200,
+    "green": 50,
+    "blue": 50
   },
   "upgrade-building-2-to-lvl-1": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 100,
+    "green": 100,
+    "blue": 25
   },
   "upgrade-building-2-to-lvl-2": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 300,
+    "green": 100,
+    "blue": 50
   }
 }

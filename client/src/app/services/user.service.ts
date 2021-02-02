@@ -39,6 +39,8 @@ export class UserService {
       this.incrementResources.bind(this),
       1000 * ResourceInterval
     );
+    const ReloadInterval = 5; // seconds
+    window.setInterval(this.reloadResources.bind(this), 1000 * ReloadInterval);
   }
 
   /**
@@ -139,6 +141,21 @@ export class UserService {
     if (data !== null) {
       data.cells++;
       this.save(data);
+    }
+  }
+
+  /**
+   * Edit number of specified resource
+   */
+  public addResource(resource: string, value: number): void {
+    const data = this.read();
+    if (data !== null) {
+      data[resource] += value;
+      if (data[resource] < 0) {
+        this.reloadResources();
+      } else {
+        this.save(data);
+      }
     }
   }
 

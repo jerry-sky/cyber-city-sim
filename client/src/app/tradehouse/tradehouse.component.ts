@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
+import { TradeService } from '../services/trade.service';
+import { TradeOffer } from '../../../../model/trade-offer';
+import { Resource, ResourceNames } from '../../../../model/terrain-type';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-tradehouse',
@@ -10,36 +14,113 @@ import { LogoutPopupComponent } from '../logout-popup/logout-popup.component';
 })
 export class TradehouseComponent implements OnInit {
   public username: string;
-  public offers: string[];
+  public userId: number;
+  public offers: TradeOffer[];
+  public meansOfTrade: string[];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private trade: TradeService,
+    private usr: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.offers = Array(3);
-    this.offers[0] = 'Trade 10 Red for 10 Blue';
-    this.offers[1] = 'Trade 10 Blue for 10 Red';
-    this.offers[2] = 'Trade 10 Red for 10 Green';
+    // get resource names
+    this.meansOfTrade = Object.keys(ResourceNames).map((i) => ResourceNames[i]);
+    // show possible trades
+    this.trade.GetAllTrades().subscribe(
+      (res) => {
+        this.offers = res;
+      },
+      (err) => console.error('Error retriving trades from server')
+    );
+    // get user id
+    this.usr.userDataSignal.subscribe((data) => {
+      if (data != null) {
+        this.userId = data.id;
+      }
+    });
   }
 
-  //method executed when clicking on the submit <<trade house offer form>> button, verifying and sending the tradehouse offer
+  /**
+   * User is trying to create a new offer.
+   *
+   * @param tradehouseOffer form with exchange values
+   */
   sendTradehouseOffer(tradehouseOffer: NgForm): void {
-    const offerGet = tradehouseOffer.value.offer_get.trim();
-    const offerGive = tradehouseOffer.value.offer_give.trim();
-    if (!offerGet || !offerGive) {
-      alert('Specify correct offer');
+    const offerGet = Number(tradehouseOffer.value.offer_get.trim());
+    const meanGet = tradehouseOffer.value.mean_get.trim();
+    const offerGive = Number(tradehouseOffer.value.offer_give.trim());
+    const meanGive = tradehouseOffer.value.mean_give.trim();
+    if (
+      !offerGet ||
+      !meanGet ||
+      !offerGive ||
+      !meanGive ||
+      offerGet <= 0 ||
+      offerGive <= 0
+    ) {
+      alert('Fill all required fields correctly');
       return;
     }
-    const newOffer = `Trade ${offerGet} for ${offerGive}`;
-    this.offers.push(newOffer);
-    console.log(`sending offer: ${newOffer}`);
+    if (meanGet === meanGive) {
+      alert('Cannot exchange for the same resource');
+      return;
+    }
+    const meanGetResource =
+      Resource[
+        Object.keys(ResourceNames).find((key) => ResourceNames[key] === meanGet)
+      ];
+    const meanGiveResource =
+      Resource[
+        Object.keys(ResourceNames).find(
+          (key) => ResourceNames[key] === meanGive
+        )
+      ];
+    this.trade
+      .CreateOffer(meanGiveResource, offerGive, meanGetResource, offerGet)
+      .subscribe(
+        (res) => {
+          const newOffer = {
+            id: res,
+            sellerId: this.userId,
+            neededResourceType: meanGet,
+            neededResourceQuantity: offerGet,
+            offeredResourceType: meanGive,
+            offeredResourceQuantity: offerGive,
+          } as TradeOffer;
+          this.offers.push(newOffer);
+        },
+        (err) => {
+          this.usr.reloadResources();
+          alert(err.error.errorCode);
+        }
+      );
   }
 
-  //method verifying that user is able to accept the offer and removing the offer from the tradehouse
-  acceptOffer(offer: string): void {
-    const indexofOffer = this.offers.indexOf(offer);
-    if (indexofOffer > -1) {
-      this.offers.splice(indexofOffer, 1);
+  /**
+   * Accept chosen option for trade.
+   *
+   * @param offer string value of choosen offer
+   */
+  acceptOffer(offer: TradeOffer): void {
+    if (offer.sellerId === this.userId) {
+      alert('Cannot accept your own offer');
+      return;
     }
+    this.trade.AcceptOffer(offer.id).subscribe(
+      (res) => {
+        this.offers = this.offers.filter((o) => o.id !== offer.id);
+        this.usr.addResource(
+          offer.offeredResourceType,
+          offer.offeredResourceQuantity
+        );
+      },
+      (err) => {
+        this.usr.reloadResources();
+        alert(err.error.errorCode);
+      }
+    );
   }
 
   logout(): void {

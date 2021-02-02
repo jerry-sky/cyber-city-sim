@@ -21,3 +21,8 @@ UPDATE `map` SET `owner` = 2 WHERE `id` = 331;
 UPDATE `map` SET `owner` = 2 WHERE `id` = 332;
 UPDATE `map` SET `owner` = 2 WHERE `id` = 351;
 UPDATE `map` SET `owner` = 2 WHERE `id` = 352;
+
+-- Bob is offering 40 blue PCBs in exchange for 20 red PCBs.
+INSERT INTO `tradeOffers` VALUES (0, 2, 'bluePCB', 40, 'redPCB', 20);
+-- Alice is offering 50 green PCBs in exchange for 30 blue PCBs.
+INSERT INTO `tradeOffers` VALUES (0, 1, 'greenPCB', 50, 'bluePCB', 30);

@@ -11,6 +11,8 @@ import {
   SimpleIdRequest,
   ClaimCellRequest,
   SendGlobalMessageRequest,
+  CreateTradeOfferRequest,
+  AcceptTradeOfferRequest,
 } from '../../../../model/server-requests';
 import {
   LoginResponse,
@@ -20,6 +22,8 @@ import {
   UserResponse,
   PrivateMessagesResponse,
   UsernameDictionaryResponse,
+  TradeOffersResponse,
+  CreateTradeOfferResponse,
 } from '../../../../model/server-responses';
 import { environment } from '../../environments/environment';
 
@@ -33,6 +37,7 @@ export class BackendService {
   private globalChatUrl = environment.API + '/global-chat';
   private userChatsUrl = environment.API + '/user-chats';
   private usernamesUrl = environment.API + '/usernames';
+  private tradehouseUrl = environment.API + '/tradehouse';
 
   /**
    * Options to use when performing any HTTP requests.
@@ -128,11 +133,11 @@ export class BackendService {
   public getPrivateMessages(
     payload: GetPrivateMessagesRequest
   ): Observable<PrivateMessagesResponse> {
-    return (this.http.post(
+    return this.http.post(
       this.userChatsUrl + '/messages',
       payload,
       this.options
-    ) as unknown) as Observable<PrivateMessagesResponse>;
+    ) as Observable<PrivateMessagesResponse>;
   }
 
   public sendPrivateMessage(
@@ -150,5 +155,30 @@ export class BackendService {
       this.usersUrl + '/usernames',
       this.options
     ) as Observable<UsernameDictionaryResponse>;
+  }
+
+  public getAllTrades(): Observable<TradeOffersResponse> {
+    return this.http.get(
+      this.tradehouseUrl,
+      this.options
+    ) as Observable<TradeOffersResponse>;
+  }
+
+  public createOffer(
+    payload: CreateTradeOfferRequest
+  ): Observable<CreateTradeOfferResponse> {
+    return this.http.post(
+      this.tradehouseUrl,
+      payload,
+      this.options
+    ) as Observable<CreateTradeOfferResponse>;
+  }
+
+  public acceptOffer(payload: AcceptTradeOfferRequest): Observable<never> {
+    return this.http.put(
+      this.tradehouseUrl,
+      payload,
+      this.options
+    ) as Observable<never>;
   }
 }

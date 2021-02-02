@@ -27,6 +27,21 @@
     }
 }
 
+@media only screen and (max-width: 1000px) {
+    .rectangle {
+        form {
+            font-size: $small-font-size-800px;
+            input {
+                font-size: $small-font-size-800px;
+            }
+            button {
+                font-size: $small-font-size-800px;
+                padding: 1vw;
+            }
+        }
+    }
+}
+
 @media only screen and (max-width: 800px) {
     .rectangle {
         flex-direction: column;

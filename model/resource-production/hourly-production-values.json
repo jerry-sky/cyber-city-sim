@@ -1,47 +1,47 @@
 {
   "building-0-lvl-0": {
     "red": 10,
-    "green": 10,
-    "blue": 10
+    "green": 0,
+    "blue": 0
   },
   "building-0-lvl-1": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 50,
+    "green": 0,
+    "blue": 0
   },
   "building-0-lvl-2": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 100,
+    "green": 0,
+    "blue": 0
   },
   "building-1-lvl-0": {
-    "red": 10,
+    "red": 0,
     "green": 10,
-    "blue": 10
+    "blue": 0
   },
   "building-1-lvl-1": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 0,
+    "green": 25,
+    "blue": 0
   },
   "building-1-lvl-2": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 0,
+    "green": 50,
+    "blue": 0
   },
   "building-2-lvl-0": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 0,
+    "green": 0,
+    "blue": 1
   },
   "building-2-lvl-1": {
-    "red": 10,
-    "green": 10,
-    "blue": 10
+    "red": 0,
+    "green": 0,
+    "blue": 5
   },
   "building-2-lvl-2": {
-    "red": 10,
-    "green": 10,
+    "red": 0,
+    "green": 0,
     "blue": 10
   }
 }

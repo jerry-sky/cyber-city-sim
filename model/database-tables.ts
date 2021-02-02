@@ -7,4 +7,5 @@ export enum DatabaseTables {
   CHANNELS = 'channels',
   USER_CHAT = 'userChat',
   MESSAGES = 'messages',
+  TRADE_OFFERS = 'tradeOffers',
 }

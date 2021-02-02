@@ -6,8 +6,10 @@ import { NewBuildingPopupComponent } from '../new-building-popup/new-building-po
 import { ClaimCellPopupComponent } from '../claim-cell-popup/claim-cell-popup.component';
 import { UpgradeCosts as BuildingsCosts } from '../../../../model/resource-production/upgrade-costs';
 import { HourlyProduction as BuildingsValues } from '../../../../model/resource-production/hourly-production';
+import { CellCost } from '../../../../model/terrain-type';
 import { CityService } from '../services/city.service';
 import { UserService } from '../services/user.service';
+import { BuildingType } from '../../../../model/building-type';
 
 @Component({
   selector: 'app-city',
@@ -19,6 +21,7 @@ export class CityComponent implements OnInit {
   terrain: Cell[] = [];
   neighbours: Cell[] = [];
   userId = -1;
+  userCells = 0;
   scale = 1;
 
   constructor(
@@ -31,6 +34,7 @@ export class CityComponent implements OnInit {
     this.usr.userDataSignal.subscribe((data) => {
       if (data != null) {
         this.userId = data.id;
+        this.userCells = data.cells;
       }
     });
     this.getTerrain();
@@ -102,10 +106,10 @@ export class CityComponent implements OnInit {
     const firstCellX = (firstCellIndex % 20) / 20; // city to map ratio on X axis
     const firstCellY = Math.floor(firstCellIndex / 20) / 20; // city to map ratio on Y axis
     grid.style.top = `${Math.floor(
-      -window.innerHeight * 1.5 * firstCellY + 0.25 * window.innerHeight
+      -window.innerHeight * 1.5 * firstCellY + 0.2 * window.innerHeight
     )}px`;
     grid.style.left = `${Math.floor(
-      -window.innerHeight * 1.5 * firstCellX + 0.5 * window.innerHeight
+      -window.innerHeight * 1.5 * firstCellX + 0.2 * window.innerHeight
     )}px`;
   }
 
@@ -169,7 +173,7 @@ export class CityComponent implements OnInit {
   showBuildingInfo(cell: Cell, index: number): void {
     // data object for popup, reading from hourly-production-values.json and upgrade-costs-values.json
     const data = {
-      buildingName: `Building ${cell.buildingType + 1} on level ${
+      buildingName: `${BuildingType[cell.buildingType]} on level ${
         cell.buildingLvl + 1
       }`,
       // curr hourly production
@@ -224,20 +228,21 @@ export class CityComponent implements OnInit {
    * @param index index of cell in terrain array
    */
   showNewBuilding(cell: Cell, index: number): void {
+    console.log(BuildingType);
     // data object for popup, reading from hourly-production-values.json and upgrade-costs-values.json
     const data = {
       building1: {
-        name: 'Building 1',
+        name: BuildingType[0],
         production: BuildingsValues.default['building-0-lvl-0'], // possible hourly production
         cost: BuildingsCosts.default['buy-building-0'], // cost
       },
       building2: {
-        name: 'Building 2',
+        name: BuildingType[1],
         production: BuildingsValues.default['building-1-lvl-0'], // possible hourly production
         cost: BuildingsCosts.default['buy-building-1'], // cost
       },
       building3: {
-        name: 'Building 3',
+        name: BuildingType[2],
         production: BuildingsValues.default['building-2-lvl-0'], // possible hourly production
         cost: BuildingsCosts.default['buy-building-2'], // cost
       },
@@ -276,10 +281,28 @@ export class CityComponent implements OnInit {
    * @param index index of cell in terrain array
    */
   showCellBuying(cell, index): void {
+    // data
+    const data = {
+      red: 0,
+      green: 0,
+      blue: 0,
+    };
+    const c = CellCost(cell.terrain, this.userCells);
+    switch (cell.terrain) {
+      case 0:
+        data.red = c;
+        break;
+      case 1:
+        data.blue = c;
+        break;
+      case 2:
+        data.green = c;
+        break;
+    }
     // show dialog
     const dialogRef = this.dialog.open(ClaimCellPopupComponent, {
       width: '400px',
-      data: cell.terrain,
+      data,
     });
     // apply changes
     dialogRef.afterClosed().subscribe((result) => {
