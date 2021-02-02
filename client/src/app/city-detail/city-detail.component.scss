@@ -27,6 +27,21 @@
     line-height: $small-font-size;
 }
 
+@media only screen and (max-width: 1000px) {
+    .main-title{
+        font-size: $medium-font-size-800px;
+        line-height: $medium-font-size-800px;
+    }
+    .title{
+        font-size: $medium-font-size-800px;
+        line-height: $medium-font-size-800px;
+    }
+    .mat-dialog-content > div {
+        font-size: $small-font-size-800px;
+        line-height: $small-font-size-800px;
+    }
+}
+
 @media only screen and (max-width: 800px) {
     .main-title{
         font-size: $big-font-size-800px;

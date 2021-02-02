@@ -9,6 +9,7 @@ import { HourlyProduction as BuildingsValues } from '../../../../model/resource-
 import { CellCost } from '../../../../model/terrain-type';
 import { CityService } from '../services/city.service';
 import { UserService } from '../services/user.service';
+import { BuildingType } from '../../../../model/building-type';
 
 @Component({
   selector: 'app-city',
@@ -105,10 +106,10 @@ export class CityComponent implements OnInit {
     const firstCellX = (firstCellIndex % 20) / 20; // city to map ratio on X axis
     const firstCellY = Math.floor(firstCellIndex / 20) / 20; // city to map ratio on Y axis
     grid.style.top = `${Math.floor(
-      -window.innerHeight * 1.5 * firstCellY + 0.25 * window.innerHeight
+      -window.innerHeight * 1.5 * firstCellY + 0.2 * window.innerHeight
     )}px`;
     grid.style.left = `${Math.floor(
-      -window.innerHeight * 1.5 * firstCellX + 0.5 * window.innerHeight
+      -window.innerHeight * 1.5 * firstCellX + 0.2 * window.innerHeight
     )}px`;
   }
 
@@ -172,7 +173,7 @@ export class CityComponent implements OnInit {
   showBuildingInfo(cell: Cell, index: number): void {
     // data object for popup, reading from hourly-production-values.json and upgrade-costs-values.json
     const data = {
-      buildingName: `Building ${cell.buildingType + 1} on level ${
+      buildingName: `${BuildingType[cell.buildingType]} on level ${
         cell.buildingLvl + 1
       }`,
       // curr hourly production
@@ -227,20 +228,21 @@ export class CityComponent implements OnInit {
    * @param index index of cell in terrain array
    */
   showNewBuilding(cell: Cell, index: number): void {
+    console.log(BuildingType);
     // data object for popup, reading from hourly-production-values.json and upgrade-costs-values.json
     const data = {
       building1: {
-        name: 'Building 1',
+        name: BuildingType[0],
         production: BuildingsValues.default['building-0-lvl-0'], // possible hourly production
         cost: BuildingsCosts.default['buy-building-0'], // cost
       },
       building2: {
-        name: 'Building 2',
+        name: BuildingType[1],
         production: BuildingsValues.default['building-1-lvl-0'], // possible hourly production
         cost: BuildingsCosts.default['buy-building-1'], // cost
       },
       building3: {
-        name: 'Building 3',
+        name: BuildingType[2],
         production: BuildingsValues.default['building-2-lvl-0'], // possible hourly production
         cost: BuildingsCosts.default['buy-building-2'], // cost
       },

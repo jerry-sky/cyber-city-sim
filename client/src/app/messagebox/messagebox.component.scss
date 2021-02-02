@@ -11,9 +11,10 @@
     border-radius: 2px;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     .player_chat {
         font-size: $big-font-size-800px;
+        padding: 1.5vw 2vw;
     }
 }
 

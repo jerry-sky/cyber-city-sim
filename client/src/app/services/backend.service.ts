@@ -133,11 +133,11 @@ export class BackendService {
   public getPrivateMessages(
     payload: GetPrivateMessagesRequest
   ): Observable<PrivateMessagesResponse> {
-    return (this.http.post(
+    return this.http.post(
       this.userChatsUrl + '/messages',
       payload,
       this.options
-    ) as unknown) as Observable<PrivateMessagesResponse>;
+    ) as Observable<PrivateMessagesResponse>;
   }
 
   public sendPrivateMessage(

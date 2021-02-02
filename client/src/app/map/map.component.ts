@@ -67,12 +67,11 @@ export class MapComponent implements OnInit {
       } else {
         this.currUserHasLand = true;
       }
-      console.log(data);
     });
     // get terrain and position
     this.getTerrain();
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
-    grid.style.top = `-${Math.floor(window.innerHeight * 0.25)}px`;
+    grid.style.top = `-${Math.floor(window.innerHeight * 0.2)}px`;
     grid.style.left = `-${Math.floor(window.innerHeight * 0.1)}px`;
   }
 
@@ -98,7 +97,7 @@ export class MapComponent implements OnInit {
 
   onScroll(event): void {
     const grid = document.getElementsByClassName('allgrid')[0] as HTMLElement;
-    const step = 15;
+    const step = 20;
     // resize
     const mapSizes = grid.getBoundingClientRect();
     const s = mapSizes.width;
