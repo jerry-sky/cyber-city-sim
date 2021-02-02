@@ -52,6 +52,15 @@
     }
 }
 
+@media only screen and (max-width: 1000px) {
+    .offer {
+        font-size: $medium-font-size-800px;
+    }
+    .new_offer{
+        grid-template-columns: 7% 10% 15% 7% 10% 15% 10% 16%;
+    }
+}
+
 @media only screen and (max-width: 800px) {
     .offer {
         font-size: $small-font-size-800px;
